@@ -46,7 +46,8 @@ public class HT3 {
                }
            }    
        
-           System.out.println("其二进制为：" + );
+           System.out.println("其二进制为：" );
         }
+        in.close();
     }
 }
