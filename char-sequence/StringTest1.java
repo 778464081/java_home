@@ -23,8 +23,8 @@ public class StringTest1 {
 		System.out.println( "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" );
 		
 		String t = new String( "中国是世界上最伟大的国家，没有之一" );
-		String  z= new String( "中国是世界上最伟大的国家，没有之一" );
-		System.out.println( z == t ); // false : 说明 变量 s 和 变量 t 存储的值是不同的
+		
+		System.out.println( s == t ); // false : 说明 变量 s 和 变量 t 存储的值是不同的
 		System.out.println( s.equals( t ) ); // true : String 类重写后的 equals 会比较两个字符串的内容
 		
 		System.out.println( System.identityHashCode( s ) );
