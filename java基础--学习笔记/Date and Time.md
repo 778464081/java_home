@@ -67,7 +67,7 @@ long millis = System.currentTimeMillis() ; // 获取 从 历元 至 现在所经
 
  日历字段 ( calendar field ) 就是表示 特定瞬间 中某个部分的 字段 ，比如:
 
-Calendar.YEAR 表示年 、
+Calendar.YEAR 表示年 、（注意 年从0开始）
 
 Calendar.MONTH 表示月、
 
@@ -105,6 +105,73 @@ Calendar.MILLISECOND 表示毫秒
 		calendar.set( 1999 , 5 , 10, 7, 50 , 0 );
 	*/
 ```
+
+### 常用方法
+
+根据Calendar类的API文档，常用方法有：
+
+- `public int get(int field)`：返回给定日历字段的值。
+
+  ```java
+  public class CalendarUtil {
+      public static void main(String[] args) {
+          // 创建Calendar对象
+          Calendar cal = Calendar.getInstance();
+          // 设置年 
+          int year = cal.get(Calendar.YEAR);
+          // 设置月
+          int month = cal.get(Calendar.MONTH) + 1;
+          // 设置日
+          int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+          System.out.print(year + "年" + month + "月" + dayOfMonth + "日");
+      }    
+  }
+  ```
+
+  
+
+- `public void set(int field, int value)`：将给定的日历字段设置为给定值。
+
+  ```java
+  public class Demo07CalendarMethod {
+      public static void main(String[] args) {
+          Calendar cal = Calendar.getInstance();
+          cal.set(Calendar.YEAR, 2020);
+          System.out.print(year + "年" + month + "月" + dayOfMonth + "日"); // 2020年1月17日
+      }
+  }
+  ```
+
+  
+
+- `public abstract void add(int field, int amount)`：根据日历的规则，为给定的日历字段添加或减去指定的时间量。
+
+  ```java
+  public class Demo08CalendarMethod {
+      public static void main(String[] args) {
+          Calendar cal = Calendar.getInstance();
+          System.out.print(year + "年" + month + "月" + dayOfMonth + "日"); // 2018年1月17日
+          // 使用add方法
+          cal.add(Calendar.DAY_OF_MONTH, 2); // 加2天
+          cal.add(Calendar.YEAR, -3); // 减3年
+          System.out.print(year + "年" + month + "月" + dayOfMonth + "日"); // 2015年1月18日; 
+      }
+  }
+  ```
+
+- `public Date getTime()`：返回一个表示此Calendar时间值（从历元到现在的毫秒偏移量）的Date对象。
+
+  ```java
+  public class Demo09CalendarMethod {
+      public static void main(String[] args) {
+          Calendar cal = Calendar.getInstance();
+          Date date = cal.getTime();
+          System.out.println(date); // Tue Jan 16 16:03:09 CST 2018
+      }
+  }
+  ```
+
+  
 
 # Date 与Calendar的转换 
 

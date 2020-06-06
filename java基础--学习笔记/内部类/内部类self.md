@@ -1,8 +1,22 @@
 #  内部类
 
-##  内部类基础
+## 成员内部类
 
-###  成员内部类
+**实例内部类**
+
+```java
+public class a{
+	class b{}
+}
+```
+
+**静态内部类**
+
+```java
+public class a{
+	static class b{}
+}
+```
 
 成员内部类是最普通的内部类，它的定义为位于另一个类的内部
 
@@ -24,11 +38,13 @@ class` Circle {
 }
 ```
 
-![](C:\Users\ASUS.DESKTOP-9718HKU\Desktop\java学习笔记\内部类\成员内部类定义形式.jpg)
+![](C:\Users\ASUS.DESKTOP-9718HKU\Desktop\java基础--学习笔记\内部类\成员内部类定义形式.jpg)
+
+
 
 **body类中的成员内部类class文件形式：**
 
-![](C:\Users\ASUS.DESKTOP-9718HKU\Desktop\java学习笔记\内部类\成员内部类class形式.jpg)
+![](C:\Users\ASUS.DESKTOP-9718HKU\Desktop\java基础--学习笔记\内部类\成员内部类class形式.jpg)
 
 **成员内部类可以无条件访问外部类的所有成员属性和成员方法（包括private成员和静态成员）。**不过要注意的是，当成员内部类拥有和外部类同名的成员变量或者方法时，会发生隐藏现象，即默认情况下访问的是成员内部类的成员。如果要访问外部类的同名成员，需要以下面的形式进行访问：
 
@@ -45,13 +61,13 @@ class` Circle {
 
 内部类可以拥有private访问权限、protected访问权限、public访问权限及包访问权限。如果成员内部类用private修饰，则只能在外部类的内部访问，如果用public修饰，则任何地方都能访问；如果用protected修饰，则只能在同一个包下或者继承外部类的情况下访问；如果是默认访问权限，则只能在同一个包下访问。这一点和外部类有一点不一样，外部类只能被public和包访问两种权限修饰。我个人是这么理解的，由于成员内部类看起来像是外部类的一个成员，所以可以像类的成员一样拥有多种权限修饰。
 
-###  局部内部类
+## 局部内部类
 
 局部内部类是定义在一个方法或者一个作用域里面的类，它和成员内部类的区别在于局部内部类的访问仅限于方法内或者该作用域内。
 
 **定义**
 
-![](C:\Users\ASUS.DESKTOP-9718HKU\Desktop\java学习笔记\内部类\局部内部类.jpg)
+![](C:\Users\ASUS.DESKTOP-9718HKU\Desktop\java基础--学习笔记\内部类\局部内部类.jpg)
 
 **注意，局部内部类就像是方法里面的一个局部变量一样，是不能有public、protected、private以及static修饰符的。**
 
@@ -61,13 +77,13 @@ class` Circle {
 
 **定义：**
 
-![](C:\Users\ASUS.DESKTOP-9718HKU\Desktop\java学习笔记\内部类\匿名内部类定义形式.jpg)
+![](C:\Users\ASUS.DESKTOP-9718HKU\Desktop\java基础--学习笔记\内部类\匿名内部类定义形式.jpg)
 
-![](C:\Users\ASUS.DESKTOP-9718HKU\Desktop\java学习笔记\内部类\Snipaste_2020-05-25_23-23-49.jpg)
+![](C:\Users\ASUS.DESKTOP-9718HKU\Desktop\java基础--学习笔记\内部类\Snipaste_2020-05-25_23-23-49.jpg)
 
 **匿名内部类注意事项**：
 
-![](C:\Users\ASUS.DESKTOP-9718HKU\Desktop\java学习笔记\内部类\匿名内部类注意事项.jpg)
+![](C:\Users\ASUS.DESKTOP-9718HKU\Desktop\java基础--学习笔记\内部类\匿名内部类注意事项.jpg)
 
 ##  内部类的使用场景与好处
 
