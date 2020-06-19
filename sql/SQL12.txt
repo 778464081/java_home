@@ -1,0 +1,199 @@
+SQL> -- 测试 not 、and 、or 的优先级
+SQL> 
+SQL> -- 查询有上司的雇员信息
+SQL> SELECT empno , ename , mgr FROM emp WHERE mgr IS NOT NULL ;
+
+     EMPNO ENAME             MGR                                                
+---------- ---------- ----------                                                
+      7369 SMITH            7902                                                
+      7499 ALLEN            7698                                                
+      7521 WARD             7698                                                
+      7566 JONES            7839                                                
+      7654 MARTIN           7698                                                
+      7698 BLAKE            7839                                                
+      7782 CLARK            7839                                                
+      7788 SCOTT            7566                                                
+      7844 TURNER           7698                                                
+      7876 ADAMS            7788                                                
+      7900 JAMES            7698                                                
+
+     EMPNO ENAME             MGR                                                
+---------- ---------- ----------                                                
+      7902 FORD             7566                                                
+      7934 MILLER           7782                                                
+      9257 HUA'AN           7839                                                
+      8526 QIU'XIANG        7839                                                
+
+已选择15行。
+
+SQL> -- 列出10部门中有上司的雇员信息
+SQL> SELECT empno , ename , mgr , deptno
+  2  FROM emp
+  3  WHERE deptno = 10 AND mgr IS NOT NULL ;
+
+     EMPNO ENAME             MGR     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      7782 CLARK            7839         10                                     
+      7934 MILLER           7782         10                                     
+
+SQL> -- 列出20部门中有上司的雇员信息
+SQL> SELECT empno , ename , mgr , deptno
+  2  FROM emp
+  3  WHERE deptno = 20 AND mgr IS NOT NULL ;
+
+     EMPNO ENAME             MGR     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      7369 SMITH            7902         20                                     
+      7566 JONES            7839         20                                     
+      7788 SCOTT            7566         20                                     
+      7876 ADAMS            7788         20                                     
+      7902 FORD             7566         20                                     
+
+SQL> -- 列出 10 和 20 部门中有上司的雇员信息或工号大于1000的雇员信息
+SQL> 
+SQL> 
+SQL> SELECT empno , ename , mgr , deptno
+  2  FROM emp
+  3  WHERE deptno IN ( 10 , 20 ) AND  mgr IS NOT NULL OR empno > 1000 ;
+
+     EMPNO ENAME             MGR     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      7369 SMITH            7902         20                                     
+      7499 ALLEN            7698         30                                     
+      7521 WARD             7698         30                                     
+      7566 JONES            7839         20                                     
+      7654 MARTIN           7698         30                                     
+      7698 BLAKE            7839         30                                     
+      7782 CLARK            7839         10                                     
+      7788 SCOTT            7566         20                                     
+      7839 KING                          10                                     
+      7844 TURNER           7698         30                                     
+      7876 ADAMS            7788         20                                     
+
+     EMPNO ENAME             MGR     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      7900 JAMES            7698         30                                     
+      7902 FORD             7566         20                                     
+      7934 MILLER           7782         10                                     
+      9257 HUA'AN           7839                                                
+      8526 QIU'XIANG        7839                                                
+
+已选择16行。
+
+SQL> -- 列出 10 和 20 部门中有上司的雇员信息或工号大于7800的雇员信息
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT empno , ename , mgr , deptno
+  2  FROM emp
+  3* WHERE deptno IN ( 10 , 20 ) AND  mgr IS NOT NULL OR empno > 7800 
+SQL> /
+
+     EMPNO ENAME             MGR     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      7369 SMITH            7902         20                                     
+      7566 JONES            7839         20                                     
+      7782 CLARK            7839         10                                     
+      7788 SCOTT            7566         20                                     
+      7839 KING                          10                                     
+      7844 TURNER           7698         30                                     
+      7876 ADAMS            7788         20                                     
+      7900 JAMES            7698         30                                     
+      7902 FORD             7566         20                                     
+      7934 MILLER           7782         10                                     
+      9257 HUA'AN           7839                                                
+
+     EMPNO ENAME             MGR     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      8526 QIU'XIANG        7839                                                
+
+已选择12行。
+
+SQL>-- 尝试将 OR 放到 AND 之前
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT empno , ename , mgr , deptno
+  2  FROM emp
+  3* WHERE empno > 7800 OR deptno IN ( 10 , 20 ) AND  mgr IS NOT NULL
+SQL> /
+
+     EMPNO ENAME             MGR     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      7369 SMITH            7902         20                                     
+      7566 JONES            7839         20                                     
+      7782 CLARK            7839         10                                     
+      7788 SCOTT            7566         20                                     
+      7839 KING                          10                                     
+      7844 TURNER           7698         30                                     
+      7876 ADAMS            7788         20                                     
+      7900 JAMES            7698         30                                     
+      7902 FORD             7566         20                                     
+      7934 MILLER           7782         10                                     
+      9257 HUA'AN           7839                                                
+
+     EMPNO ENAME             MGR     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      8526 QIU'XIANG        7839                                                
+
+已选择12行。
+
+SQL> -- 列出 emp 表中 工号大于7800且有上司的雇员信息 或 属于部门10、部门20的雇员信息
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT empno , ename , mgr , deptno
+  2  FROM emp
+  3* WHERE empno > 7800 AND  mgr IS NOT NULL OR deptno IN ( 10 , 20 ) 
+SQL> /
+
+     EMPNO ENAME             MGR     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      7369 SMITH            7902         20                                     
+      7566 JONES            7839         20                                     
+      7782 CLARK            7839         10                                     
+      7788 SCOTT            7566         20                                     
+      7839 KING                          10                                     
+      7844 TURNER           7698         30                                     
+      7876 ADAMS            7788         20                                     
+      7900 JAMES            7698         30                                     
+      7902 FORD             7566         20                                     
+      7934 MILLER           7782         10                                     
+      9257 HUA'AN           7839                                                
+
+     EMPNO ENAME             MGR     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      8526 QIU'XIANG        7839                                                
+
+已选择12行。
+
+SQL> -- 尝试将 OR 放到 AND 之前
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT empno , ename , mgr , deptno
+  2  FROM emp
+  3* WHERE deptno IN ( 10 , 20 )  OR empno > 7800 AND  mgr IS NOT NULL
+SQL> /
+
+     EMPNO ENAME             MGR     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      7369 SMITH            7902         20                                     
+      7566 JONES            7839         20                                     
+      7782 CLARK            7839         10                                     
+      7788 SCOTT            7566         20                                     
+      7839 KING                          10                                     
+      7844 TURNER           7698         30                                     
+      7876 ADAMS            7788         20                                     
+      7900 JAMES            7698         30                                     
+      7902 FORD             7566         20                                     
+      7934 MILLER           7782         10                                     
+      9257 HUA'AN           7839                                                
+
+     EMPNO ENAME             MGR     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      8526 QIU'XIANG        7839                                                
+
+已选择12行。
+
+SQL> spool off

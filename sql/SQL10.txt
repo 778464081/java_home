@@ -1,0 +1,166 @@
+SQL> 
+SQL> -- SQL运算符
+SQL> 
+SQL> 
+SQL> -- 测试 in 运算符
+SQL> 
+SQL> -- 列出 emp 表中 月薪为 ( 1100 , 1400 , 1350 , 2000 ) 的雇员信息
+SQL> SELECT empno , ename , sal FROM emp WHERE sal IN ( 1100 , 1400 , 1350 , 2000 );
+
+     EMPNO ENAME             SAL                                                
+---------- ---------- ----------                                                
+      7876 ADAMS            1100                                                
+      8526 QIU'XIANG        1400                                                
+
+SQL> 
+SQL> -- 通过列出 emp 表中的所有数据予以验证
+SQL> SELECT empno , ename , sal FROM emp ;
+
+     EMPNO ENAME             SAL                                                
+---------- ---------- ----------                                                
+      7369 SMITH             800                                                
+      7499 ALLEN            1600                                                
+      7521 WARD             1250                                                
+      7566 JONES            2975                                                
+      7654 MARTIN           1250                                                
+      7698 BLAKE            2850                                                
+      7782 CLARK            2450                                                
+      7788 SCOTT            3000                                                
+      7839 KING             5000                                                
+      7844 TURNER           1500                                                
+      7876 ADAMS            1100                                                
+
+     EMPNO ENAME             SAL                                                
+---------- ---------- ----------                                                
+      7900 JAMES             950                                                
+      7902 FORD             3000                                                
+      7934 MILLER           1300                                                
+      9257 HUA'AN           1300                                                
+      8526 QIU'XIANG        1400                                                
+
+已选择16行。
+
+SQL> -- IN( list ) 作用上等同于 =ANY( list )
+SQL> 
+SQL> SELECT empno , ename , sal FROM emp WHERE sal =ANY(  1100 , 1400 , 1350 , 2000 );
+
+     EMPNO ENAME             SAL                                                
+---------- ---------- ----------                                                
+      7876 ADAMS            1100                                                
+      8526 QIU'XIANG        1400                                                
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 测试 IS NULL 运算符 ( 判断否是为空值 )
+SQL> 
+SQL> -- 列出 emp 表中没有 上司的 雇员的信息
+SQL> SELECT empno , ename , mgr FROM emp WHERE mgr IS NULL ;
+
+     EMPNO ENAME             MGR                                                
+---------- ---------- ----------                                                
+      7839 KING                                                                 
+
+SQL> -- 错误的写法是 = NULL
+SQL> SELECT empno , ename , mgr FROM emp WHERE mgr = NULL ;
+
+未选定行
+
+SQL> -- 非空判断可以使用 IS NOT NULL
+SQL> 
+SQL> -- 列出 s_emp 表中有提成的雇员的信息
+SQL> SELECT id , first_name , last_name , commission_pct FROM s_emp WHERE commission_pct IS NOT NULL ;
+
+        ID FIRST_NAME                LAST_NAME                 COMMISSION_PCT   
+---------- ------------------------- ------------------------- --------------   
+        11 Colin                     Magee                                 10   
+        12 Henry                     Giljum                              12.5   
+        13 Yasmin                    Sedeghi                               10   
+        14 Mai                       Nguyen                                15   
+        15 Andre                     Dumas                               17.5   
+
+SQL> 
+SQL> -- 列出 emp 表中有提成的雇员的信息 ( 有提成是指 comm 不为空 且 comm 不为零 )
+SQL> SELECT empno , ename , job , sal , comm
+  2  FROM emp
+  3  WHERE comm IS NOT NULL AND comm != 0 ;
+
+     EMPNO ENAME      JOB              SAL       COMM                           
+---------- ---------- --------- ---------- ----------                           
+      7499 ALLEN      SALESMAN        1600        300                           
+      7521 WARD       SALESMAN        1250        500                           
+      7654 MARTIN     SALESMAN        1250       1400                           
+
+SQL> -- 尝试不考虑 comm != 0 的情况
+SQL> edit
+已写入 file afiedt.buf
+
+  1  SELECT empno , ename , job , sal , comm
+  2  FROM emp
+  3* WHERE comm IS NOT NULL  
+SQL> /
+
+     EMPNO ENAME      JOB              SAL       COMM                           
+---------- ---------- --------- ---------- ----------                           
+      7499 ALLEN      SALESMAN        1600        300                           
+      7521 WARD       SALESMAN        1250        500                           
+      7654 MARTIN     SALESMAN        1250       1400                           
+      7844 TURNER     SALESMAN        1500          0                           
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 测试 BETWEEN ... AND ... 运算符
+SQL> 
+SQL> -- 列出 月薪 在 1500 到 2000 之间的雇员的信息 ( emp )
+SQL> SELECT empno , ename , sal FROM emp WHERE sal BETWEEN 1500 AND 2000 ;
+
+     EMPNO ENAME             SAL                                                
+---------- ---------- ----------                                                
+      7499 ALLEN            1600                                                
+      7844 TURNER           1500                                                
+
+SQL> -- 可以列出 emp 表中所有数据予以验证
+SQL>  SELECT empno , ename , sal FROM emp ;
+
+     EMPNO ENAME             SAL                                                
+---------- ---------- ----------                                                
+      7369 SMITH             800                                                
+      7499 ALLEN            1600                                                
+      7521 WARD             1250                                                
+      7566 JONES            2975                                                
+      7654 MARTIN           1250                                                
+      7698 BLAKE            2850                                                
+      7782 CLARK            2450                                                
+      7788 SCOTT            3000                                                
+      7839 KING             5000                                                
+      7844 TURNER           1500                                                
+      7876 ADAMS            1100                                                
+
+     EMPNO ENAME             SAL                                                
+---------- ---------- ----------                                                
+      7900 JAMES             950                                                
+      7902 FORD             3000                                                
+      7934 MILLER           1300                                                
+      9257 HUA'AN           1300                                                
+      8526 QIU'XIANG        1400                                                
+
+已选择16行。
+
+SQL> -- 可以使用 and 来替代 between ... and ...
+SQL> SELECT empno , ename , sal
+  2  FROM emp
+  3  WHERE sal >= 1500 AND sal <= 2000 ;
+
+     EMPNO ENAME             SAL                                                
+---------- ---------- ----------                                                
+      7499 ALLEN            1600                                                
+      7844 TURNER           1500                                                
+
+SQL> 
+SQL> 
+SQL> 
+SQL> spool off

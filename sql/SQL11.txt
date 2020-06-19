@@ -1,0 +1,311 @@
+SQL> --
+SQL> -- 测试模糊查询
+SQL> 
+SQL> -- 在 SQL 中实现模糊查询通常使用 like 关键字指定查询条件
+SQL> 
+SQL> -- 通过查询 user_tables 列出当前用户所拥有的所有的表的表名
+SQL> SELECT table_name FROM user_tables ;
+
+TABLE_NAME                                                                      
+------------------------------                                                  
+EMP                                                                             
+DEPT                                                                            
+BONUS                                                                           
+SALGRADE                                                                        
+DUMMY                                                                           
+S_CUSTOMER                                                                      
+S_DEPT                                                                          
+S_EMP                                                                           
+S_IMAGE                                                                         
+S_INVENTORY                                                                     
+S_ITEM                                                                          
+
+TABLE_NAME                                                                      
+------------------------------                                                  
+S_LONGTEXT                                                                      
+S_ORD                                                                           
+S_PRODUCT                                                                       
+S_REGION                                                                        
+S_TITLE                                                                         
+S_WAREHOUSE                                                                     
+
+已选择17行。
+
+SQL> -- 查询当前用户所拥有的表中，名称以 S_ 为前缀的表名
+SQL> 
+SQL> SELECT table_name FROM user_tables WHERE table_name LIKE 'S_%' ;
+
+TABLE_NAME                                                                      
+------------------------------                                                  
+SALGRADE                                                                        
+S_CUSTOMER                                                                      
+S_DEPT                                                                          
+S_EMP                                                                           
+S_IMAGE                                                                         
+S_INVENTORY                                                                     
+S_ITEM                                                                          
+S_LONGTEXT                                                                      
+S_ORD                                                                           
+S_PRODUCT                                                                       
+S_REGION                                                                        
+
+TABLE_NAME                                                                      
+------------------------------                                                  
+S_TITLE                                                                         
+S_WAREHOUSE                                                                     
+
+已选择13行。
+
+SQL> -- 查询结果中多了 SALGRADE
+SQL> 
+SQL> -- 原因是 下划线 用于匹配任意单个字符
+SQL> -- 如果期望 下划线 不表示通配符，而是表示 下划线 本身，则需要使用转义字符
+SQL> -- 在 SQL 中可以使用 escape 关键字来指定转义字符
+SQL> 
+SQL> SELECT table_name FROM user_tables
+  2   WHERE table_name LIKE 'S\_%' ESCAPE '\' ;
+
+TABLE_NAME                                                                      
+------------------------------                                                  
+S_CUSTOMER                                                                      
+S_DEPT                                                                          
+S_EMP                                                                           
+S_IMAGE                                                                         
+S_INVENTORY                                                                     
+S_ITEM                                                                          
+S_LONGTEXT                                                                      
+S_ORD                                                                           
+S_PRODUCT                                                                       
+S_REGION                                                                        
+S_TITLE                                                                         
+
+TABLE_NAME                                                                      
+------------------------------                                                  
+S_WAREHOUSE                                                                     
+
+已选择12行。
+
+SQL> -- 测试不使用 escape 指定转义字符
+SQL>  SELECT table_name FROM user_tables WHERE table_name LIKE 'S\_%' ;
+
+未选定行
+
+SQL> 
+SQL> -- 转义字符可以是任意字符
+SQL> SELECT table_name FROM user_tables
+  2  WHERE table_name LIKE 'S$_%' ESCAPE '$' ;
+
+TABLE_NAME                                                                      
+------------------------------                                                  
+S_CUSTOMER                                                                      
+S_DEPT                                                                          
+S_EMP                                                                           
+S_IMAGE                                                                         
+S_INVENTORY                                                                     
+S_ITEM                                                                          
+S_LONGTEXT                                                                      
+S_ORD                                                                           
+S_PRODUCT                                                                       
+S_REGION                                                                        
+S_TITLE                                                                         
+
+TABLE_NAME                                                                      
+------------------------------                                                  
+S_WAREHOUSE                                                                     
+
+已选择12行。
+
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT table_name FROM user_tables
+  2* WHERE table_name LIKE 'SX_%' ESCAPE 'X' 
+SQL> /
+
+TABLE_NAME                                                                      
+------------------------------                                                  
+S_CUSTOMER                                                                      
+S_DEPT                                                                          
+S_EMP                                                                           
+S_IMAGE                                                                         
+S_INVENTORY                                                                     
+S_ITEM                                                                          
+S_LONGTEXT                                                                      
+S_ORD                                                                           
+S_PRODUCT                                                                       
+S_REGION                                                                        
+S_TITLE                                                                         
+
+TABLE_NAME                                                                      
+------------------------------                                                  
+S_WAREHOUSE                                                                     
+
+已选择12行。
+
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 列出 s_emp 表中 first_name 中含有字母 a 的所有雇员的信息
+SQL> SELECT id , first_name
+  2  FROM s_emp
+  3  WHERE first_name LIKE '%a%' ;
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+         1 Carmen                                                               
+         2 LaDoris                                                              
+         4 Mark                                                                 
+         7 Roberta                                                              
+        10 Marta                                                                
+        13 Yasmin                                                               
+        14 Mai                                                                  
+        16 Elena                                                                
+        18 Akira                                                                
+        19 Vikram                                                               
+        20 Chad                                                                 
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+        21 Alexander                                                            
+        23 Radha                                                                
+        24 Bela                                                                 
+
+已选择14行。
+
+SQL> -- LIKE 之后的 字符是否区分大小写?
+SQL> 
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT id , first_name
+  2  FROM s_emp
+  3* WHERE first_name LIKE '%A%' 
+SQL> /
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+         5 Audry                                                                
+         9 Antoinette                                                           
+        15 Andre                                                                
+        18 Akira                                                                
+        21 Alexander                                                            
+
+SQL> -- 以上两次查询证明 LIKE 之后的字符中，英文字符是区分大小写的
+SQL> 
+SQL> 
+SQL> -- 如果期望列出 s_emp 表中 first_name 包含 字母 a 或 A 的雇员信息
+SQL> -- 可以使用
+SQL> SELECT id , first_name
+  2  FROM s_emp
+  3  WHERE first_name LIKE '%A%' OR WHERE first_name LIKE '%a%'
+  4  ;
+WHERE first_name LIKE '%A%' OR WHERE first_name LIKE '%a%'
+                               *
+第 3 行出现错误: 
+ORA-00936: 缺失表达式 
+
+
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT id , first_name
+  2  FROM s_emp
+  3* WHERE first_name LIKE '%A%' OR first_name LIKE '%a%'
+  4  /
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+         1 Carmen                                                               
+         2 LaDoris                                                              
+         4 Mark                                                                 
+         5 Audry                                                                
+         7 Roberta                                                              
+         9 Antoinette                                                           
+        10 Marta                                                                
+        13 Yasmin                                                               
+        14 Mai                                                                  
+        15 Andre                                                                
+        16 Elena                                                                
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+        18 Akira                                                                
+        19 Vikram                                                               
+        20 Chad                                                                 
+        21 Alexander                                                            
+        23 Radha                                                                
+        24 Bela                                                                 
+
+已选择17行。
+
+SQL> -- 也可以借助于 lower 函数将 first_name 转小写后再比较
+SQL> -- 或者借助于 upper 函数将 first_name 转大写之后再比较
+SQL> 
+SQL> SELECT id , first_name FROM s_emp WHERE lower( first_name ) LIKE '%a%';
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+         1 Carmen                                                               
+         2 LaDoris                                                              
+         4 Mark                                                                 
+         5 Audry                                                                
+         7 Roberta                                                              
+         9 Antoinette                                                           
+        10 Marta                                                                
+        13 Yasmin                                                               
+        14 Mai                                                                  
+        15 Andre                                                                
+        16 Elena                                                                
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+        18 Akira                                                                
+        19 Vikram                                                               
+        20 Chad                                                                 
+        21 Alexander                                                            
+        23 Radha                                                                
+        24 Bela                                                                 
+
+已选择17行。
+
+SQL> SELECT id , first_name FROM s_emp WHERE upper( first_name ) LIKE '%A%';
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+         1 Carmen                                                               
+         2 LaDoris                                                              
+         4 Mark                                                                 
+         5 Audry                                                                
+         7 Roberta                                                              
+         9 Antoinette                                                           
+        10 Marta                                                                
+        13 Yasmin                                                               
+        14 Mai                                                                  
+        15 Andre                                                                
+        16 Elena                                                                
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+        18 Akira                                                                
+        19 Vikram                                                               
+        20 Chad                                                                 
+        21 Alexander                                                            
+        23 Radha                                                                
+        24 Bela                                                                 
+
+已选择17行。
+
+SQL> -- 列出 s_emp 表中 first_name 中包含了 两个 a 的雇员信息 ( 不区分大小写 )
+SQL>  SELECT id , first_name FROM s_emp
+  2   WHERE upper( first_name ) LIKE '%A%A%' ;
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+        10 Marta                                                                
+        18 Akira                                                                
+        21 Alexander                                                            
+        23 Radha                                                                
+
+SQL> -- 如果某个雇员的 first_name 中包含 三个 A ，以上结果是否会遗漏?
+SQL> 
+SQL> spool off
