@@ -1,0 +1,57 @@
+SQL> -- 查询当前用户名称
+SQL> show user ;
+USER 为 "YELAOSHI"
+SQL> 
+SQL> -- 查询当前日期
+SQL> SELECT sysdate FROM dual ;
+
+SYSDATE                                                                         
+--------------                                                                  
+17-6月 -20                                                                      
+
+SQL> -- 可能会遇到以下情况
+SQL> SELECT sysdate
+  2  FROM dual
+  3  ;
+
+SYSDATE                                                                         
+--------------                                                                  
+17-6月 -20                                                                      
+
+SQL> /
+
+SYSDATE                                                                         
+--------------                                                                  
+17-6月 -20                                                                      
+
+SQL> -- 可以使用 / 直接执行最后一条SQL
+SQL> 
+SQL> -- 查询当前用户所拥有的表 ( 通过 tab 来查询 )
+SQL> SELECT tname FROM tab ;
+
+未选定行
+
+SQL> -- 查询当前用户所拥有的表 ( 通过 user_tables 来查询 )
+SQL> SELECT table_name FROM user_tables ;
+
+未选定行
+
+SQL> -- 查询当前用户
+SQL> show user
+USER 为 "YELAOSHI"
+SQL> -- 让当前用户断开链接
+SQL> disconnect
+从 Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - 64bit Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options 断开
+SQL> -- 查询当前用户
+SQL> show user
+USER 为 ""
+SQL> 
+SQL> 
+SQL> -- 再次使用 yelaoshi/yeshu 登录
+SQL> connect yelaoshi/yeshu
+已连接。
+SQL> -- 再次查看当前用户
+SQL> show user
+USER 为 "YELAOSHI"
+SQL> spool off

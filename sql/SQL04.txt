@@ -1,0 +1,799 @@
+SQL> 
+SQL> -- 在 SQL 语句中可以使用 -- 来书写注释
+SQL> 
+SQL> -- 查看当前用户所拥有的表( 通过 user_tables 来查询 )
+SQL> 
+SQL> SELECT table_name FROM user_tables ;
+
+TABLE_NAME                                                                      
+------------------------------                                                  
+S_WAREHOUSE                                                                     
+S_TITLE                                                                         
+S_REGION                                                                        
+S_PRODUCT                                                                       
+S_ORD                                                                           
+S_LONGTEXT                                                                      
+S_ITEM                                                                          
+S_INVENTORY                                                                     
+S_IMAGE                                                                         
+S_EMP                                                                           
+S_DEPT                                                                          
+
+TABLE_NAME                                                                      
+------------------------------                                                  
+S_CUSTOMER                                                                      
+DUMMY                                                                           
+SALGRADE                                                                        
+BONUS                                                                           
+DEPT                                                                            
+EMP                                                                             
+
+已选择17行。
+
+SQL> -- 通过 DESCRIBE 查看 user_tables 的结构
+SQL> DESCRIB user_tables ;
+ 名称                                      是否为空? 类型
+ ----------------------------------------- -------- ----------------------------
+ TABLE_NAME                                NOT NULL VARCHAR2(30)
+ TABLESPACE_NAME                                    VARCHAR2(30)
+ CLUSTER_NAME                                       VARCHAR2(30)
+ IOT_NAME                                           VARCHAR2(30)
+ STATUS                                             VARCHAR2(8)
+ PCT_FREE                                           NUMBER
+ PCT_USED                                           NUMBER
+ INI_TRANS                                          NUMBER
+ MAX_TRANS                                          NUMBER
+ INITIAL_EXTENT                                     NUMBER
+ NEXT_EXTENT                                        NUMBER
+ MIN_EXTENTS                                        NUMBER
+ MAX_EXTENTS                                        NUMBER
+ PCT_INCREASE                                       NUMBER
+ FREELISTS                                          NUMBER
+ FREELIST_GROUPS                                    NUMBER
+ LOGGING                                            VARCHAR2(3)
+ BACKED_UP                                          VARCHAR2(1)
+ NUM_ROWS                                           NUMBER
+ BLOCKS                                             NUMBER
+ EMPTY_BLOCKS                                       NUMBER
+ AVG_SPACE                                          NUMBER
+ CHAIN_CNT                                          NUMBER
+ AVG_ROW_LEN                                        NUMBER
+ AVG_SPACE_FREELIST_BLOCKS                          NUMBER
+ NUM_FREELIST_BLOCKS                                NUMBER
+ DEGREE                                             VARCHAR2(10)
+ INSTANCES                                          VARCHAR2(10)
+ CACHE                                              VARCHAR2(5)
+ TABLE_LOCK                                         VARCHAR2(8)
+ SAMPLE_SIZE                                        NUMBER
+ LAST_ANALYZED                                      DATE
+ PARTITIONED                                        VARCHAR2(3)
+ IOT_TYPE                                           VARCHAR2(12)
+ TEMPORARY                                          VARCHAR2(1)
+ SECONDARY                                          VARCHAR2(1)
+ NESTED                                             VARCHAR2(3)
+ BUFFER_POOL                                        VARCHAR2(7)
+ FLASH_CACHE                                        VARCHAR2(7)
+ CELL_FLASH_CACHE                                   VARCHAR2(7)
+ ROW_MOVEMENT                                       VARCHAR2(8)
+ GLOBAL_STATS                                       VARCHAR2(3)
+ USER_STATS                                         VARCHAR2(3)
+ DURATION                                           VARCHAR2(15)
+ SKIP_CORRUPT                                       VARCHAR2(8)
+ MONITORING                                         VARCHAR2(3)
+ CLUSTER_OWNER                                      VARCHAR2(30)
+ DEPENDENCIES                                       VARCHAR2(8)
+ COMPRESSION                                        VARCHAR2(8)
+ COMPRESS_FOR                                       VARCHAR2(12)
+ DROPPED                                            VARCHAR2(3)
+ READ_ONLY                                          VARCHAR2(3)
+ SEGMENT_CREATED                                    VARCHAR2(3)
+ RESULT_CACHE                                       VARCHAR2(7)
+
+SQL> -- 通过 DESCRIBE 来查看 tab 的结构
+SQL> DESC tab ;
+ 名称                                      是否为空? 类型
+ ----------------------------------------- -------- ----------------------------
+ TNAME                                     NOT NULL VARCHAR2(30)
+ TABTYPE                                            VARCHAR2(7)
+ CLUSTERID                                          NUMBER
+
+SQL> -- 通过查询 tab 来查看当前用户所拥有的表
+SQL> SELECT tname FROM tab ;
+
+TNAME                                                                           
+------------------------------                                                  
+BONUS                                                                           
+DEPT                                                                            
+DUMMY                                                                           
+EMP                                                                             
+SALGRADE                                                                        
+S_CUSTOMER                                                                      
+S_DEPT                                                                          
+S_EMP                                                                           
+S_IMAGE                                                                         
+S_INVENTORY                                                                     
+S_ITEM                                                                          
+
+TNAME                                                                           
+------------------------------                                                  
+S_LONGTEXT                                                                      
+S_ORD                                                                           
+S_PRODUCT                                                                       
+S_REGION                                                                        
+S_TITLE                                                                         
+S_WAREHOUSE                                                                     
+
+已选择17行。
+
+SQL> -- 通过查询 tab 来查看当前用户所用有的表的表名和类型
+SQL> SELECT tname , tabtype FROM tab ;
+
+TNAME                          TABTYPE                                          
+------------------------------ -------                                          
+BONUS                          TABLE                                            
+DEPT                           TABLE                                            
+DUMMY                          TABLE                                            
+EMP                            TABLE                                            
+SALGRADE                       TABLE                                            
+S_CUSTOMER                     TABLE                                            
+S_DEPT                         TABLE                                            
+S_EMP                          TABLE                                            
+S_IMAGE                        TABLE                                            
+S_INVENTORY                    TABLE                                            
+S_ITEM                         TABLE                                            
+
+TNAME                          TABTYPE                                          
+------------------------------ -------                                          
+S_LONGTEXT                     TABLE                                            
+S_ORD                          TABLE                                            
+S_PRODUCT                      TABLE                                            
+S_REGION                       TABLE                                            
+S_TITLE                        TABLE                                            
+S_WAREHOUSE                    TABLE                                            
+
+已选择17行。
+
+SQL> -- 通过 DESCRIBE 查看 user_objects 的表结构
+SQL> DESC user_objects ;
+ 名称                                      是否为空? 类型
+ ----------------------------------------- -------- ----------------------------
+ OBJECT_NAME                                        VARCHAR2(128)
+ SUBOBJECT_NAME                                     VARCHAR2(30)
+ OBJECT_ID                                          NUMBER
+ DATA_OBJECT_ID                                     NUMBER
+ OBJECT_TYPE                                        VARCHAR2(19)
+ CREATED                                            DATE
+ LAST_DDL_TIME                                      DATE
+ TIMESTAMP                                          VARCHAR2(19)
+ STATUS                                             VARCHAR2(7)
+ TEMPORARY                                          VARCHAR2(1)
+ GENERATED                                          VARCHAR2(1)
+ SECONDARY                                          VARCHAR2(1)
+ NAMESPACE                                          NUMBER
+ EDITION_NAME                                       VARCHAR2(30)
+
+SQL> -- 通过查询 user_objects 来查看当前用户所拥有的数据库对象的名称和类型
+SQL> SELECT object_name , object_type FROM user_objects ;
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+EMP                                                                             
+TABLE                                                                           
+                                                                                
+DEPT                                                                            
+TABLE                                                                           
+                                                                                
+BONUS                                                                           
+TABLE                                                                           
+                                                                                
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+SALGRADE                                                                        
+TABLE                                                                           
+                                                                                
+DUMMY                                                                           
+TABLE                                                                           
+                                                                                
+S_CUSTOMER_ID                                                                   
+SEQUENCE                                                                        
+                                                                                
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+S_DEPT_ID                                                                       
+SEQUENCE                                                                        
+                                                                                
+S_EMP_ID                                                                        
+SEQUENCE                                                                        
+                                                                                
+S_IMAGE_ID                                                                      
+SEQUENCE                                                                        
+                                                                                
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+S_LONGTEXT_ID                                                                   
+SEQUENCE                                                                        
+                                                                                
+S_ORD_ID                                                                        
+SEQUENCE                                                                        
+                                                                                
+S_PRODUCT_ID                                                                    
+SEQUENCE                                                                        
+                                                                                
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+S_REGION_ID                                                                     
+SEQUENCE                                                                        
+                                                                                
+S_WAREHOUSE_ID                                                                  
+SEQUENCE                                                                        
+                                                                                
+S_CUSTOMER                                                                      
+TABLE                                                                           
+                                                                                
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+S_CUSTOMER_ID_PK                                                                
+INDEX                                                                           
+                                                                                
+S_DEPT                                                                          
+TABLE                                                                           
+                                                                                
+S_DEPT_ID_PK                                                                    
+INDEX                                                                           
+                                                                                
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+S_DEPT_NAME_REGION_ID_UK                                                        
+INDEX                                                                           
+                                                                                
+S_EMP                                                                           
+TABLE                                                                           
+                                                                                
+S_EMP_ID_PK                                                                     
+INDEX                                                                           
+                                                                                
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+S_EMP_USERID_UK                                                                 
+INDEX                                                                           
+                                                                                
+S_IMAGE                                                                         
+TABLE                                                                           
+                                                                                
+S_IMAGE_ID_PK                                                                   
+INDEX                                                                           
+                                                                                
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+S_INVENTORY                                                                     
+TABLE                                                                           
+                                                                                
+S_INVENTORY_PRODID_WARID_PK                                                     
+INDEX                                                                           
+                                                                                
+S_ITEM                                                                          
+TABLE                                                                           
+                                                                                
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+S_ITEM_ORDID_ITEMID_PK                                                          
+INDEX                                                                           
+                                                                                
+S_ITEM_ORDID_PRODID_UK                                                          
+INDEX                                                                           
+                                                                                
+S_LONGTEXT                                                                      
+TABLE                                                                           
+                                                                                
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+S_LONGTEXT_ID_PK                                                                
+INDEX                                                                           
+                                                                                
+S_ORD                                                                           
+TABLE                                                                           
+                                                                                
+S_ORD_ID_PK                                                                     
+INDEX                                                                           
+                                                                                
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+S_PRODUCT                                                                       
+TABLE                                                                           
+                                                                                
+S_PRODUCT_ID_PK                                                                 
+INDEX                                                                           
+                                                                                
+S_PRODUCT_NAME_UK                                                               
+INDEX                                                                           
+                                                                                
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+S_REGION                                                                        
+TABLE                                                                           
+                                                                                
+S_REGION_ID_PK                                                                  
+INDEX                                                                           
+                                                                                
+S_REGION_NAME_UK                                                                
+INDEX                                                                           
+                                                                                
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+S_TITLE                                                                         
+TABLE                                                                           
+                                                                                
+S_TITLE_TITLE_PK                                                                
+INDEX                                                                           
+                                                                                
+S_WAREHOUSE                                                                     
+TABLE                                                                           
+                                                                                
+
+OBJECT_NAME                                                                     
+--------------------------------------------------------------------------------
+OBJECT_TYPE                                                                     
+-------------------                                                             
+S_WAREHOUSE_ID_PK                                                               
+INDEX                                                                           
+                                                                                
+
+已选择43行。
+
+SQL> 
+SQL> -- 设置每一行显示的长度
+SQL> SET linesize 150
+SQL> 
+SQL> -- 再次查询当前拥有拥有的数据库对象的名称和类型
+SQL> SELECT object_name , object_type FROM user_objects ;
+
+OBJECT_NAME                                                                                                                      OBJECT_TYPE          
+-------------------------------------------------------------------------------------------------------------------------------- -------------------  
+EMP                                                                                                                              TABLE                
+DEPT                                                                                                                             TABLE                
+BONUS                                                                                                                            TABLE                
+SALGRADE                                                                                                                         TABLE                
+DUMMY                                                                                                                            TABLE                
+S_CUSTOMER_ID                                                                                                                    SEQUENCE             
+S_DEPT_ID                                                                                                                        SEQUENCE             
+S_EMP_ID                                                                                                                         SEQUENCE             
+S_IMAGE_ID                                                                                                                       SEQUENCE             
+S_LONGTEXT_ID                                                                                                                    SEQUENCE             
+S_ORD_ID                                                                                                                         SEQUENCE             
+
+OBJECT_NAME                                                                                                                      OBJECT_TYPE          
+-------------------------------------------------------------------------------------------------------------------------------- -------------------  
+S_PRODUCT_ID                                                                                                                     SEQUENCE             
+S_REGION_ID                                                                                                                      SEQUENCE             
+S_WAREHOUSE_ID                                                                                                                   SEQUENCE             
+S_CUSTOMER                                                                                                                       TABLE                
+S_CUSTOMER_ID_PK                                                                                                                 INDEX                
+S_DEPT                                                                                                                           TABLE                
+S_DEPT_ID_PK                                                                                                                     INDEX                
+S_DEPT_NAME_REGION_ID_UK                                                                                                         INDEX                
+S_EMP                                                                                                                            TABLE                
+S_EMP_ID_PK                                                                                                                      INDEX                
+S_EMP_USERID_UK                                                                                                                  INDEX                
+
+OBJECT_NAME                                                                                                                      OBJECT_TYPE          
+-------------------------------------------------------------------------------------------------------------------------------- -------------------  
+S_IMAGE                                                                                                                          TABLE                
+S_IMAGE_ID_PK                                                                                                                    INDEX                
+S_INVENTORY                                                                                                                      TABLE                
+S_INVENTORY_PRODID_WARID_PK                                                                                                      INDEX                
+S_ITEM                                                                                                                           TABLE                
+S_ITEM_ORDID_ITEMID_PK                                                                                                           INDEX                
+S_ITEM_ORDID_PRODID_UK                                                                                                           INDEX                
+S_LONGTEXT                                                                                                                       TABLE                
+S_LONGTEXT_ID_PK                                                                                                                 INDEX                
+S_ORD                                                                                                                            TABLE                
+S_ORD_ID_PK                                                                                                                      INDEX                
+
+OBJECT_NAME                                                                                                                      OBJECT_TYPE          
+-------------------------------------------------------------------------------------------------------------------------------- -------------------  
+S_PRODUCT                                                                                                                        TABLE                
+S_PRODUCT_ID_PK                                                                                                                  INDEX                
+S_PRODUCT_NAME_UK                                                                                                                INDEX                
+S_REGION                                                                                                                         TABLE                
+S_REGION_ID_PK                                                                                                                   INDEX                
+S_REGION_NAME_UK                                                                                                                 INDEX                
+S_TITLE                                                                                                                          TABLE                
+S_TITLE_TITLE_PK                                                                                                                 INDEX                
+S_WAREHOUSE                                                                                                                      TABLE                
+S_WAREHOUSE_ID_PK                                                                                                                INDEX                
+
+已选择43行。
+
+SQL> -- 重新设置 linesize
+SQL> SET linesize 120
+SQL> 
+SQL> -- 再次查询当前拥有拥有的数据库对象的名称和类型
+SQL> SELECT object_name , object_type FROM user_objects ;
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+EMP                                                                                                                     
+TABLE                                                                                                                   
+                                                                                                                        
+DEPT                                                                                                                    
+TABLE                                                                                                                   
+                                                                                                                        
+BONUS                                                                                                                   
+TABLE                                                                                                                   
+                                                                                                                        
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+SALGRADE                                                                                                                
+TABLE                                                                                                                   
+                                                                                                                        
+DUMMY                                                                                                                   
+TABLE                                                                                                                   
+                                                                                                                        
+S_CUSTOMER_ID                                                                                                           
+SEQUENCE                                                                                                                
+                                                                                                                        
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+S_DEPT_ID                                                                                                               
+SEQUENCE                                                                                                                
+                                                                                                                        
+S_EMP_ID                                                                                                                
+SEQUENCE                                                                                                                
+                                                                                                                        
+S_IMAGE_ID                                                                                                              
+SEQUENCE                                                                                                                
+                                                                                                                        
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+S_LONGTEXT_ID                                                                                                           
+SEQUENCE                                                                                                                
+                                                                                                                        
+S_ORD_ID                                                                                                                
+SEQUENCE                                                                                                                
+                                                                                                                        
+S_PRODUCT_ID                                                                                                            
+SEQUENCE                                                                                                                
+                                                                                                                        
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+S_REGION_ID                                                                                                             
+SEQUENCE                                                                                                                
+                                                                                                                        
+S_WAREHOUSE_ID                                                                                                          
+SEQUENCE                                                                                                                
+                                                                                                                        
+S_CUSTOMER                                                                                                              
+TABLE                                                                                                                   
+                                                                                                                        
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+S_CUSTOMER_ID_PK                                                                                                        
+INDEX                                                                                                                   
+                                                                                                                        
+S_DEPT                                                                                                                  
+TABLE                                                                                                                   
+                                                                                                                        
+S_DEPT_ID_PK                                                                                                            
+INDEX                                                                                                                   
+                                                                                                                        
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+S_DEPT_NAME_REGION_ID_UK                                                                                                
+INDEX                                                                                                                   
+                                                                                                                        
+S_EMP                                                                                                                   
+TABLE                                                                                                                   
+                                                                                                                        
+S_EMP_ID_PK                                                                                                             
+INDEX                                                                                                                   
+                                                                                                                        
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+S_EMP_USERID_UK                                                                                                         
+INDEX                                                                                                                   
+                                                                                                                        
+S_IMAGE                                                                                                                 
+TABLE                                                                                                                   
+                                                                                                                        
+S_IMAGE_ID_PK                                                                                                           
+INDEX                                                                                                                   
+                                                                                                                        
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+S_INVENTORY                                                                                                             
+TABLE                                                                                                                   
+                                                                                                                        
+S_INVENTORY_PRODID_WARID_PK                                                                                             
+INDEX                                                                                                                   
+                                                                                                                        
+S_ITEM                                                                                                                  
+TABLE                                                                                                                   
+                                                                                                                        
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+S_ITEM_ORDID_ITEMID_PK                                                                                                  
+INDEX                                                                                                                   
+                                                                                                                        
+S_ITEM_ORDID_PRODID_UK                                                                                                  
+INDEX                                                                                                                   
+                                                                                                                        
+S_LONGTEXT                                                                                                              
+TABLE                                                                                                                   
+                                                                                                                        
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+S_LONGTEXT_ID_PK                                                                                                        
+INDEX                                                                                                                   
+                                                                                                                        
+S_ORD                                                                                                                   
+TABLE                                                                                                                   
+                                                                                                                        
+S_ORD_ID_PK                                                                                                             
+INDEX                                                                                                                   
+                                                                                                                        
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+S_PRODUCT                                                                                                               
+TABLE                                                                                                                   
+                                                                                                                        
+S_PRODUCT_ID_PK                                                                                                         
+INDEX                                                                                                                   
+                                                                                                                        
+S_PRODUCT_NAME_UK                                                                                                       
+INDEX                                                                                                                   
+                                                                                                                        
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+S_REGION                                                                                                                
+TABLE                                                                                                                   
+                                                                                                                        
+S_REGION_ID_PK                                                                                                          
+INDEX                                                                                                                   
+                                                                                                                        
+S_REGION_NAME_UK                                                                                                        
+INDEX                                                                                                                   
+                                                                                                                        
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+S_TITLE                                                                                                                 
+TABLE                                                                                                                   
+                                                                                                                        
+S_TITLE_TITLE_PK                                                                                                        
+INDEX                                                                                                                   
+                                                                                                                        
+S_WAREHOUSE                                                                                                             
+TABLE                                                                                                                   
+                                                                                                                        
+
+OBJECT_NAME                                                                                                             
+------------------------------------------------------------------------------------------------------------------------
+OBJECT_TYPE                                                                                                             
+-------------------                                                                                                     
+S_WAREHOUSE_ID_PK                                                                                                       
+INDEX                                                                                                                   
+                                                                                                                        
+
+已选择43行。
+
+SQL> 
+SQL> -- 设置 名称为 object_name 的列的样式
+SQL> COLUMN object_name FORMAT A20 ;
+SQL> 
+SQL> -- 再次查询当前拥有拥有的数据库对象的名称和类型
+SQL> SELECT object_name , object_type FROM user_objects ;
+
+OBJECT_NAME          OBJECT_TYPE                                                                                        
+-------------------- -------------------                                                                                
+EMP                  TABLE                                                                                              
+DEPT                 TABLE                                                                                              
+BONUS                TABLE                                                                                              
+SALGRADE             TABLE                                                                                              
+DUMMY                TABLE                                                                                              
+S_CUSTOMER_ID        SEQUENCE                                                                                           
+S_DEPT_ID            SEQUENCE                                                                                           
+S_EMP_ID             SEQUENCE                                                                                           
+S_IMAGE_ID           SEQUENCE                                                                                           
+S_LONGTEXT_ID        SEQUENCE                                                                                           
+S_ORD_ID             SEQUENCE                                                                                           
+
+OBJECT_NAME          OBJECT_TYPE                                                                                        
+-------------------- -------------------                                                                                
+S_PRODUCT_ID         SEQUENCE                                                                                           
+S_REGION_ID          SEQUENCE                                                                                           
+S_WAREHOUSE_ID       SEQUENCE                                                                                           
+S_CUSTOMER           TABLE                                                                                              
+S_CUSTOMER_ID_PK     INDEX                                                                                              
+S_DEPT               TABLE                                                                                              
+S_DEPT_ID_PK         INDEX                                                                                              
+S_DEPT_NAME_REGION_I INDEX                                                                                              
+D_UK                                                                                                                    
+                                                                                                                        
+S_EMP                TABLE                                                                                              
+
+OBJECT_NAME          OBJECT_TYPE                                                                                        
+-------------------- -------------------                                                                                
+S_EMP_ID_PK          INDEX                                                                                              
+S_EMP_USERID_UK      INDEX                                                                                              
+S_IMAGE              TABLE                                                                                              
+S_IMAGE_ID_PK        INDEX                                                                                              
+S_INVENTORY          TABLE                                                                                              
+S_INVENTORY_PRODID_W INDEX                                                                                              
+ARID_PK                                                                                                                 
+                                                                                                                        
+S_ITEM               TABLE                                                                                              
+S_ITEM_ORDID_ITEMID_ INDEX                                                                                              
+PK                                                                                                                      
+
+OBJECT_NAME          OBJECT_TYPE                                                                                        
+-------------------- -------------------                                                                                
+                                                                                                                        
+S_ITEM_ORDID_PRODID_ INDEX                                                                                              
+UK                                                                                                                      
+                                                                                                                        
+S_LONGTEXT           TABLE                                                                                              
+S_LONGTEXT_ID_PK     INDEX                                                                                              
+S_ORD                TABLE                                                                                              
+S_ORD_ID_PK          INDEX                                                                                              
+S_PRODUCT            TABLE                                                                                              
+S_PRODUCT_ID_PK      INDEX                                                                                              
+S_PRODUCT_NAME_UK    INDEX                                                                                              
+
+OBJECT_NAME          OBJECT_TYPE                                                                                        
+-------------------- -------------------                                                                                
+S_REGION             TABLE                                                                                              
+S_REGION_ID_PK       INDEX                                                                                              
+S_REGION_NAME_UK     INDEX                                                                                              
+S_TITLE              TABLE                                                                                              
+S_TITLE_TITLE_PK     INDEX                                                                                              
+S_WAREHOUSE          TABLE                                                                                              
+S_WAREHOUSE_ID_PK    INDEX                                                                                              
+
+已选择43行。
+
+SQL> 
+SQL> -- 重新 设置 名称为 object_name 的列的样式
+SQL> COLUMN object_name FORMAT a30 ;
+SQL> 
+SQL> -- 再次查询当前拥有拥有的数据库对象的名称和类型
+SQL> SELECT object_name , object_type FROM user_objects ;
+
+OBJECT_NAME                    OBJECT_TYPE                                                                              
+------------------------------ -------------------                                                                      
+EMP                            TABLE                                                                                    
+DEPT                           TABLE                                                                                    
+BONUS                          TABLE                                                                                    
+SALGRADE                       TABLE                                                                                    
+DUMMY                          TABLE                                                                                    
+S_CUSTOMER_ID                  SEQUENCE                                                                                 
+S_DEPT_ID                      SEQUENCE                                                                                 
+S_EMP_ID                       SEQUENCE                                                                                 
+S_IMAGE_ID                     SEQUENCE                                                                                 
+S_LONGTEXT_ID                  SEQUENCE                                                                                 
+S_ORD_ID                       SEQUENCE                                                                                 
+
+OBJECT_NAME                    OBJECT_TYPE                                                                              
+------------------------------ -------------------                                                                      
+S_PRODUCT_ID                   SEQUENCE                                                                                 
+S_REGION_ID                    SEQUENCE                                                                                 
+S_WAREHOUSE_ID                 SEQUENCE                                                                                 
+S_CUSTOMER                     TABLE                                                                                    
+S_CUSTOMER_ID_PK               INDEX                                                                                    
+S_DEPT                         TABLE                                                                                    
+S_DEPT_ID_PK                   INDEX                                                                                    
+S_DEPT_NAME_REGION_ID_UK       INDEX                                                                                    
+S_EMP                          TABLE                                                                                    
+S_EMP_ID_PK                    INDEX                                                                                    
+S_EMP_USERID_UK                INDEX                                                                                    
+
+OBJECT_NAME                    OBJECT_TYPE                                                                              
+------------------------------ -------------------                                                                      
+S_IMAGE                        TABLE                                                                                    
+S_IMAGE_ID_PK                  INDEX                                                                                    
+S_INVENTORY                    TABLE                                                                                    
+S_INVENTORY_PRODID_WARID_PK    INDEX                                                                                    
+S_ITEM                         TABLE                                                                                    
+S_ITEM_ORDID_ITEMID_PK         INDEX                                                                                    
+S_ITEM_ORDID_PRODID_UK         INDEX                                                                                    
+S_LONGTEXT                     TABLE                                                                                    
+S_LONGTEXT_ID_PK               INDEX                                                                                    
+S_ORD                          TABLE                                                                                    
+S_ORD_ID_PK                    INDEX                                                                                    
+
+OBJECT_NAME                    OBJECT_TYPE                                                                              
+------------------------------ -------------------                                                                      
+S_PRODUCT                      TABLE                                                                                    
+S_PRODUCT_ID_PK                INDEX                                                                                    
+S_PRODUCT_NAME_UK              INDEX                                                                                    
+S_REGION                       TABLE                                                                                    
+S_REGION_ID_PK                 INDEX                                                                                    
+S_REGION_NAME_UK               INDEX                                                                                    
+S_TITLE                        TABLE                                                                                    
+S_TITLE_TITLE_PK               INDEX                                                                                    
+S_WAREHOUSE                    TABLE                                                                                    
+S_WAREHOUSE_ID_PK              INDEX                                                                                    
+
+已选择43行。
+
+SQL> spool off

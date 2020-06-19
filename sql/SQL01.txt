@@ -1,0 +1,56 @@
+Microsoft Windows [版本 10.0.17133.1]
+(c) 2018 Microsoft Corporation。保留所有权利。
+
+C:\Users\Administrator>sqlplus /nolog
+
+SQL*Plus: Release 11.2.0.1.0 Production on 星期三 6月 17 16:55:33 2020
+
+Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+
+SQL> show user;
+USER 为 ""
+SQL> -- connect 用户名/密码 as 角色
+SQL> connect sys/ as sysdba
+输入口令:
+已连接。
+SQL> show user ;
+USER 为 "SYS"
+SQL> select sysdate from dual ;
+
+SYSDATE
+--------------
+17-6月 -20
+
+SQL> CREATE USER yelaoshi IDENTITYFIED BY  yeshu ;
+CREATE USER yelaoshi IDENTITYFIED BY  yeshu
+                     *
+第 1 行出现错误:
+ORA-00922: 选项缺失或无效
+
+
+SQL> CREATE USER yelaoshi IDENTIFIED BY  yeshu ;
+
+用户已创建。
+
+SQL> GRANT connect , resource TO yelaoshi ;
+
+授权成功。
+
+SQL> -- 用 yelaoshi 连接数据库
+SQL> connect yelaoshi/yeshu
+已连接。
+SQL> show user ;
+USER 为 "YELAOSHI"
+SQL> -- 查询当前用户拥有那些表
+SQL> SELECT tname FROM tab ;
+
+未选定行
+
+SQL> -- 或者使用 user_tables 来查询
+SQL> SELECT table_name FROM user_tables ;
+
+未选定行
+
+SQL>
+SQL>
+SQL>

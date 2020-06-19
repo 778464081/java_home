@@ -1,0 +1,185 @@
+SQL> -- 使用 SQL*Plus 中的 clear screen 命令清理屏幕
+SQL> clear screen
+
+SQL> 
+SQL> -- 通过 dual 表实现简单的算术运算
+SQL> SELECT 1 + 2 , 2 - 3 , 3 * 4 , 4 / 5 , 13 % 2 FROM dual ;
+SELECT 1 + 2 , 2 - 3 , 3 * 4 , 4 / 5 , 13 % 2 FROM dual 
+                                          *
+第 1 行出现错误: 
+ORA-00911: 无效字符 
+
+
+SQL> SELECT 1 + 2 , 2 - 3 , 3 * 4 , 4 / 5 , mod( 13 , 2 ) FROM dual ;
+
+       1+2        2-3        3*4        4/5  MOD(13,2)                                                                  
+---------- ---------- ---------- ---------- ----------                                                                  
+         3         -1         12         .8          1                                                                  
+
+SQL> 
+SQL> -- 查询 emp 表中所有雇员(员工)的 工号、姓名、岗位、薪水
+SQL> SELECT empno , ename , job , sal FROM emp ;
+
+     EMPNO ENAME      JOB              SAL                                                                              
+---------- ---------- --------- ----------                                                                              
+      7369 SMITH      CLERK            800                                                                              
+      7499 ALLEN      SALESMAN        1600                                                                              
+      7521 WARD       SALESMAN        1250                                                                              
+      7566 JONES      MANAGER         2975                                                                              
+      7654 MARTIN     SALESMAN        1250                                                                              
+      7698 BLAKE      MANAGER         2850                                                                              
+      7782 CLARK      MANAGER         2450                                                                              
+      7788 SCOTT      ANALYST         3000                                                                              
+      7839 KING       PRESIDENT       5000                                                                              
+      7844 TURNER     SALESMAN        1500                                                                              
+      7876 ADAMS      CLERK           1100                                                                              
+
+     EMPNO ENAME      JOB              SAL                                                                              
+---------- ---------- --------- ----------                                                                              
+      7900 JAMES      CLERK            950                                                                              
+      7902 FORD       ANALYST         3000                                                                              
+      7934 MILLER     CLERK           1300                                                                              
+      9257 HUA'AN     CLERK           1300                                                                              
+      8526 QIU'XIANG  ANALYST         1400                                                                              
+
+已选择16行。
+
+SQL> -- 查询 emp 表中所有雇员的 工号、姓名 、年薪
+SQL> SELECT empno , ename , sal * 12 FROM emp ;
+
+     EMPNO ENAME          SAL*12                                                                                        
+---------- ---------- ----------                                                                                        
+      7369 SMITH            9600                                                                                        
+      7499 ALLEN           19200                                                                                        
+      7521 WARD            15000                                                                                        
+      7566 JONES           35700                                                                                        
+      7654 MARTIN          15000                                                                                        
+      7698 BLAKE           34200                                                                                        
+      7782 CLARK           29400                                                                                        
+      7788 SCOTT           36000                                                                                        
+      7839 KING            60000                                                                                        
+      7844 TURNER          18000                                                                                        
+      7876 ADAMS           13200                                                                                        
+
+     EMPNO ENAME          SAL*12                                                                                        
+---------- ---------- ----------                                                                                        
+      7900 JAMES           11400                                                                                        
+      7902 FORD            36000                                                                                        
+      7934 MILLER          15600                                                                                        
+      9257 HUA'AN          15600                                                                                        
+      8526 QIU'XIANG       16800                                                                                        
+
+已选择16行。
+
+SQL> -- 使用 AS 关键字 为 empno 、ename 、sal*12 指定别名
+SQL> SELECT empno AS 工号 , ename AS 姓名 , sal * 12 AS 年薪
+  2  FROM emp ;
+
+      工号 姓名             年薪                                                                                        
+---------- ---------- ----------                                                                                        
+      7369 SMITH            9600                                                                                        
+      7499 ALLEN           19200                                                                                        
+      7521 WARD            15000                                                                                        
+      7566 JONES           35700                                                                                        
+      7654 MARTIN          15000                                                                                        
+      7698 BLAKE           34200                                                                                        
+      7782 CLARK           29400                                                                                        
+      7788 SCOTT           36000                                                                                        
+      7839 KING            60000                                                                                        
+      7844 TURNER          18000                                                                                        
+      7876 ADAMS           13200                                                                                        
+
+      工号 姓名             年薪                                                                                        
+---------- ---------- ----------                                                                                        
+      7900 JAMES           11400                                                                                        
+      7902 FORD            36000                                                                                        
+      7934 MILLER          15600                                                                                        
+      9257 HUA'AN          15600                                                                                        
+      8526 QIU'XIANG       16800                                                                                        
+
+已选择16行。
+
+SQL> -- 设置"每页"显示的行数
+SQL> SET pagesize 15
+SQL> SELECT empno AS 工号 , ename AS 姓名 , sal * 12 AS 年薪
+  2  FROM emp ;
+
+      工号 姓名             年薪                                                                                        
+---------- ---------- ----------                                                                                        
+      7369 SMITH            9600                                                                                        
+      7499 ALLEN           19200                                                                                        
+      7521 WARD            15000                                                                                        
+      7566 JONES           35700                                                                                        
+      7654 MARTIN          15000                                                                                        
+      7698 BLAKE           34200                                                                                        
+      7782 CLARK           29400                                                                                        
+      7788 SCOTT           36000                                                                                        
+      7839 KING            60000                                                                                        
+      7844 TURNER          18000                                                                                        
+      7876 ADAMS           13200                                                                                        
+      7900 JAMES           11400                                                                                        
+
+      工号 姓名             年薪                                                                                        
+---------- ---------- ----------                                                                                        
+      7902 FORD            36000                                                                                        
+      7934 MILLER          15600                                                                                        
+      9257 HUA'AN          15600                                                                                        
+      8526 QIU'XIANG       16800                                                                                        
+
+已选择16行。
+
+SQL> -- 设置"每页"显示的行数
+SQL> SET pagesize 19 ;
+SQL> SELECT empno AS 工号 , ename AS 姓名 , sal * 12 AS 年薪
+  2  FROM emp ;
+
+      工号 姓名             年薪                                                                                        
+---------- ---------- ----------                                                                                        
+      7369 SMITH            9600                                                                                        
+      7499 ALLEN           19200                                                                                        
+      7521 WARD            15000                                                                                        
+      7566 JONES           35700                                                                                        
+      7654 MARTIN          15000                                                                                        
+      7698 BLAKE           34200                                                                                        
+      7782 CLARK           29400                                                                                        
+      7788 SCOTT           36000                                                                                        
+      7839 KING            60000                                                                                        
+      7844 TURNER          18000                                                                                        
+      7876 ADAMS           13200                                                                                        
+      7900 JAMES           11400                                                                                        
+      7902 FORD            36000                                                                                        
+      7934 MILLER          15600                                                                                        
+      9257 HUA'AN          15600                                                                                        
+      8526 QIU'XIANG       16800                                                                                        
+
+已选择16行。
+
+SQL> 
+SQL> -- 也可以使用 空格 将列名 和 别名隔开，不使用 AS 关键字指定列的别名
+SQL> SELECT empno  工号 , ename  姓名 , sal * 12 年薪 FROM emp ;
+
+      工号 姓名             年薪                                                                                        
+---------- ---------- ----------                                                                                        
+      7369 SMITH            9600                                                                                        
+      7499 ALLEN           19200                                                                                        
+      7521 WARD            15000                                                                                        
+      7566 JONES           35700                                                                                        
+      7654 MARTIN          15000                                                                                        
+      7698 BLAKE           34200                                                                                        
+      7782 CLARK           29400                                                                                        
+      7788 SCOTT           36000                                                                                        
+      7839 KING            60000                                                                                        
+      7844 TURNER          18000                                                                                        
+      7876 ADAMS           13200                                                                                        
+      7900 JAMES           11400                                                                                        
+      7902 FORD            36000                                                                                        
+      7934 MILLER          15600                                                                                        
+      9257 HUA'AN          15600                                                                                        
+      8526 QIU'XIANG       16800                                                                                        
+
+已选择16行。
+
+SQL> -- 问题: 如果别名使用的是 "工 号" 形式(别名中间有空格) 应该如何实现?
+SQL> 
+SQL> 
+SQL> spool off

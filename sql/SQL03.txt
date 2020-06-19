@@ -1,0 +1,229 @@
+
+C:\Users\Administrator>d:
+
+D:\>cd SQL
+
+D:\SQL>dir
+ 驱动器 D 中的卷没有标签。
+ 卷的序列号是 228B-E496
+
+ D:\SQL 的目录
+
+2020/06/17  17:19    <DIR>          .
+2020/06/17  17:19    <DIR>          ..
+2020/06/17  17:14             1,704 SQL02.txt
+               1 个文件          1,704 字节
+               2 个目录 27,496,308,736 可用字节
+
+D:\SQL>sqlplus sys/ as sysdba
+
+SQL*Plus: Release 11.2.0.1.0 Production on 星期四 6月 18 10:38:13 2020
+
+Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+
+输入口令:
+
+连接到:
+Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - 64bit Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+
+SQL> show user ;
+USER 为 "SYS"
+SQL> CREATE USER ecuter IDENTIFIED BY ecuter ;
+
+用户已创建。
+
+SQL> GRANT connect , resource TO ecuter ;
+
+授权成功。
+
+SQL> disconnect
+从 Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - 64bit Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options 断开
+SQL> show user ;
+USER 为 ""
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL>
+SQL> -- 通过查询当前用户来确保当前用户不是 SYS 之类的内置用户
+SQL>
+SQL> show user ;
+USER 为 ""
+SQL> -- 使用 ecuter 登录 ( 使用 ecuter 连接到 Oracle )
+SQL>
+SQL> connect ecuter/ecuter
+已连接。
+SQL> show user ;
+USER 为 "ECUTER"
+SQL>
+SQL> -- 查询当前用户所拥有的所有的数据库对象
+SQL>
+SQL> select object_name from user_objects ;
+
+未选定行
+
+SQL>
+SQL>
+SQL> -- 查询当前用户所拥有的所有的表
+SQL>
+SQL> select table_name from user_tables ;
+
+未选定行
+
+SQL> select tname from tab ;
+
+未选定行
+SQL> 
+SQL> 
+SQL> -- 使用 SQL*Plus 环境下的 start 命令执行在当前目录下 ( 即 D:/SQL 目录 ) 存在的 first_zh_cn.sql
+SQL> 
+SQL> start first_zh_cn.sql
+Building demonstration tables.  Please wait.
+Demonstration table build is complete.
+SQL> 
+SQL> 
+SQL> -- 查询当前用户所拥有的所有的表
+SQL> 
+SQL> select table_name from user_tables ;
+
+TABLE_NAME
+------------------------------
+DUMMY
+SALGRADE
+BONUS
+DEPT
+EMP
+
+SQL> -- 查询当前用户所拥有的所有的数据库对象
+SQL> 
+SQL> select object_name from user_objects ;
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+EMP
+DEPT
+BONUS
+SALGRADE
+DUMMY
+
+SQL> 
+SQL> -- 使用 @ 命令执行 指定目录下的指定SQL脚本
+SQL> 
+SQL> @ D:/SQL/second_zh_cn.sql
+Creating and populating tables and sequences.  Please wait.
+Tables and sequences created and populated.
+SQL> -- 查询当前用户所拥有的所有的表
+SQL> select table_name from user_tables ;
+
+TABLE_NAME
+------------------------------
+S_WAREHOUSE
+S_TITLE
+S_REGION
+S_PRODUCT
+S_ORD
+S_LONGTEXT
+S_ITEM
+S_INVENTORY
+S_IMAGE
+S_EMP
+S_DEPT
+
+TABLE_NAME
+------------------------------
+S_CUSTOMER
+DUMMY
+SALGRADE
+BONUS
+DEPT
+EMP
+
+已选择17行。
+
+SQL> -- 查询当前用户所拥有的所有的数据库对象
+SQL> select object_name from user_objects ;
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+EMP
+DEPT
+BONUS
+SALGRADE
+DUMMY
+S_CUSTOMER_ID
+S_DEPT_ID
+S_EMP_ID
+S_IMAGE_ID
+S_LONGTEXT_ID
+S_ORD_ID
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+S_PRODUCT_ID
+S_REGION_ID
+S_WAREHOUSE_ID
+S_CUSTOMER
+S_CUSTOMER_ID_PK
+S_DEPT
+S_DEPT_ID_PK
+S_DEPT_NAME_REGION_ID_UK
+S_EMP
+S_EMP_ID_PK
+S_EMP_USERID_UK
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+S_IMAGE
+S_IMAGE_ID_PK
+S_INVENTORY
+S_INVENTORY_PRODID_WARID_PK
+S_ITEM
+S_ITEM_ORDID_ITEMID_PK
+S_ITEM_ORDID_PRODID_UK
+S_LONGTEXT
+S_LONGTEXT_ID_PK
+S_ORD
+S_ORD_ID_PK
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+S_PRODUCT
+S_PRODUCT_ID_PK
+S_PRODUCT_NAME_UK
+S_REGION
+S_REGION_ID_PK
+S_REGION_NAME_UK
+S_TITLE
+S_TITLE_TITLE_PK
+S_WAREHOUSE
+S_WAREHOUSE_ID_PK
+
+已选择43行。
+
+SQL> show user ;
+USER 为 "ECUTER"
+SQL> select count(table_name) from user_tables ;
+
+COUNT(TABLE_NAME)
+-----------------
+               17
+
+已选择 1 行。
+
+SQL> select count(object_name) from user_objects ;
+
+COUNT(OBJECT_NAME)
+------------------
+                43
+
+已选择 1 行。
+
+SQL> -- 这个文件不是用 spool 录制的，而是手动复制的
+SQL>

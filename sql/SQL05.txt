@@ -1,0 +1,297 @@
+SQL> 
+SQL> -- 查看 emp 表的表结构
+SQL> DESC emp ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMPNO                                                             NOT NULL NUMBER(4)
+ ENAME                                                                      VARCHAR2(10)
+ JOB                                                                        VARCHAR2(9)
+ MGR                                                                        NUMBER(4)
+ HIREDATE                                                                   DATE
+ SAL                                                                        NUMBER(7,2)
+ COMM                                                                       NUMBER(7,2)
+ DEPTNO                                                                     NUMBER(2)
+
+SQL> -- 查询 emp 表中所有数据
+SQL> SELECT * FROM emp ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                              
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                              
+      7369 SMITH      CLERK           7902 17-12月-80            800                    20                              
+      7499 ALLEN      SALESMAN        7698 20-2月 -81           1600        300         30                              
+      7521 WARD       SALESMAN        7698 22-2月 -81           1250        500         30                              
+      7566 JONES      MANAGER         7839 02-4月 -81           2975                    20                              
+      7654 MARTIN     SALESMAN        7698 28-9月 -81           1250       1400         30                              
+      7698 BLAKE      MANAGER         7839 01-5月 -81           2850                    30                              
+      7782 CLARK      MANAGER         7839 09-6月 -81           2450                    10                              
+      7788 SCOTT      ANALYST         7566 09-12月-82           3000                    20                              
+      7839 KING       PRESIDENT            17-11月-81           5000                    10                              
+      7844 TURNER     SALESMAN        7698 08-9月 -81           1500          0         30                              
+      7876 ADAMS      CLERK           7788 12-1月 -83           1100                    20                              
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                              
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                              
+      7900 JAMES      CLERK           7698 03-12月-81            950                    30                              
+      7902 FORD       ANALYST         7566 03-12月-81           3000                    20                              
+      7934 MILLER     CLERK           7782 23-1月 -82           1300                    10                              
+      9257 HUA'AN     CLERK           7839 23-1月 -85           1300                                                    
+      8526 QIU'XIANG  ANALYST         7839 23-1月 -85           1400                                                    
+
+已选择16行。
+
+SQL> -- 在 SELECT 子句中依次序指定全部列名
+SQL> SELECT depno , dname , job , sal , comm , hiredate , deptno , mgr FROM emp ;
+SELECT depno , dname , job , sal , comm , hiredate , deptno , mgr FROM emp 
+               *
+第 1 行出现错误: 
+ORA-00904: "DNAME": 标识符无效 
+
+
+SQL> SELECT empno , ename , job , sal , comm , hiredate , deptno , mgr FROM emp ;
+
+     EMPNO ENAME      JOB              SAL       COMM HIREDATE           DEPTNO        MGR                              
+---------- ---------- --------- ---------- ---------- -------------- ---------- ----------                              
+      7369 SMITH      CLERK            800            17-12月-80             20       7902                              
+      7499 ALLEN      SALESMAN        1600        300 20-2月 -81             30       7698                              
+      7521 WARD       SALESMAN        1250        500 22-2月 -81             30       7698                              
+      7566 JONES      MANAGER         2975            02-4月 -81             20       7839                              
+      7654 MARTIN     SALESMAN        1250       1400 28-9月 -81             30       7698                              
+      7698 BLAKE      MANAGER         2850            01-5月 -81             30       7839                              
+      7782 CLARK      MANAGER         2450            09-6月 -81             10       7839                              
+      7788 SCOTT      ANALYST         3000            09-12月-82             20       7566                              
+      7839 KING       PRESIDENT       5000            17-11月-81             10                                         
+      7844 TURNER     SALESMAN        1500          0 08-9月 -81             30       7698                              
+      7876 ADAMS      CLERK           1100            12-1月 -83             20       7788                              
+
+     EMPNO ENAME      JOB              SAL       COMM HIREDATE           DEPTNO        MGR                              
+---------- ---------- --------- ---------- ---------- -------------- ---------- ----------                              
+      7900 JAMES      CLERK            950            03-12月-81             30       7698                              
+      7902 FORD       ANALYST         3000            03-12月-81             20       7566                              
+      7934 MILLER     CLERK           1300            23-1月 -82             10       7782                              
+      9257 HUA'AN     CLERK           1300            23-1月 -85                      7839                              
+      8526 QIU'XIANG  ANALYST         1400            23-1月 -85                      7839                              
+
+已选择16行。
+
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 在 SELECT 子句中可以使用 rowid 来查询 行标识符
+SQL> 
+SQL> -- 查询 emp 表中所有数据的 行标识符 以及 员工编号 、员工姓名
+SQL> SELECT rowid , empno , ename FROM emp ;
+
+ROWID                   EMPNO ENAME                                                                                     
+------------------ ---------- ----------                                                                                
+AAAR7VAAEAAAACsAAA       7369 SMITH                                                                                     
+AAAR7VAAEAAAACsAAB       7499 ALLEN                                                                                     
+AAAR7VAAEAAAACsAAC       7521 WARD                                                                                      
+AAAR7VAAEAAAACsAAD       7566 JONES                                                                                     
+AAAR7VAAEAAAACsAAE       7654 MARTIN                                                                                    
+AAAR7VAAEAAAACsAAF       7698 BLAKE                                                                                     
+AAAR7VAAEAAAACsAAG       7782 CLARK                                                                                     
+AAAR7VAAEAAAACsAAH       7788 SCOTT                                                                                     
+AAAR7VAAEAAAACsAAI       7839 KING                                                                                      
+AAAR7VAAEAAAACsAAJ       7844 TURNER                                                                                    
+AAAR7VAAEAAAACsAAK       7876 ADAMS                                                                                     
+
+ROWID                   EMPNO ENAME                                                                                     
+------------------ ---------- ----------                                                                                
+AAAR7VAAEAAAACsAAL       7900 JAMES                                                                                     
+AAAR7VAAEAAAACsAAM       7902 FORD                                                                                      
+AAAR7VAAEAAAACsAAN       7934 MILLER                                                                                    
+AAAR7VAAEAAAACsAAO       9257 HUA'AN                                                                                    
+AAAR7VAAEAAAACsAAP       8526 QIU'XIANG                                                                                 
+
+已选择16行。
+
+SQL> -- 查询 dept 表中所有数据的 行标识符 和 所有的列
+SQL> SELECT rowid , deptno , dname , loc FROM dept ;
+
+ROWID                  DEPTNO DNAME          LOC                                                                        
+------------------ ---------- -------------- -------------                                                              
+AAAR7WAAEAAAAC0AAA         10 ACCOUNTING     NEW YORK                                                                   
+AAAR7WAAEAAAAC0AAB         20 RESEARCH       DALLAS                                                                     
+AAAR7WAAEAAAAC0AAC         30 SALES          CHICAGO                                                                    
+AAAR7WAAEAAAAC0AAD         40 OPERATIONS     BOSTON                                                                     
+
+SQL> 
+SQL> -- 在查询结果中可以使用 ROWNUM 来统计行号
+SQL> SELECT rownum , deptno , dname , loc FROM dept ;
+
+    ROWNUM     DEPTNO DNAME          LOC                                                                                
+---------- ---------- -------------- -------------                                                                      
+         1         10 ACCOUNTING     NEW YORK                                                                           
+         2         20 RESEARCH       DALLAS                                                                             
+         3         30 SALES          CHICAGO                                                                            
+         4         40 OPERATIONS     BOSTON                                                                             
+
+SQL> SELECT rownum , empno , ename , sal FROM emp ;
+
+    ROWNUM      EMPNO ENAME             SAL                                                                             
+---------- ---------- ---------- ----------                                                                             
+         1       7369 SMITH             800                                                                             
+         2       7499 ALLEN            1600                                                                             
+         3       7521 WARD             1250                                                                             
+         4       7566 JONES            2975                                                                             
+         5       7654 MARTIN           1250                                                                             
+         6       7698 BLAKE            2850                                                                             
+         7       7782 CLARK            2450                                                                             
+         8       7788 SCOTT            3000                                                                             
+         9       7839 KING             5000                                                                             
+        10       7844 TURNER           1500                                                                             
+        11       7876 ADAMS            1100                                                                             
+
+    ROWNUM      EMPNO ENAME             SAL                                                                             
+---------- ---------- ---------- ----------                                                                             
+        12       7900 JAMES             950                                                                             
+        13       7902 FORD             3000                                                                             
+        14       7934 MILLER           1300                                                                             
+        15       9257 HUA'AN           1300                                                                             
+        16       8526 QIU'XIANG        1400                                                                             
+
+已选择16行。
+
+SQL> -- 查看 dual 表的结构 ( dual 被称作虚表 )
+SQL> DESC dual ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ DUMMY                                                                      VARCHAR2(1)
+
+SQL> -- 查询 dual 表中的数据
+SQL> SELECT * FROM dual ;
+
+D                                                                                                                       
+-                                                                                                                       
+X                                                                                                                       
+
+SQL> -- 修改 dummy 列的显示格式
+SQL> COLUMN dummy FORMAT a5 ;
+SQL> 
+SQL> SELECT * FROM dual ;
+
+DUMMY                                                                                                                   
+-----                                                                                                                   
+X                                                                                                                       
+
+SQL> -- 查询 当前日期
+SQL> 
+SQL> SELECT sysdate FROM emp ;
+
+SYSDATE                                                                                                                 
+--------------                                                                                                          
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+
+SYSDATE                                                                                                                 
+--------------                                                                                                          
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+
+已选择16行。
+
+SQL> SELECT sysdate FROM dept ;
+
+SYSDATE                                                                                                                 
+--------------                                                                                                          
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+18-6月 -20                                                                                                              
+
+SQL> SELECT sysdate FROM dual ;
+
+SYSDATE                                                                                                                 
+--------------                                                                                                          
+18-6月 -20                                                                                                              
+
+SQL> SELECT sysdate ;
+SELECT sysdate 
+              *
+第 1 行出现错误: 
+ORA-00923: 未找到要求的 FROM 关键字 
+
+
+SQL> -- Oracle 是一个严谨的数据库管理系统，不像 MySQL 一样，可以将 SELECT sysdate 直接执行
+SQL> -- 为了能够将 SELECT sysdate 凑成一个完整的 查询语句，则需要在其后增加 FROM 语句，此时就可以使用 dual 表了
+SQL> SELECT sysdate FROM dual ;
+
+SYSDATE                                                                                                                 
+--------------                                                                                                          
+18-6月 -20                                                                                                              
+
+SQL> -- 虚表( dual ) 在通过 user_tables 、tab 、user_objects 查询时并不能查看到它
+SQL> SELECT object_name , object_type FROM user_objects ;
+
+OBJECT_NAME                    OBJECT_TYPE                                                                              
+------------------------------ -------------------                                                                      
+EMP                            TABLE                                                                                    
+DEPT                           TABLE                                                                                    
+BONUS                          TABLE                                                                                    
+SALGRADE                       TABLE                                                                                    
+DUMMY                          TABLE                                                                                    
+S_CUSTOMER_ID                  SEQUENCE                                                                                 
+S_DEPT_ID                      SEQUENCE                                                                                 
+S_EMP_ID                       SEQUENCE                                                                                 
+S_IMAGE_ID                     SEQUENCE                                                                                 
+S_LONGTEXT_ID                  SEQUENCE                                                                                 
+S_ORD_ID                       SEQUENCE                                                                                 
+
+OBJECT_NAME                    OBJECT_TYPE                                                                              
+------------------------------ -------------------                                                                      
+S_PRODUCT_ID                   SEQUENCE                                                                                 
+S_REGION_ID                    SEQUENCE                                                                                 
+S_WAREHOUSE_ID                 SEQUENCE                                                                                 
+S_CUSTOMER                     TABLE                                                                                    
+S_CUSTOMER_ID_PK               INDEX                                                                                    
+S_DEPT                         TABLE                                                                                    
+S_DEPT_ID_PK                   INDEX                                                                                    
+S_DEPT_NAME_REGION_ID_UK       INDEX                                                                                    
+S_EMP                          TABLE                                                                                    
+S_EMP_ID_PK                    INDEX                                                                                    
+S_EMP_USERID_UK                INDEX                                                                                    
+
+OBJECT_NAME                    OBJECT_TYPE                                                                              
+------------------------------ -------------------                                                                      
+S_IMAGE                        TABLE                                                                                    
+S_IMAGE_ID_PK                  INDEX                                                                                    
+S_INVENTORY                    TABLE                                                                                    
+S_INVENTORY_PRODID_WARID_PK    INDEX                                                                                    
+S_ITEM                         TABLE                                                                                    
+S_ITEM_ORDID_ITEMID_PK         INDEX                                                                                    
+S_ITEM_ORDID_PRODID_UK         INDEX                                                                                    
+S_LONGTEXT                     TABLE                                                                                    
+S_LONGTEXT_ID_PK               INDEX                                                                                    
+S_ORD                          TABLE                                                                                    
+S_ORD_ID_PK                    INDEX                                                                                    
+
+OBJECT_NAME                    OBJECT_TYPE                                                                              
+------------------------------ -------------------                                                                      
+S_PRODUCT                      TABLE                                                                                    
+S_PRODUCT_ID_PK                INDEX                                                                                    
+S_PRODUCT_NAME_UK              INDEX                                                                                    
+S_REGION                       TABLE                                                                                    
+S_REGION_ID_PK                 INDEX                                                                                    
+S_REGION_NAME_UK               INDEX                                                                                    
+S_TITLE                        TABLE                                                                                    
+S_TITLE_TITLE_PK               INDEX                                                                                    
+S_WAREHOUSE                    TABLE                                                                                    
+S_WAREHOUSE_ID_PK              INDEX                                                                                    
+
+已选择43行。
+
+SQL> -- 注意以上查询结果中的 dummy 表是我们通过 SQL 脚本导入的表，并不是 虚表 dual
+SQL> 
+SQL> spool off
