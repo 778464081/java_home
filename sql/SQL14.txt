@@ -1,0 +1,308 @@
+SQL> 
+SQL> -- 测试 count 函数
+SQL> 
+SQL> SELECT count(*) FROM emp ;
+
+  COUNT(*)                                                                      
+----------                                                                      
+        16                                                                      
+
+SQL> SELECT count(1) FROM emp ;
+
+  COUNT(1)                                                                      
+----------                                                                      
+        16                                                                      
+
+SQL> SELECT count('阿弥陀佛') FROM emp ;
+
+COUNT('阿弥陀佛')                                                               
+-----------------                                                               
+               16                                                               
+
+SQL> -- 设置 linesize 和 pagesize
+SQL> SET linesize 120;
+SQL> SET pagesize 20 ;
+SQL> 
+SQL> -- 列出 emp 表中所有数据
+SQL> SELECT * FROM emp ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                              
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                              
+      7369 SMITH      CLERK           7902 17-12月-80            800                    20                              
+      7499 ALLEN      SALESMAN        7698 20-2月 -81           1600        300         30                              
+      7521 WARD       SALESMAN        7698 22-2月 -81           1250        500         30                              
+      7566 JONES      MANAGER         7839 02-4月 -81           2975                    20                              
+      7654 MARTIN     SALESMAN        7698 28-9月 -81           1250       1400         30                              
+      7698 BLAKE      MANAGER         7839 01-5月 -81           2850                    30                              
+      7782 CLARK      MANAGER         7839 09-6月 -81           2450                    10                              
+      7788 SCOTT      ANALYST         7566 09-12月-82           3000                    20                              
+      7839 KING       PRESIDENT            17-11月-81           5000                    10                              
+      7844 TURNER     SALESMAN        7698 08-9月 -81           1500          0         30                              
+      7876 ADAMS      CLERK           7788 12-1月 -83           1100                    20                              
+      7900 JAMES      CLERK           7698 03-12月-81            950                    30                              
+      7902 FORD       ANALYST         7566 03-12月-81           3000                    20                              
+      7934 MILLER     CLERK           7782 23-1月 -82           1300                    10                              
+      9257 HUA'AN     CLERK           7839 23-1月 -85           1300                                                    
+      8526 QIU'XIANG  ANALYST         7839 23-1月 -85           1400                                                    
+
+已选择16行。
+
+SQL> -- 统计emp表中多少雇员是有部门的
+SQL> SELECT count( deptno ) FROM emp ;
+
+COUNT(DEPTNO)                                                                                                           
+-------------                                                                                                           
+           14                                                                                                           
+
+SQL> -- 统计emp表中多少雇员有上司
+SQL> SELECT count(mgr) FROM emp ;
+
+COUNT(MGR)                                                                                                              
+----------                                                                                                              
+        15                                                                                                              
+
+SQL> -- 统计emp表中多少雇员的提成不是空
+SQL> SELECT count(comm) FROM emp ;
+
+COUNT(COMM)                                                                                                             
+-----------                                                                                                             
+          4                                                                                                             
+
+SQL> 
+SQL> 
+SQL> -- 测试 max 和 min 函数
+SQL> 
+SQL> -- 统计emp表所有雇员中入职最晚的时间和入职最早的时间
+SQL> SELECT max( hiredate ) 最晚 , min( hiredate ) 最早 FROM emp ;
+
+最晚           最早                                                                                                     
+-------------- --------------                                                                                           
+23-1月 -85     17-12月-80                                                                                               
+
+SQL> -- 查询当前日期时间
+SQL> SELECT sysdate FROM dual ;
+
+SYSDATE                                                                                                                 
+--------------                                                                                                          
+19-6月 -20                                                                                                              
+
+SQL> 
+SQL> -- 修改当前会话(Session)的日期格式
+SQL> ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss' ;
+
+会话已更改。
+
+SQL> -- 注意这里的 月份使用 mm ,分钟使用 mi
+SQL> 
+SQL> -- 查询当前日期时间
+SQL> SELECT sysdate FROM dual ;
+
+SYSDATE                                                                                                                 
+-------------------                                                                                                     
+2020-06-19 14:33:39                                                                                                     
+
+SQL>  -- 统计emp表所有雇员中入职最晚的时间和入职最早的时间
+SQL> SELECT max( hiredate ) 最晚 , min( hiredate ) 最早 FROM emp ;
+
+最晚                最早                                                                                                
+------------------- -------------------                                                                                 
+1985-01-23 00:00:00 1980-12-17 00:00:00                                                                                 
+
+SQL> SELECT empno , ename , hiredate FROM emp ORDER BY hiredate ASC ;
+
+     EMPNO ENAME      HIREDATE                                                                                          
+---------- ---------- -------------------                                                                               
+      7369 SMITH      1980-12-17 00:00:00                                                                               
+      7499 ALLEN      1981-02-20 00:00:00                                                                               
+      7521 WARD       1981-02-22 00:00:00                                                                               
+      7566 JONES      1981-04-02 00:00:00                                                                               
+      7698 BLAKE      1981-05-01 00:00:00                                                                               
+      7782 CLARK      1981-06-09 00:00:00                                                                               
+      7844 TURNER     1981-09-08 00:00:00                                                                               
+      7654 MARTIN     1981-09-28 00:00:00                                                                               
+      7839 KING       1981-11-17 00:00:00                                                                               
+      7900 JAMES      1981-12-03 00:00:00                                                                               
+      7902 FORD       1981-12-03 00:00:00                                                                               
+      7934 MILLER     1982-01-23 00:00:00                                                                               
+      7788 SCOTT      1982-12-09 00:00:00                                                                               
+      7876 ADAMS      1983-01-12 00:00:00                                                                               
+      8526 QIU'XIANG  1985-01-23 00:00:00                                                                               
+      9257 HUA'AN     1985-01-23 00:00:00                                                                               
+
+已选择16行。
+
+SQL> -- 统计 emp 表中 最小的 rowid 和 最大的 rowid
+SQL> SELECT min( rowid ) , max( rowid ) FROM emp ;
+
+MIN(ROWID)         MAX(ROWID)                                                                                           
+------------------ ------------------                                                                                   
+AAAR7VAAEAAAACsAAA AAAR7VAAEAAAACsAAP                                                                                   
+
+SQL> SELECT empno , ename , rowid FROM emp ORDER BY rowid ASC ;
+
+     EMPNO ENAME      ROWID                                                                                             
+---------- ---------- ------------------                                                                                
+      7369 SMITH      AAAR7VAAEAAAACsAAA                                                                                
+      7499 ALLEN      AAAR7VAAEAAAACsAAB                                                                                
+      7521 WARD       AAAR7VAAEAAAACsAAC                                                                                
+      7566 JONES      AAAR7VAAEAAAACsAAD                                                                                
+      7654 MARTIN     AAAR7VAAEAAAACsAAE                                                                                
+      7698 BLAKE      AAAR7VAAEAAAACsAAF                                                                                
+      7782 CLARK      AAAR7VAAEAAAACsAAG                                                                                
+      7788 SCOTT      AAAR7VAAEAAAACsAAH                                                                                
+      7839 KING       AAAR7VAAEAAAACsAAI                                                                                
+      7844 TURNER     AAAR7VAAEAAAACsAAJ                                                                                
+      7876 ADAMS      AAAR7VAAEAAAACsAAK                                                                                
+      7900 JAMES      AAAR7VAAEAAAACsAAL                                                                                
+      7902 FORD       AAAR7VAAEAAAACsAAM                                                                                
+      7934 MILLER     AAAR7VAAEAAAACsAAN                                                                                
+      9257 HUA'AN     AAAR7VAAEAAAACsAAO                                                                                
+      8526 QIU'XIANG  AAAR7VAAEAAAACsAAP                                                                                
+
+已选择16行。
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 列出每个部门每个岗位的最早入职日期
+SQL> 
+SQL> SELECT deptno , job , min( hiredate )
+  2  FROM emp
+  3  WHERE deptno IS NOT NULL
+  4  GROUP BY deptno , job ;
+
+    DEPTNO JOB       MIN(HIREDATE)                                                                                      
+---------- --------- -------------------                                                                                
+        20 CLERK     1980-12-17 00:00:00                                                                                
+        30 SALESMAN  1981-02-20 00:00:00                                                                                
+        20 MANAGER   1981-04-02 00:00:00                                                                                
+        30 CLERK     1981-12-03 00:00:00                                                                                
+        10 PRESIDENT 1981-11-17 00:00:00                                                                                
+        30 MANAGER   1981-05-01 00:00:00                                                                                
+        10 CLERK     1982-01-23 00:00:00                                                                                
+        10 MANAGER   1981-06-09 00:00:00                                                                                
+        20 ANALYST   1981-12-03 00:00:00                                                                                
+
+已选择9行。
+
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT deptno , job , min( hiredate ) , rowid
+  2  FROM emp
+  3  WHERE deptno IS NOT NULL
+  4* GROUP BY deptno , job 
+SQL> /
+SELECT deptno , job , min( hiredate ) , rowid
+                                        *
+第 1 行出现错误: 
+ORA-00979: 不是 GROUP BY 表达式 
+
+
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT deptno , job , min( hiredate ) , max( rowid )
+  2  FROM emp
+  3  WHERE deptno IS NOT NULL
+  4* GROUP BY deptno , job 
+SQL> /
+
+    DEPTNO JOB       MIN(HIREDATE)       MAX(ROWID)                                                                     
+---------- --------- ------------------- ------------------                                                             
+        20 CLERK     1980-12-17 00:00:00 AAAR7VAAEAAAACsAAK                                                             
+        30 SALESMAN  1981-02-20 00:00:00 AAAR7VAAEAAAACsAAJ                                                             
+        20 MANAGER   1981-04-02 00:00:00 AAAR7VAAEAAAACsAAD                                                             
+        30 CLERK     1981-12-03 00:00:00 AAAR7VAAEAAAACsAAL                                                             
+        10 PRESIDENT 1981-11-17 00:00:00 AAAR7VAAEAAAACsAAI                                                             
+        30 MANAGER   1981-05-01 00:00:00 AAAR7VAAEAAAACsAAF                                                             
+        10 CLERK     1982-01-23 00:00:00 AAAR7VAAEAAAACsAAN                                                             
+        10 MANAGER   1981-06-09 00:00:00 AAAR7VAAEAAAACsAAG                                                             
+        20 ANALYST   1981-12-03 00:00:00 AAAR7VAAEAAAACsAAM                                                             
+
+已选择9行。
+
+SQL> 
+SQL> -- 对分组后的数据再度筛选
+SQL> 
+SQL> -- 统计 emp 表中各个部门的平均工资，列出平均工资高于 2000 的部门 ( 不统计没有部门的员工 )
+SQL> SELECT deptno , avg(sal) FROM emp WHERE deptno IS NOT NULL GROUP BY deptno HAVING avg(sal) > 2000 ;
+
+    DEPTNO   AVG(SAL)                                                                                                   
+---------- ----------                                                                                                   
+        20       2175                                                                                                   
+        10 2916.66667                                                                                                   
+
+SQL>  -- 统计 emp 表中各个部门的平均工资
+SQL> SELECT deptno , avg(sal) FROM emp WHERE deptno IS NOT NULL GROUP BY deptno ;
+
+    DEPTNO   AVG(SAL)                                                                                                   
+---------- ----------                                                                                                   
+        30 1566.66667                                                                                                   
+        20       2175                                                                                                   
+        10 2916.66667                                                                                                   
+
+SQL> SELECT deptno , avg(sal)
+  2  FROM emp
+  3  WHERE deptno IS NOT NULL
+  4  GROUP BY deptno
+  5  HAVING avg(sal) > 2000
+  6  ORDER BY avg(sal) DESC ;
+
+    DEPTNO   AVG(SAL)                                                                                                   
+---------- ----------                                                                                                   
+        10 2916.66667                                                                                                   
+        20       2175                                                                                                   
+
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT deptno , avg(sal)
+  2  FROM emp
+  3  WHERE deptno IS NOT NULL
+  4  GROUP BY deptno
+  5  HAVING avg(sal) > 2000
+  6* ORDER BY 2 DESC 
+SQL> /
+
+    DEPTNO   AVG(SAL)                                                                                                   
+---------- ----------                                                                                                   
+        10 2916.66667                                                                                                   
+        20       2175                                                                                                   
+
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT deptno , avg(sal) avgsal
+  2  FROM emp
+  3  WHERE deptno IS NOT NULL
+  4  GROUP BY deptno
+  5  HAVING avg(sal) > 2000
+  6* ORDER BY avgsal DESC 
+SQL> /
+
+    DEPTNO     AVGSAL                                                                                                   
+---------- ----------                                                                                                   
+        10 2916.66667                                                                                                   
+        20       2175                                                                                                   
+
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT deptno , avg(sal) avgsal
+  2  FROM emp
+  3  WHERE deptno IS NOT NULL
+  4  GROUP BY deptno
+  5  HAVING avgsal > 2000
+  6* ORDER BY avgsal DESC 
+SQL> /
+HAVING avgsal > 2000
+       *
+第 5 行出现错误: 
+ORA-00904: "AVGSAL": 标识符无效 
+
+
+SQL> spool off

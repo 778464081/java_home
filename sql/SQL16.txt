@@ -1,0 +1,93 @@
+SQL> -- 更改表
+SQL> 
+SQL> DESC t_students ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                         NUMBER(5)
+ NAME                                                                       VARCHAR2(50)
+ GENDER                                                                     CHAR(6)
+ BIRTHDATE                                                                  DATE
+
+SQL> 
+SQL> -- 增加列
+SQL> 
+SQL> ALTER TABLE t_students ADD ( hometown VARCHAR(100) ) ;
+
+表已更改。
+
+SQL> DESC t_students ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                         NUMBER(5)
+ NAME                                                                       VARCHAR2(50)
+ GENDER                                                                     CHAR(6)
+ BIRTHDATE                                                                  DATE
+ HOMETOWN                                                                   VARCHAR2(100)
+
+SQL> -- 改列名 ( 重命名列 )
+SQL> ALTER TABLE t_students RENAME COLUMN hometown TO address ;
+
+表已更改。
+
+SQL> DESC t_students ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                         NUMBER(5)
+ NAME                                                                       VARCHAR2(50)
+ GENDER                                                                     CHAR(6)
+ BIRTHDATE                                                                  DATE
+ ADDRESS                                                                    VARCHAR2(100)
+
+SQL> ALTER TABLE t_students MODIFY ( address VARCHAR2(150) ) ;
+
+表已更改。
+
+SQL> DESC t_students ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                         NUMBER(5)
+ NAME                                                                       VARCHAR2(50)
+ GENDER                                                                     CHAR(6)
+ BIRTHDATE                                                                  DATE
+ ADDRESS                                                                    VARCHAR2(150)
+
+SQL> ALTER TABLE t_students MODIFY ( address CHAR(150) ) ;
+
+表已更改。
+
+SQL> DESC t_students ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                         NUMBER(5)
+ NAME                                                                       VARCHAR2(50)
+ GENDER                                                                     CHAR(6)
+ BIRTHDATE                                                                  DATE
+ ADDRESS                                                                    CHAR(150)
+
+SQL> ALTER TABLE t_students MODIFY ( address VARCHAR2(150) ) ;
+
+表已更改。
+
+SQL> DESC t_students ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                         NUMBER(5)
+ NAME                                                                       VARCHAR2(50)
+ GENDER                                                                     CHAR(6)
+ BIRTHDATE                                                                  DATE
+ ADDRESS                                                                    VARCHAR2(150)
+
+SQL> -- 删除列
+SQL> ALTER TABLE t_students DROP ( address ) ;
+
+表已更改。
+
+SQL> DESC t_students ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                         NUMBER(5)
+ NAME                                                                       VARCHAR2(50)
+ GENDER                                                                     CHAR(6)
+ BIRTHDATE                                                                  DATE
+
+SQL> spool off

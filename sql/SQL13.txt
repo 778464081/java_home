@@ -1,0 +1,177 @@
+SQL> 
+SQL> -- 数据分组
+SQL> 
+SQL> -- 学会使用组函数: max/min/avg/sum/count
+SQL> 
+SQL> -- 求 emp 表中所有雇员的 最高月薪、最低月薪、平均月薪
+SQL> SELECT max(sal) , min(sal) , avg(sal) FROM emp ;
+
+  MAX(SAL)   MIN(SAL)   AVG(SAL)                                                
+---------- ---------- ----------                                                
+      5000        800  1982.8125                                                
+
+SQL> -- 在查询结果中使用列别名
+SQL> SELECT max(sal) maxsal , min(sal) minsal , avg(sal) avgsal FROM emp ;
+
+    MAXSAL     MINSAL     AVGSAL                                                
+---------- ---------- ----------                                                
+      5000        800  1982.8125                                                
+
+SQL> -- 此时需要注意，我们将整个 emp 表中的所有雇员当做一个分组来对待
+SQL> -- 也就是说，这里没有对 emp 表中的雇员做分组，所有雇员是一个组，即整个公司
+SQL> 
+SQL> 
+SQL> -- 统计 emp 表中雇员的人数以及该公司每个月发放的工资总额
+SQL> SELECT count(empno) , sum(sal) FROM emp ;
+
+COUNT(EMPNO)   SUM(SAL)                                                         
+------------ ----------                                                         
+          16      31725                                                         
+
+SQL> -- 这里仍然要注意，整个 emp 表中的所有数据是一个分组
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 使用 GROUP BY 子句对 emp 表中的数据实现分组
+SQL> -- GROUP BY 之后指定的就是分组的依据（就是根据什么来分组）
+SQL> 
+SQL> -- 统计每个部门的人数、平均月薪、最高月薪、最低月薪、工资总额
+SQL> SELECT deptno , count(empno) , avg(sal) , max(sal) , min(sal) , sum(sal)
+  2  FROM emp
+  3  GROUP BY deptno ;
+
+    DEPTNO COUNT(EMPNO)   AVG(SAL)   MAX(SAL)   MIN(SAL)   SUM(SAL)             
+---------- ------------ ---------- ---------- ---------- ----------             
+        30            6 1566.66667       2850        950       9400             
+                      2       1350       1400       1300       2700             
+        20            5       2175       3000        800      10875             
+        10            3 2916.66667       5000       1300       8750             
+
+SQL> -- 统计每个部门的人数、平均月薪、最高月薪、最低月薪、工资总额 (不统计没有部门的员工)
+SQL> SELECT deptno , count(empno) , avg(sal) , max(sal) , min(sal) , sum(sal)
+  2  FROM emp
+  3  WHERE deptno IS NOT NULL
+  4  GROUP BY deptno ;
+
+    DEPTNO COUNT(EMPNO)   AVG(SAL)   MAX(SAL)   MIN(SAL)   SUM(SAL)             
+---------- ------------ ---------- ---------- ---------- ----------             
+        30            6 1566.66667       2850        950       9400             
+        20            5       2175       3000        800      10875             
+        10            3 2916.66667       5000       1300       8750             
+
+SQL> -- 统计每个部门的人数、平均月薪、最高月薪、最低月薪、工资总额
+SQL> -- (不统计没有部门的员工、最后的查询结果根据部门号升序排列)
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT deptno , count(empno) , avg(sal) , max(sal) , min(sal) , sum(sal)
+  2  FROM emp
+  3  WHERE deptno IS NOT NULL
+  4  GROUP BY deptno 
+  5* ORDER BY 1
+SQL> /
+
+    DEPTNO COUNT(EMPNO)   AVG(SAL)   MAX(SAL)   MIN(SAL)   SUM(SAL)             
+---------- ------------ ---------- ---------- ---------- ----------             
+        10            3 2916.66667       5000       1300       8750             
+        20            5       2175       3000        800      10875             
+        30            6 1566.66667       2850        950       9400             
+
+SQL> -- 尝试 在 group by 之后指定的 分组条件 与 select 之后查询的列不同
+SQL> edit
+已写入 file afiedt.buf
+
+  1  SELECT deptno , count(empno) , avg(sal) , max(sal) , min(sal) , sum(sal)
+  2  FROM emp
+  3  WHERE deptno IS NOT NULL
+  4  GROUP BY job 
+  5* ORDER BY 1
+SQL> /
+SELECT deptno , count(empno) , avg(sal) , max(sal) , min(sal) , sum(sal)
+       *
+第 1 行出现错误: 
+ORA-00979: 不是 GROUP BY 表达式 
+
+
+SQL> -- 凡是在 SELECT 列表中出现的列，除非该列被组函数所处理，否则这些列必须依次序出现在 GROUP BY 子句中
+SQL> 
+SQL> -- 以上SQL语句就是证明 ( 但是在有些不严谨如MySQL的数据库中仍然可以执行，虽可执行却无实际意义 )
+SQL> 
+SQL> -- 在 GROUP BY 子句中使用的 分组条件，可以不书写在 SELECT 列表中，比如
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT count(empno) , avg(sal) , max(sal) , min(sal) , sum(sal)
+  2  FROM emp
+  3  WHERE deptno IS NOT NULL
+  4  GROUP BY job 
+  5* ORDER BY 1
+SQL> /
+
+COUNT(EMPNO)   AVG(SAL)   MAX(SAL)   MIN(SAL)   SUM(SAL)                        
+------------ ---------- ---------- ---------- ----------                        
+           1       5000       5000       5000       5000                        
+           2       3000       3000       3000       6000                        
+           3 2758.33333       2975       2450       8275                        
+           4       1400       1600       1250       5600                        
+           4     1037.5       1300        800       4150                        
+
+SQL> -- 在 GROUP BY 子句中使用的 分组条件，也可以写在 SELECT 列表中，比如
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT job , count(empno) , avg(sal) , max(sal) , min(sal) , sum(sal)
+  2  FROM emp
+  3  WHERE deptno IS NOT NULL
+  4  GROUP BY job 
+  5* ORDER BY 1
+SQL> /
+
+JOB       COUNT(EMPNO)   AVG(SAL)   MAX(SAL)   MIN(SAL)   SUM(SAL)              
+--------- ------------ ---------- ---------- ---------- ----------              
+ANALYST              2       3000       3000       3000       6000              
+CLERK                4     1037.5       1300        800       4150              
+MANAGER              3 2758.33333       2975       2450       8275              
+PRESIDENT            1       5000       5000       5000       5000              
+SALESMAN             4       1400       1600       1250       5600              
+
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT count(empno) , avg(sal) , max(sal) , min(sal) , sum(sal) , job
+  2  FROM emp
+  3  WHERE deptno IS NOT NULL
+  4  GROUP BY job 
+  5* ORDER BY 1
+SQL> /
+
+COUNT(EMPNO)   AVG(SAL)   MAX(SAL)   MIN(SAL)   SUM(SAL) JOB                    
+------------ ---------- ---------- ---------- ---------- ---------              
+           1       5000       5000       5000       5000 PRESIDENT              
+           2       3000       3000       3000       6000 ANALYST                
+           3 2758.33333       2975       2450       8275 MANAGER                
+           4       1400       1600       1250       5600 SALESMAN               
+           4     1037.5       1300        800       4150 CLERK                  
+
+SQL> -- 列出 emp 表中每个部门的每个岗位的人数和平均月薪、月工资总额
+SQL> -- (不统计没有部门的员工、最后的查询结果根据 部门号 和 岗位 升序排列)
+SQL> SELECT deptno , job , count(empno) , avg(sal) , sum(sal)
+  2  FROM emp
+  3  WHERE deptno IS NOT NULL
+  4  GROUP BY deptno , job ;
+
+    DEPTNO JOB       COUNT(EMPNO)   AVG(SAL)   SUM(SAL)                         
+---------- --------- ------------ ---------- ----------                         
+        20 CLERK                2        950       1900                         
+        30 SALESMAN             4       1400       5600                         
+        20 MANAGER              1       2975       2975                         
+        30 CLERK                1        950        950                         
+        10 PRESIDENT            1       5000       5000                         
+        30 MANAGER              1       2850       2850                         
+        10 CLERK                1       1300       1300                         
+        10 MANAGER              1       2450       2450                         
+        20 ANALYST              2       3000       6000                         
+
+已选择9行。
+
+SQL> spool off

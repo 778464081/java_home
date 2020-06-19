@@ -1,0 +1,535 @@
+SQL> 
+SQL> -- 管理表
+SQL> 
+SQL> --
+SQL> -- 查看表结构
+SQL> DESCRIBE emp ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMPNO                                                             NOT NULL NUMBER(4)
+ ENAME                                                                      VARCHAR2(10)
+ JOB                                                                        VARCHAR2(9)
+ MGR                                                                        NUMBER(4)
+ HIREDATE                                                                   DATE
+ SAL                                                                        NUMBER(7,2)
+ COMM                                                                       NUMBER(7,2)
+ DEPTNO                                                                     NUMBER(2)
+
+SQL> -- 创建 学生表，其中包括 编号、姓名、性别、出生日期
+SQL> CREATE TABLE t_students (
+  2     id NUMBER(5) ,
+  3     name VARCHAR2(50) ,
+  4     gender CHAR(6) ,
+  5     birthdate DATE
+  6  );
+
+表已创建。
+
+SQL> -- 查看表结构
+SQL> DESC t_students ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                         NUMBER(5)
+ NAME                                                                       VARCHAR2(50)
+ GENDER                                                                     CHAR(6)
+ BIRTHDATE                                                                  DATE
+
+SQL> -- 先简单插入一些数据
+SQL> INSERT INTO t_students VALUES ( 1 , '张三丰' , 'male' , sysdate ) ;
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_students ;
+
+        ID NAME                                               GENDER BIRTHDATE                                          
+---------- -------------------------------------------------- ------ -------------------                                
+         1 张三丰                                             male   2020-06-19 16:18:43                                
+
+SQL> -- 使用 length 函数获取 name 和 gender 的长度
+SQL> SELECT name , length( name ) , gender , length( gender ) from t_students ;
+
+NAME                                               LENGTH(NAME) GENDER LENGTH(GENDER)                                   
+-------------------------------------------------- ------------ ------ --------------                                   
+张三丰                                                        3 male                6                                   
+
+SQL> INSERT INTO  t_students VALUES ( 2 , '阿里巴巴' , '男' , sysdate ) ;
+
+已创建 1 行。
+
+SQL> -- 使用 length 函数获取 name 和 gender 的长度
+SQL> SELECT name , length( name ) , gender , length( gender ) from t_students ;
+
+NAME                                               LENGTH(NAME) GENDER LENGTH(GENDER)                                   
+-------------------------------------------------- ------------ ------ --------------                                   
+张三丰                                                        3 male                6                                   
+阿里巴巴                                                      4 男                  5                                   
+
+SQL> -- 因为在 Oracle 创建数据库时使用的字符编码时默认的 GBK ，因此一个汉字占用 两个字节( byte )
+SQL> 
+SQL> -- 汉字 "男" 占用 两个字节后，还差 4 个字节就可以将 gender 补充够 6 个字节，因此在 "男"之后补充了4个空白
+SQL> 
+SQL> -- 所以最后使用 length 统计时，返回的是 5 个字符，因为有 一个汉字 和 四个空白字符
+SQL> 
+SQL> INSERT INTO  t_students VALUES ( 3 , '阿凡提' , '靓仔' , sysdate );
+
+已创建 1 行。
+
+SQL> -- 使用 length 函数获取 name 和 gender 的长度
+SQL> SELECT name , length( name ) , gender , length( gender ) from t_students ;
+
+NAME                                               LENGTH(NAME) GENDER LENGTH(GENDER)                                   
+-------------------------------------------------- ------------ ------ --------------                                   
+张三丰                                                        3 male                6                                   
+阿里巴巴                                                      4 男                  5                                   
+阿凡提                                                        3 靓仔                4                                   
+
+SQL> INSERT INTO  t_students VALUES ( 4 , '奥斯特洛夫斯基' , '靓仔啊' , sysdate );
+
+已创建 1 行。
+
+SQL> -- 使用 length 函数获取 name 和 gender 的长度
+SQL> SELECT name , length( name ) , gender , length( gender ) from t_students ;
+
+NAME                                               LENGTH(NAME) GENDER LENGTH(GENDER)                                   
+-------------------------------------------------- ------------ ------ --------------                                   
+张三丰                                                        3 male                6                                   
+阿里巴巴                                                      4 男                  5                                   
+阿凡提                                                        3 靓仔                4                                   
+奥斯特洛夫斯基                                                7 靓仔啊              3                                   
+
+SQL> 
+SQL> -- 通过查询一张表创建新的表
+SQL> 
+SQL> -- 通过查询 emp 表创建一个新表
+SQL> 
+SQL> CREATE TABLE myemp1 AS SELECT empno , ename , job , sal FROM emp ;
+
+表已创建。
+
+SQL> DESC myemp1 ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMPNO                                                             NOT NULL NUMBER(4)
+ ENAME                                                                      VARCHAR2(10)
+ JOB                                                                        VARCHAR2(9)
+ SAL                                                                        NUMBER(7,2)
+
+SQL> SELECT * FROM myemp1 ;
+
+     EMPNO ENAME      JOB              SAL                                                                              
+---------- ---------- --------- ----------                                                                              
+      7369 SMITH      CLERK            800                                                                              
+      7499 ALLEN      SALESMAN        1600                                                                              
+      7521 WARD       SALESMAN        1250                                                                              
+      7566 JONES      MANAGER         2975                                                                              
+      7654 MARTIN     SALESMAN        1250                                                                              
+      7698 BLAKE      MANAGER         2850                                                                              
+      7782 CLARK      MANAGER         2450                                                                              
+      7788 SCOTT      ANALYST         3000                                                                              
+      7839 KING       PRESIDENT       5000                                                                              
+      7844 TURNER     SALESMAN        1500                                                                              
+      7876 ADAMS      CLERK           1100                                                                              
+      7900 JAMES      CLERK            950                                                                              
+      7902 FORD       ANALYST         3000                                                                              
+      7934 MILLER     CLERK           1300                                                                              
+      9257 HUA'AN     CLERK           1300                                                                              
+      8526 QIU'XIANG  ANALYST         1400                                                                              
+
+已选择16行。
+
+SQL> -- 还可以在查询语句中使用别名来影响新表的列名
+SQL> 
+SQL> CREATE TABLE myemp2 AS SELECT empno id , ename name , job , sal salary FROM emp ;
+
+表已创建。
+
+SQL> DESC myemp2 ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                NOT NULL NUMBER(4)
+ NAME                                                                       VARCHAR2(10)
+ JOB                                                                        VARCHAR2(9)
+ SALARY                                                                     NUMBER(7,2)
+
+SQL> SELECT * FROM myemp2 ;
+
+        ID NAME       JOB           SALARY                                                                              
+---------- ---------- --------- ----------                                                                              
+      7369 SMITH      CLERK            800                                                                              
+      7499 ALLEN      SALESMAN        1600                                                                              
+      7521 WARD       SALESMAN        1250                                                                              
+      7566 JONES      MANAGER         2975                                                                              
+      7654 MARTIN     SALESMAN        1250                                                                              
+      7698 BLAKE      MANAGER         2850                                                                              
+      7782 CLARK      MANAGER         2450                                                                              
+      7788 SCOTT      ANALYST         3000                                                                              
+      7839 KING       PRESIDENT       5000                                                                              
+      7844 TURNER     SALESMAN        1500                                                                              
+      7876 ADAMS      CLERK           1100                                                                              
+      7900 JAMES      CLERK            950                                                                              
+      7902 FORD       ANALYST         3000                                                                              
+      7934 MILLER     CLERK           1300                                                                              
+      9257 HUA'AN     CLERK           1300                                                                              
+      8526 QIU'XIANG  ANALYST         1400                                                                              
+
+已选择16行。
+
+SQL> -- 尝试修改表名称
+SQL> 
+SQL> ALTER TABLE myemp1 RENAME TO myemp ;
+
+表已更改。
+
+SQL> DESC myemp1 ;
+ERROR:
+ORA-04043: 对象 myemp1  不存在 
+
+
+SQL> DESC myemp ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMPNO                                                             NOT NULL NUMBER(4)
+ ENAME                                                                      VARCHAR2(10)
+ JOB                                                                        VARCHAR2(9)
+ SAL                                                                        NUMBER(7,2)
+
+SQL> RENAME myemp2 TO t_employees ;
+
+表已重命名。
+
+SQL> DESC myemp2 ;
+ERROR:
+ORA-04043: 对象 myemp2  不存在 
+
+
+SQL> DESC t_employees ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                NOT NULL NUMBER(4)
+ NAME                                                                       VARCHAR2(10)
+ JOB                                                                        VARCHAR2(9)
+ SALARY                                                                     NUMBER(7,2)
+
+SQL> 
+SQL> -- 尝试删除 t_employees 表
+SQL> 
+SQL> -- 在删除之前先查询当前用户所拥有的所有的表的表名
+SQL> SELECT table_name FROM user_tables ;
+
+TABLE_NAME                                                                                                              
+------------------------------                                                                                          
+EMP                                                                                                                     
+DEPT                                                                                                                    
+BONUS                                                                                                                   
+SALGRADE                                                                                                                
+DUMMY                                                                                                                   
+S_CUSTOMER                                                                                                              
+S_DEPT                                                                                                                  
+S_EMP                                                                                                                   
+S_IMAGE                                                                                                                 
+S_INVENTORY                                                                                                             
+S_ITEM                                                                                                                  
+S_LONGTEXT                                                                                                              
+S_ORD                                                                                                                   
+S_PRODUCT                                                                                                               
+S_REGION                                                                                                                
+S_TITLE                                                                                                                 
+S_WAREHOUSE                                                                                                             
+
+TABLE_NAME                                                                                                              
+------------------------------                                                                                          
+T_STUDENTS                                                                                                              
+MYEMP                                                                                                                   
+T_EMPLOYEES                                                                                                             
+
+已选择20行。
+
+SQL> DROP TABLE t_employees ;
+
+表已删除。
+
+SQL> -- 在删除之后再次查询当前用户所拥有的所有的表的表名
+SQL> SELECT table_name FROM user_tables ;
+
+TABLE_NAME                                                                                                              
+------------------------------                                                                                          
+EMP                                                                                                                     
+DEPT                                                                                                                    
+BONUS                                                                                                                   
+SALGRADE                                                                                                                
+DUMMY                                                                                                                   
+S_CUSTOMER                                                                                                              
+S_DEPT                                                                                                                  
+S_EMP                                                                                                                   
+S_IMAGE                                                                                                                 
+S_INVENTORY                                                                                                             
+S_ITEM                                                                                                                  
+S_LONGTEXT                                                                                                              
+S_ORD                                                                                                                   
+S_PRODUCT                                                                                                               
+S_REGION                                                                                                                
+S_TITLE                                                                                                                 
+S_WAREHOUSE                                                                                                             
+
+TABLE_NAME                                                                                                              
+------------------------------                                                                                          
+T_STUDENTS                                                                                                              
+MYEMP                                                                                                                   
+
+已选择19行。
+
+SQL> SELECT tname FROM tab ;
+
+TNAME                                                                                                                   
+------------------------------                                                                                          
+BIN$XBpSakKxRq+k5r41TQzz+w==$0                                                                                          
+BONUS                                                                                                                   
+DEPT                                                                                                                    
+DUMMY                                                                                                                   
+EMP                                                                                                                     
+MYEMP                                                                                                                   
+SALGRADE                                                                                                                
+S_CUSTOMER                                                                                                              
+S_DEPT                                                                                                                  
+S_EMP                                                                                                                   
+S_IMAGE                                                                                                                 
+S_INVENTORY                                                                                                             
+S_ITEM                                                                                                                  
+S_LONGTEXT                                                                                                              
+S_ORD                                                                                                                   
+S_PRODUCT                                                                                                               
+S_REGION                                                                                                                
+
+TNAME                                                                                                                   
+------------------------------                                                                                          
+S_TITLE                                                                                                                 
+S_WAREHOUSE                                                                                                             
+T_STUDENTS                                                                                                              
+
+已选择20行。
+
+SQL> DESC BIN$XBpSakKxRq+k5r41TQzz+w==$0 ;
+SP2-0565: 非法的标识符。
+SQL> -- 其中的 BIN$XBpSakKxRq+k5r41TQzz+w==$0 就是 回收站中的被删除的标
+SQL> 
+SQL> -- 使用 show recyclebin 命令可以查看回收站中的表 ( 注意，这个命令不要以分号结束，否则导致 SQL*Plus 退出 )
+SQL> show recyclebin
+ORIGINAL NAME    RECYCLEBIN NAME                OBJECT TYPE  DROP TIME                                                  
+---------------- ------------------------------ ------------ -------------------                                        
+T_EMPLOYEES      BIN$XBpSakKxRq+k5r41TQzz+w==$0 TABLE        2020-06-19:16:39:38                                        
+SQL> 
+SQL> 
+SQL> -- 如果需要从回收站中恢复已经被删除的表，可以使用 flashback table 语句实现
+SQL> FLASHBACK TABLE t_employees TO BEFORE DROP ;
+
+闪回完成。
+
+SQL> -- 通过查询 tab 列出当前用户所拥有的表 ( 包括已经被删除到 回收站 的标 )
+SQL> SELECT tname FROM tab ;
+
+TNAME                                                                                                                   
+------------------------------                                                                                          
+BONUS                                                                                                                   
+DEPT                                                                                                                    
+DUMMY                                                                                                                   
+EMP                                                                                                                     
+MYEMP                                                                                                                   
+SALGRADE                                                                                                                
+S_CUSTOMER                                                                                                              
+S_DEPT                                                                                                                  
+S_EMP                                                                                                                   
+S_IMAGE                                                                                                                 
+S_INVENTORY                                                                                                             
+S_ITEM                                                                                                                  
+S_LONGTEXT                                                                                                              
+S_ORD                                                                                                                   
+S_PRODUCT                                                                                                               
+S_REGION                                                                                                                
+S_TITLE                                                                                                                 
+
+TNAME                                                                                                                   
+------------------------------                                                                                          
+S_WAREHOUSE                                                                                                             
+T_EMPLOYEES                                                                                                             
+T_STUDENTS                                                                                                              
+
+已选择20行。
+
+SQL> -- 使用 DROP TABLE 删除表，但未使用 PURGE 选项
+SQL> DROP TABLE t_employees ;
+
+表已删除。
+
+SQL> -- 通过查询 tab 列出当前用户所拥有的表 ( 包括已经被删除到 回收站 的标 )
+SQL> SELECT tname FROM tab ;
+
+TNAME                                                                                                                   
+------------------------------                                                                                          
+BIN$Y8ebA+8tTbOUOQrdcYCO7A==$0                                                                                          
+BONUS                                                                                                                   
+DEPT                                                                                                                    
+DUMMY                                                                                                                   
+EMP                                                                                                                     
+MYEMP                                                                                                                   
+SALGRADE                                                                                                                
+S_CUSTOMER                                                                                                              
+S_DEPT                                                                                                                  
+S_EMP                                                                                                                   
+S_IMAGE                                                                                                                 
+S_INVENTORY                                                                                                             
+S_ITEM                                                                                                                  
+S_LONGTEXT                                                                                                              
+S_ORD                                                                                                                   
+S_PRODUCT                                                                                                               
+S_REGION                                                                                                                
+
+TNAME                                                                                                                   
+------------------------------                                                                                          
+S_TITLE                                                                                                                 
+S_WAREHOUSE                                                                                                             
+T_STUDENTS                                                                                                              
+
+已选择20行。
+
+SQL> -- 查看回收站
+SQL> show recyclebin
+ORIGINAL NAME    RECYCLEBIN NAME                OBJECT TYPE  DROP TIME                                                  
+---------------- ------------------------------ ------------ -------------------                                        
+T_EMPLOYEES      BIN$Y8ebA+8tTbOUOQrdcYCO7A==$0 TABLE        2020-06-19:16:48:17                                        
+SQL> 
+SQL> 
+SQL> -- 当回收站中的表都不再被需要时，可以清空回收站
+SQL> 
+SQL> PURGE recyclebin ;
+
+回收站已清空。
+
+SQL> show recyclebin
+SQL> -- 通过查询 tab 列出当前用户所拥有的表 ( 包括已经被删除到 回收站 的标 )
+SQL> SELECT tname FROM tab ;
+
+TNAME                                                                                                                   
+------------------------------                                                                                          
+BONUS                                                                                                                   
+DEPT                                                                                                                    
+DUMMY                                                                                                                   
+EMP                                                                                                                     
+MYEMP                                                                                                                   
+SALGRADE                                                                                                                
+S_CUSTOMER                                                                                                              
+S_DEPT                                                                                                                  
+S_EMP                                                                                                                   
+S_IMAGE                                                                                                                 
+S_INVENTORY                                                                                                             
+S_ITEM                                                                                                                  
+S_LONGTEXT                                                                                                              
+S_ORD                                                                                                                   
+S_PRODUCT                                                                                                               
+S_REGION                                                                                                                
+S_TITLE                                                                                                                 
+
+TNAME                                                                                                                   
+------------------------------                                                                                          
+S_WAREHOUSE                                                                                                             
+T_STUDENTS                                                                                                              
+
+已选择19行。
+
+SQL> -- 删除表时使用 PURGE 实现彻底删除
+SQL> DROP TABLE myemp PURGE ;
+
+表已删除。
+
+SQL> -- 通过查询 tab 列出当前用户所拥有的表 ( 包括已经被删除到 回收站 的标 )
+SQL> SELECT tname FROM tab ;
+
+TNAME                                                                                                                   
+------------------------------                                                                                          
+BONUS                                                                                                                   
+DEPT                                                                                                                    
+DUMMY                                                                                                                   
+EMP                                                                                                                     
+SALGRADE                                                                                                                
+S_CUSTOMER                                                                                                              
+S_DEPT                                                                                                                  
+S_EMP                                                                                                                   
+S_IMAGE                                                                                                                 
+S_INVENTORY                                                                                                             
+S_ITEM                                                                                                                  
+S_LONGTEXT                                                                                                              
+S_ORD                                                                                                                   
+S_PRODUCT                                                                                                               
+S_REGION                                                                                                                
+S_TITLE                                                                                                                 
+S_WAREHOUSE                                                                                                             
+
+TNAME                                                                                                                   
+------------------------------                                                                                          
+T_STUDENTS                                                                                                              
+
+已选择18行。
+
+SQL> show recyclebin
+SQL> CREATE TABLE myemp AS SELECT * FROM emp ;
+
+表已创建。
+
+SQL> DESC myemp ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMPNO                                                             NOT NULL NUMBER(4)
+ ENAME                                                                      VARCHAR2(10)
+ JOB                                                                        VARCHAR2(9)
+ MGR                                                                        NUMBER(4)
+ HIREDATE                                                                   DATE
+ SAL                                                                        NUMBER(7,2)
+ COMM                                                                       NUMBER(7,2)
+ DEPTNO                                                                     NUMBER(2)
+
+SQL> SELECT * FROM myemp ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE                   SAL       COMM     DEPTNO                         
+---------- ---------- --------- ---------- ------------------- ---------- ---------- ----------                         
+      7369 SMITH      CLERK           7902 1980-12-17 00:00:00        800                    20                         
+      7499 ALLEN      SALESMAN        7698 1981-02-20 00:00:00       1600        300         30                         
+      7521 WARD       SALESMAN        7698 1981-02-22 00:00:00       1250        500         30                         
+      7566 JONES      MANAGER         7839 1981-04-02 00:00:00       2975                    20                         
+      7654 MARTIN     SALESMAN        7698 1981-09-28 00:00:00       1250       1400         30                         
+      7698 BLAKE      MANAGER         7839 1981-05-01 00:00:00       2850                    30                         
+      7782 CLARK      MANAGER         7839 1981-06-09 00:00:00       2450                    10                         
+      7788 SCOTT      ANALYST         7566 1982-12-09 00:00:00       3000                    20                         
+      7839 KING       PRESIDENT            1981-11-17 00:00:00       5000                    10                         
+      7844 TURNER     SALESMAN        7698 1981-09-08 00:00:00       1500          0         30                         
+      7876 ADAMS      CLERK           7788 1983-01-12 00:00:00       1100                    20                         
+      7900 JAMES      CLERK           7698 1981-12-03 00:00:00        950                    30                         
+      7902 FORD       ANALYST         7566 1981-12-03 00:00:00       3000                    20                         
+      7934 MILLER     CLERK           7782 1982-01-23 00:00:00       1300                    10                         
+      9257 HUA'AN     CLERK           7839 1985-01-23 00:00:00       1300                                               
+      8526 QIU'XIANG  ANALYST         7839 1985-01-23 00:00:00       1400                                               
+
+已选择16行。
+
+SQL> -- 使用 truncate table 可以截断一张表
+SQL> -- 截断表，就是将表中所有数据统统删除，仅留下表结构
+SQL> 
+SQL> TRUNCATE TABLE myemp ;
+
+表被截断。
+
+SQL> SELECT * FROM myemp ;
+
+未选定行
+
+SQL> DESC myemp ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMPNO                                                             NOT NULL NUMBER(4)
+ ENAME                                                                      VARCHAR2(10)
+ JOB                                                                        VARCHAR2(9)
+ MGR                                                                        NUMBER(4)
+ HIREDATE                                                                   DATE
+ SAL                                                                        NUMBER(7,2)
+ COMM                                                                       NUMBER(7,2)
+ DEPTNO                                                                     NUMBER(2)
+
+SQL> spool off
