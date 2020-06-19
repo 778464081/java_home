@@ -1,0 +1,290 @@
+SQL> 
+SQL> -- 数据过滤
+SQL> -- 在 查询语句中 使用 WHERE 子句可以过滤表中的数据
+SQL> 
+SQL> -- 查询 emp 表中 sal 大于 1000 的雇员信息 ( 工号、姓名、岗位、薪水 )
+SQL> 
+SQL> SELECT empno , ename , job , sal FROM emp WHERE sal > 1000 ;
+
+     EMPNO ENAME      JOB              SAL                                                                              
+---------- ---------- --------- ----------                                                                              
+      7499 ALLEN      SALESMAN        1600                                                                              
+      7521 WARD       SALESMAN        1250                                                                              
+      7566 JONES      MANAGER         2975                                                                              
+      7654 MARTIN     SALESMAN        1250                                                                              
+      7698 BLAKE      MANAGER         2850                                                                              
+      7782 CLARK      MANAGER         2450                                                                              
+      7788 SCOTT      ANALYST         3000                                                                              
+      7839 KING       PRESIDENT       5000                                                                              
+      7844 TURNER     SALESMAN        1500                                                                              
+      7876 ADAMS      CLERK           1100                                                                              
+      7902 FORD       ANALYST         3000                                                                              
+      7934 MILLER     CLERK           1300                                                                              
+      9257 HUA'AN     CLERK           1300                                                                              
+      8526 QIU'XIANG  ANALYST         1400                                                                              
+
+已选择14行。
+
+SQL> -- 查询就职于 20 部门 在 CLERK 岗位上工作的雇员信息
+SQL>  SELECT empno , ename , deptno , job
+  2   FROM emp
+  3   WHERE deptno = 20 AND job = 'CLERK' ;
+
+     EMPNO ENAME          DEPTNO JOB                                                                                    
+---------- ---------- ---------- ---------                                                                              
+      7369 SMITH              20 CLERK                                                                                  
+      7876 ADAMS              20 CLERK                                                                                  
+
+SQL> 
+SQL> 
+SQL> -- 数据排序
+SQL> 
+SQL> 
+SQL> -- 查询 emp 表中所有雇员的 工号、姓名、年薪，并按照 年薪 降序排列
+SQL> 
+SQL> SELECT empno , ename , sal * 12 FROM emp ORDER BY sal ;
+
+     EMPNO ENAME          SAL*12                                                                                        
+---------- ---------- ----------                                                                                        
+      7369 SMITH            9600                                                                                        
+      7900 JAMES           11400                                                                                        
+      7876 ADAMS           13200                                                                                        
+      7521 WARD            15000                                                                                        
+      7654 MARTIN          15000                                                                                        
+      7934 MILLER          15600                                                                                        
+      9257 HUA'AN          15600                                                                                        
+      8526 QIU'XIANG       16800                                                                                        
+      7844 TURNER          18000                                                                                        
+      7499 ALLEN           19200                                                                                        
+      7782 CLARK           29400                                                                                        
+      7698 BLAKE           34200                                                                                        
+      7566 JONES           35700                                                                                        
+      7788 SCOTT           36000                                                                                        
+      7902 FORD            36000                                                                                        
+      7839 KING            60000                                                                                        
+
+已选择16行。
+
+SQL> SELECT empno , ename , sal * 12 FROM emp ORDER BY sal DESC ;
+
+     EMPNO ENAME          SAL*12                                                                                        
+---------- ---------- ----------                                                                                        
+      7839 KING            60000                                                                                        
+      7902 FORD            36000                                                                                        
+      7788 SCOTT           36000                                                                                        
+      7566 JONES           35700                                                                                        
+      7698 BLAKE           34200                                                                                        
+      7782 CLARK           29400                                                                                        
+      7499 ALLEN           19200                                                                                        
+      7844 TURNER          18000                                                                                        
+      8526 QIU'XIANG       16800                                                                                        
+      9257 HUA'AN          15600                                                                                        
+      7934 MILLER          15600                                                                                        
+      7521 WARD            15000                                                                                        
+      7654 MARTIN          15000                                                                                        
+      7876 ADAMS           13200                                                                                        
+      7900 JAMES           11400                                                                                        
+      7369 SMITH            9600                                                                                        
+
+已选择16行。
+
+SQL> SELECT empno , ename , sal * 12 FROM emp ORDER BY sal*12 DESC ;
+
+     EMPNO ENAME          SAL*12                                                                                        
+---------- ---------- ----------                                                                                        
+      7839 KING            60000                                                                                        
+      7902 FORD            36000                                                                                        
+      7788 SCOTT           36000                                                                                        
+      7566 JONES           35700                                                                                        
+      7698 BLAKE           34200                                                                                        
+      7782 CLARK           29400                                                                                        
+      7499 ALLEN           19200                                                                                        
+      7844 TURNER          18000                                                                                        
+      8526 QIU'XIANG       16800                                                                                        
+      9257 HUA'AN          15600                                                                                        
+      7934 MILLER          15600                                                                                        
+      7521 WARD            15000                                                                                        
+      7654 MARTIN          15000                                                                                        
+      7876 ADAMS           13200                                                                                        
+      7900 JAMES           11400                                                                                        
+      7369 SMITH            9600                                                                                        
+
+已选择16行。
+
+SQL> SELECT empno , ename , sal * 12 AS 年薪 FROM emp ORDER BY 年薪 DESC ;
+
+     EMPNO ENAME            年薪                                                                                        
+---------- ---------- ----------                                                                                        
+      7839 KING            60000                                                                                        
+      7902 FORD            36000                                                                                        
+      7788 SCOTT           36000                                                                                        
+      7566 JONES           35700                                                                                        
+      7698 BLAKE           34200                                                                                        
+      7782 CLARK           29400                                                                                        
+      7499 ALLEN           19200                                                                                        
+      7844 TURNER          18000                                                                                        
+      8526 QIU'XIANG       16800                                                                                        
+      9257 HUA'AN          15600                                                                                        
+      7934 MILLER          15600                                                                                        
+      7521 WARD            15000                                                                                        
+      7654 MARTIN          15000                                                                                        
+      7876 ADAMS           13200                                                                                        
+      7900 JAMES           11400                                                                                        
+      7369 SMITH            9600                                                                                        
+
+已选择16行。
+
+SQL> SELECT empno , ename , sal * 12 AS 年薪 FROM emp ORDER BY sal DESC ;
+
+     EMPNO ENAME            年薪                                                                                        
+---------- ---------- ----------                                                                                        
+      7839 KING            60000                                                                                        
+      7902 FORD            36000                                                                                        
+      7788 SCOTT           36000                                                                                        
+      7566 JONES           35700                                                                                        
+      7698 BLAKE           34200                                                                                        
+      7782 CLARK           29400                                                                                        
+      7499 ALLEN           19200                                                                                        
+      7844 TURNER          18000                                                                                        
+      8526 QIU'XIANG       16800                                                                                        
+      9257 HUA'AN          15600                                                                                        
+      7934 MILLER          15600                                                                                        
+      7521 WARD            15000                                                                                        
+      7654 MARTIN          15000                                                                                        
+      7876 ADAMS           13200                                                                                        
+      7900 JAMES           11400                                                                                        
+      7369 SMITH            9600                                                                                        
+
+已选择16行。
+
+SQL> SELECT empno , ename , sal * 12 AS 年薪 FROM emp ORDER BY sal*12 DESC ;
+
+     EMPNO ENAME            年薪                                                                                        
+---------- ---------- ----------                                                                                        
+      7839 KING            60000                                                                                        
+      7902 FORD            36000                                                                                        
+      7788 SCOTT           36000                                                                                        
+      7566 JONES           35700                                                                                        
+      7698 BLAKE           34200                                                                                        
+      7782 CLARK           29400                                                                                        
+      7499 ALLEN           19200                                                                                        
+      7844 TURNER          18000                                                                                        
+      8526 QIU'XIANG       16800                                                                                        
+      9257 HUA'AN          15600                                                                                        
+      7934 MILLER          15600                                                                                        
+      7521 WARD            15000                                                                                        
+      7654 MARTIN          15000                                                                                        
+      7876 ADAMS           13200                                                                                        
+      7900 JAMES           11400                                                                                        
+      7369 SMITH            9600                                                                                        
+
+已选择16行。
+
+SQL> SELECT empno , ename , sal 月薪 FROM emp ORDER BY sal DESC ;
+
+     EMPNO ENAME            月薪                                                                                        
+---------- ---------- ----------                                                                                        
+      7839 KING             5000                                                                                        
+      7902 FORD             3000                                                                                        
+      7788 SCOTT            3000                                                                                        
+      7566 JONES            2975                                                                                        
+      7698 BLAKE            2850                                                                                        
+      7782 CLARK            2450                                                                                        
+      7499 ALLEN            1600                                                                                        
+      7844 TURNER           1500                                                                                        
+      8526 QIU'XIANG        1400                                                                                        
+      9257 HUA'AN           1300                                                                                        
+      7934 MILLER           1300                                                                                        
+      7521 WARD             1250                                                                                        
+      7654 MARTIN           1250                                                                                        
+      7876 ADAMS            1100                                                                                        
+      7900 JAMES             950                                                                                        
+      7369 SMITH             800                                                                                        
+
+已选择16行。
+
+SQL> SELECT empno , ename , sal * 12 AS 年薪 FROM emp ORDER BY 3 DESC ;
+
+     EMPNO ENAME            年薪                                                                                        
+---------- ---------- ----------                                                                                        
+      7839 KING            60000                                                                                        
+      7902 FORD            36000                                                                                        
+      7788 SCOTT           36000                                                                                        
+      7566 JONES           35700                                                                                        
+      7698 BLAKE           34200                                                                                        
+      7782 CLARK           29400                                                                                        
+      7499 ALLEN           19200                                                                                        
+      7844 TURNER          18000                                                                                        
+      8526 QIU'XIANG       16800                                                                                        
+      9257 HUA'AN          15600                                                                                        
+      7934 MILLER          15600                                                                                        
+      7521 WARD            15000                                                                                        
+      7654 MARTIN          15000                                                                                        
+      7876 ADAMS           13200                                                                                        
+      7900 JAMES           11400                                                                                        
+      7369 SMITH            9600                                                                                        
+
+已选择16行。
+
+SQL> -- 查询 emp 表中所有雇员的 工号、姓名、薪水，并按照 薪水降序排列，如果两个员工的月薪相同，则再根据提成排序
+SQL> SELECT empno , ename , sal FROM emp ORDER BY sal DESC , comm DESC ;
+
+     EMPNO ENAME             SAL                                                                                        
+---------- ---------- ----------                                                                                        
+      7839 KING             5000                                                                                        
+      7902 FORD             3000                                                                                        
+      7788 SCOTT            3000                                                                                        
+      7566 JONES            2975                                                                                        
+      7698 BLAKE            2850                                                                                        
+      7782 CLARK            2450                                                                                        
+      7499 ALLEN            1600                                                                                        
+      7844 TURNER           1500                                                                                        
+      8526 QIU'XIANG        1400                                                                                        
+      9257 HUA'AN           1300                                                                                        
+      7934 MILLER           1300                                                                                        
+      7654 MARTIN           1250                                                                                        
+      7521 WARD             1250                                                                                        
+      7876 ADAMS            1100                                                                                        
+      7900 JAMES             950                                                                                        
+      7369 SMITH             800                                                                                        
+
+已选择16行。
+
+SQL> SELECT empno , ename , sal , comm FROM emp ORDER BY sal DESC , comm DESC ;
+
+     EMPNO ENAME             SAL       COMM                                                                             
+---------- ---------- ---------- ----------                                                                             
+      7839 KING             5000                                                                                        
+      7902 FORD             3000                                                                                        
+      7788 SCOTT            3000                                                                                        
+      7566 JONES            2975                                                                                        
+      7698 BLAKE            2850                                                                                        
+      7782 CLARK            2450                                                                                        
+      7499 ALLEN            1600        300                                                                             
+      7844 TURNER           1500          0                                                                             
+      8526 QIU'XIANG        1400                                                                                        
+      9257 HUA'AN           1300                                                                                        
+      7934 MILLER           1300                                                                                        
+      7654 MARTIN           1250       1400                                                                             
+      7521 WARD             1250        500                                                                             
+      7876 ADAMS            1100                                                                                        
+      7900 JAMES             950                                                                                        
+      7369 SMITH             800                                                                                        
+
+已选择16行。
+
+SQL> -- 查询 20 部门中所有的雇员的 工号、姓名、岗位、薪水、提成，并按照薪水降序排列
+SQL> SELECT empno , ename , job , sal
+  2  FROM emp
+  3  WHERE deptno = 20
+  4  ORDER BY 4 DESC ;
+
+     EMPNO ENAME      JOB              SAL                                                                              
+---------- ---------- --------- ----------                                                                              
+      7788 SCOTT      ANALYST         3000                                                                              
+      7902 FORD       ANALYST         3000                                                                              
+      7566 JONES      MANAGER         2975                                                                              
+      7876 ADAMS      CLERK           1100                                                                              
+      7369 SMITH      CLERK            800                                                                              
+
+SQL> spool off

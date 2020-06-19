@@ -1,0 +1,159 @@
+SQL> 
+SQL> -- 测试 any 运算符
+SQL> 
+SQL> -- any 表示任意的，比如 >any 就表示大于任意一个值
+SQL> 
+SQL> -- 求 月薪 大于 1000 , 1500 , 2000 中任意值的雇员信息( 工号、姓名、岗位、薪水)
+SQL> 
+SQL> SELECT empno , ename , job , sal FROM emp WHERE sal >any ( 1000 , 1500 , 2000 ) ;
+
+     EMPNO ENAME      JOB              SAL                                      
+---------- ---------- --------- ----------                                      
+      7499 ALLEN      SALESMAN        1600                                      
+      7521 WARD       SALESMAN        1250                                      
+      7566 JONES      MANAGER         2975                                      
+      7654 MARTIN     SALESMAN        1250                                      
+      7698 BLAKE      MANAGER         2850                                      
+      7782 CLARK      MANAGER         2450                                      
+      7788 SCOTT      ANALYST         3000                                      
+      7839 KING       PRESIDENT       5000                                      
+      7844 TURNER     SALESMAN        1500                                      
+      7876 ADAMS      CLERK           1100                                      
+      7902 FORD       ANALYST         3000                                      
+
+     EMPNO ENAME      JOB              SAL                                      
+---------- ---------- --------- ----------                                      
+      7934 MILLER     CLERK           1300                                      
+      9257 HUA'AN     CLERK           1300                                      
+      8526 QIU'XIANG  ANALYST         1400                                      
+
+已选择14行。
+
+SQL> 
+SQL> -- 列出部门号为 10 、20 、30 的雇员的信息( 工号、姓名、部门号 )
+SQL> SELECT empno , ename , deptno FROM emp WHERE deptno =any ( 10 , 20 , 30 ) ;
+
+     EMPNO ENAME          DEPTNO                                                
+---------- ---------- ----------                                                
+      7369 SMITH              20                                                
+      7499 ALLEN              30                                                
+      7521 WARD               30                                                
+      7566 JONES              20                                                
+      7654 MARTIN             30                                                
+      7698 BLAKE              30                                                
+      7782 CLARK              10                                                
+      7788 SCOTT              20                                                
+      7839 KING               10                                                
+      7844 TURNER             30                                                
+      7876 ADAMS              20                                                
+
+     EMPNO ENAME          DEPTNO                                                
+---------- ---------- ----------                                                
+      7900 JAMES              30                                                
+      7902 FORD               20                                                
+      7934 MILLER             10                                                
+
+已选择14行。
+
+SQL> -- 列出 工号 小于 7300 、7400 、7500 任意一个值的雇员信息( 工号、姓名 )
+SQL>  SELECT empno , ename FROM emp WHERE empno <any ( 7300 , 7400 , 7500 ) ;
+
+     EMPNO ENAME                                                                
+---------- ----------                                                           
+      7369 SMITH                                                                
+      7499 ALLEN                                                                
+
+SQL> 
+SQL> -- 使用 or 运算符翻译为:
+SQL>  SELECT empno , ename FROM emp WHERE empno < 7300 OR empno < 7400 OR empno < 7500 ;
+
+     EMPNO ENAME                                                                
+---------- ----------                                                           
+      7369 SMITH                                                                
+      7499 ALLEN                                                                
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 测试 all 运算符
+SQL> 
+SQL> -- all 表示所有的，比如 >all 就表示大于某个列表中的所有值
+SQL> 
+SQL> -- 列出薪水 大于 ( 3000 , 3500 , 4000 ) 中所有值的雇员信息( 查询 s_emp 表 )
+SQL> SELECT id , first_name FROM s_emp WHERE salary >all ( 3000 , 3500 , 4000 ) ;
+
+未选定行
+
+SQL>  -- 列出薪水 大于 ( 3000 , 3500 , 4000 ) 中所有值的雇员信息( 查询 emp 表 )
+SQL> SELECT empno , ename , sal FROM emp WHERE sal >all  ( 3000 , 3500 , 4000 ) ;
+
+     EMPNO ENAME             SAL                                                
+---------- ---------- ----------                                                
+      7839 KING             5000                                                
+
+SQL> 
+SQL> -- 使用 <all 可以表示小于指定列表中所有的值
+SQL> 
+SQL> -- 列出薪水 小于 ( 3000 , 3500 , 4000 ) 中所有值的雇员信息( 查询 s_emp 表 )
+SQL> SELECT id , first_name FROM s_emp WHERE salary <all ( 3000 , 3500 , 4000 ) ;
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+         1 Carmen                                                               
+         2 LaDoris                                                              
+         3 Midori                                                               
+         4 Mark                                                                 
+         5 Audry                                                                
+         6 Molly                                                                
+         7 Roberta                                                              
+         8 Ben                                                                  
+         9 Antoinette                                                           
+        10 Marta                                                                
+        11 Colin                                                                
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+        12 Henry                                                                
+        13 Yasmin                                                               
+        14 Mai                                                                  
+        15 Andre                                                                
+        16 Elena                                                                
+        17 George                                                               
+        18 Akira                                                                
+        19 Vikram                                                               
+        20 Chad                                                                 
+        21 Alexander                                                            
+        22 Eddie                                                                
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+        23 Radha                                                                
+        24 Bela                                                                 
+        25 Sylvie                                                               
+
+已选择25行。
+
+SQL> -- 是否允许使用 =all ？
+SQL> 
+SQL> -- 查询 工号 等于 ( 10 , 20 , 30 ) 中所有值的雇员信息( s_emp )
+SQL> SELECT id , first_name FROM s_emp WHERE id =all ( 10 , 20 , 30 ) ;
+
+未选定行
+
+SQL> -- 因为不可能有一个 id 同时等于三个不同的值
+SQL> 
+SQL> -- 查询 工号 等于 ( 10 , 10 , 10 ) 中所有值的雇员信息( s_emp )
+SQL> SELECT id , first_name FROM s_emp WHERE id =all ( 10 , 10 , 10 );
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+        10 Marta                                                                
+
+SQL> SELECT id , first_name FROM s_emp WHERE id = 10;
+
+        ID FIRST_NAME                                                           
+---------- -------------------------                                            
+        10 Marta                                                                
+
+SQL> spool off
