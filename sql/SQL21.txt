@@ -1,0 +1,284 @@
+SQL> 
+SQL> -- 主键约束
+SQL> 
+SQL> -- 建表时指定主键约束
+SQL> CREATE TABLE t_classes (
+  2     id NUMBER(5) CONSTRAINT t_classes_id_pk PRIMARY KEY ,
+  3     name VARCHAR2(30) CONSTRAINT t_classes_name_nn NOT NULL
+  4  );
+
+表已创建。
+
+SQL> -- 建表时指定主键约束(不在列末尾指定主键约束，而是单独指定主键约束)
+SQL> CREATE TABLE t_teachers (
+  2     id NUMBER(5) ,
+  3     name VARCHAR2(50) CONSTRAINT t_teachers_name_nn NOT NULL ,
+  4     CONSTRAINT t_teachers_id_pk PRIMARY KEY( id )
+  5  );
+
+表已创建。
+
+SQL> -- 查看约束
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns WHERE lower(table_name)='t_classes';
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+T_CLASSES            NAME                           T_CLASSES_NAME_NN                                                   
+T_CLASSES            ID                             T_CLASSES_ID_PK                                                     
+
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns WHERE lower(table_name)='t_teachers';
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+T_TEACHERS           NAME                           T_TEACHERS_NAME_NN                                                  
+T_TEACHERS           ID                             T_TEACHERS_ID_PK                                                    
+
+SQL> 
+SQL> -- 通过 INSERT 语句来测试 主键约束
+SQL> -- 顺便关注 实体完整性
+SQL> 
+SQL> INSERT INTO t_classes ( name , id ) VALUES ( '软件2班' , 2 );
+
+已创建 1 行。
+
+SQL> INSERT INTO t_classes ( name , id ) VALUES ( '软件1班' , null );
+INSERT INTO t_classes ( name , id ) VALUES ( '软件1班' , null )
+                                                         *
+第 1 行出现错误: 
+ORA-01400: 无法将 NULL 插入 ("ECUTER"."T_CLASSES"."ID") 
+
+
+SQL> -- 主键都是 非空 且 惟一的
+SQL> 
+SQL> INSERT INTO t_classes ( name , id ) VALUES ( '软件1班' , 2 );
+INSERT INTO t_classes ( name , id ) VALUES ( '软件1班' , 2 )
+*
+第 1 行出现错误: 
+ORA-00001: 违反唯一约束条件 (ECUTER.T_CLASSES_ID_PK) 
+
+
+SQL> SELECT * FROM t_classes ;
+
+        ID NAME                                                                                                         
+---------- --------------------                                                                                         
+         2 软件2班                                                                                                      
+
+SQL> INSERT INTO t_classes ( name , id ) VALUES ( '软件1班' , 1001 );
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_classes ;
+
+        ID NAME                                                                                                         
+---------- --------------------                                                                                         
+         2 软件2班                                                                                                      
+      1001 软件1班                                                                                                      
+
+SQL> 
+SQL> 
+SQL> 
+SQL> commit ;
+
+提交完成。
+
+SQL> 
+SQL> 
+SQL> -- 建表后添加主键约束
+SQL> 
+SQL> CREATE TABLE t_products (
+  2     id NUMBER(10) ,
+  3     name VARCHAR2(50) ,
+  4     price NUMBER(7,2)
+  5  );
+
+表已创建。
+
+SQL> 
+SQL> -- 通过 ALTER TABLE ... MODIFY ... 来实现
+SQL> 
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns WHERE lower(table_name)='t_products';
+
+未选定行
+
+SQL> ALTER TABLE t_products MODIFY ( id CONSTRAINT t_products_id_pk PRIMARY KEY )
+  2  ;
+
+表已更改。
+
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns WHERE lower(table_name)='t_products';
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+T_PRODUCTS           ID                             T_PRODUCTS_ID_PK                                                    
+
+SQL> -- 删除主键约束
+SQL> ALTER TABLE t_products DROP CONSTRAINT t_products_id_pk ;
+
+表已更改。
+
+SQL> -- 通过 ALTER TABLE ... ADD ... PRIMARY KYE ( ....)
+SQL> 
+SQL> ALTER TABLE t_products ADD CONSTRAINT pk_id_t_products PRIMARY KEY ( id ) ;
+
+表已更改。
+
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns WHERE lower(table_name)='t_products';
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+T_PRODUCTS           ID                             PK_ID_T_PRODUCTS                                                    
+
+SQL> -- 删除主键约束
+SQL> ALTER TABLE t_products DROP CONSTRAINT pk_id_t_products ;
+
+表已更改。
+
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns WHERE lower(table_name)='t_products';
+
+未选定行
+
+SQL>  ALTER TABLE t_products ADD PRIMARY KEY ( id ) ;
+
+表已更改。
+
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns WHERE lower(table_name)='t_products';
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+T_PRODUCTS           ID                             SYS_C0010906                                                        
+
+SQL> SELECT table_name , constraint_name , constraint_type FROM user_constratins WHERE lower(table_name)='t_products';
+SELECT table_name , constraint_name , constraint_type FROM user_constratins WHERE lower(table_name)='t_products'
+                                                           *
+第 1 行出现错误: 
+ORA-00942: 表或视图不存在 
+
+
+SQL> SELECT table_name , constraint_name , constraint_type FROM user_constraints WHERE lower(table_name)='t_products';
+
+TABLE_NAME           CONSTRAINT_NAME                C                                                                   
+-------------------- ------------------------------ -                                                                   
+T_PRODUCTS           SYS_C0010906                   P                                                                   
+
+SQL> SELECT DISTINCT constraint_type FROM user_constraints ;
+
+C                                                                                                                       
+-                                                                                                                       
+R                                                                                                                       
+U                                                                                                                       
+P                                                                                                                       
+C                                                                                                                       
+
+SQL> -- 在 学生成绩表 中使用联合主键
+SQL> 
+SQL> CREATE TABLE t_scores (
+  2     student_id VARCHAR2(5) ,
+  3     course_id VARCHAR2(5) ,
+  4     exam_time DATE ,
+  5     score NUMBER(4,1) ,
+  6     CONSTRAINT t_scores_pk PRIMARY KEY ( student_id , course_id , exam_time )
+  7  );
+
+表已创建。
+
+SQL> DESC t_scores ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ STUDENT_ID                                                        NOT NULL VARCHAR2(5)
+ COURSE_ID                                                         NOT NULL VARCHAR2(5)
+ EXAM_TIME                                                         NOT NULL DATE
+ SCORE                                                                      NUMBER(4,1)
+
+SQL> SELECT table_name , constraint_name , constraint_type FROM user_constraints WHERE lower(table_name)='t_scores';
+
+TABLE_NAME           CONSTRAINT_NAME                C                                                                   
+-------------------- ------------------------------ -                                                                   
+T_SCORES             T_SCORES_PK                    P                                                                   
+
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns WHERE lower(table_name)='t_scores';
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+T_SCORES             STUDENT_ID                     T_SCORES_PK                                                         
+T_SCORES             COURSE_ID                      T_SCORES_PK                                                         
+T_SCORES             EXAM_TIME                      T_SCORES_PK                                                         
+
+SQL> -- 尝试为 t_scores 表的主键插入空值
+SQL> INSERT INTO t_scores ( student_id , course_id , exam_time ) VALUES ( null , null , null ) ;
+INSERT INTO t_scores ( student_id , course_id , exam_time ) VALUES ( null , null , null ) 
+                                                                     *
+第 1 行出现错误: 
+ORA-01400: 无法将 NULL 插入 ("ECUTER"."T_SCORES"."STUDENT_ID") 
+
+
+SQL> INSERT INTO t_scores ( student_id , course_id , exam_time ) VALUES ( 10010 , null , null ) ;
+INSERT INTO t_scores ( student_id , course_id , exam_time ) VALUES ( 10010 , null , null ) 
+                                                                             *
+第 1 行出现错误: 
+ORA-01400: 无法将 NULL 插入 ("ECUTER"."T_SCORES"."COURSE_ID") 
+
+
+SQL> INSERT INTO t_scores ( student_id , course_id , exam_time ) VALUES ( 10010 , 20020 , null ) ;
+INSERT INTO t_scores ( student_id , course_id , exam_time ) VALUES ( 10010 , 20020 , null ) 
+                                                                                     *
+第 1 行出现错误: 
+ORA-01400: 无法将 NULL 插入 ("ECUTER"."T_SCORES"."EXAM_TIME") 
+
+
+SQL> INSERT INTO t_scores ( student_id , course_id , exam_time ) VALUES ( 10010 , 20020 , sysdate ) ;
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_scores ;
+
+STUDE COURS EXAM_TIME                SCORE                                                                              
+----- ----- ------------------- ----------                                                                              
+10010 20020 2020-06-21 16:28:22                                                                                         
+
+SQL> INSERT INTO t_scores ( student_id , course_id , exam_time ) VALUES ( 10010 , 20020 , sysdate ) ;
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_scores ;
+
+STUDE COURS EXAM_TIME                SCORE                                                                              
+----- ----- ------------------- ----------                                                                              
+10010 20020 2020-06-21 16:28:22                                                                                         
+10010 20020 2020-06-21 16:29:10                                                                                         
+
+SQL> INSERT INTO t_scores ( student_id , course_id , exam_time )
+  2  VALUES ( 10010 , 20020 , to_date( '2020-06-20' , 'yyyy-mm-dd') ) ;
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_scores ;
+
+STUDE COURS EXAM_TIME                SCORE                                                                              
+----- ----- ------------------- ----------                                                                              
+10010 20020 2020-06-21 16:28:22                                                                                         
+10010 20020 2020-06-21 16:29:10                                                                                         
+10010 20020 2020-06-20 00:00:00                                                                                         
+
+SQL> INSERT INTO t_scores ( student_id , course_id , exam_time )
+  2  VALUES ( 10010 , 20020 , to_date( '2020-06-20' , 'yyyy-mm-dd') ) ;
+INSERT INTO t_scores ( student_id , course_id , exam_time )
+*
+第 1 行出现错误: 
+ORA-00001: 违反唯一约束条件 (ECUTER.T_SCORES_PK) 
+
+
+SQL> INSERT INTO t_scores ( student_id , course_id , exam_time )
+  2  VALUES ( 10086 , 20020 , to_date( '2020-06-20' , 'yyyy-mm-dd') ) ;
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_scores ;
+
+STUDE COURS EXAM_TIME                SCORE                                                                              
+----- ----- ------------------- ----------                                                                              
+10010 20020 2020-06-21 16:28:22                                                                                         
+10010 20020 2020-06-21 16:29:10                                                                                         
+10010 20020 2020-06-20 00:00:00                                                                                         
+10086 20020 2020-06-20 00:00:00                                                                                         
+
+SQL> spool off

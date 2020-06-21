@@ -1,0 +1,763 @@
+SQL> 
+SQL> -- 与约束有关的数据字典
+SQL> 
+SQL> DESC user_constraints ;
+ 名称                                                  是否为空? 类型
+ ----------------------------------------------------- -------- ------------------------------------
+ OWNER                                                          VARCHAR2(30)
+ CONSTRAINT_NAME                                       NOT NULL VARCHAR2(30)
+ CONSTRAINT_TYPE                                                VARCHAR2(1)
+ TABLE_NAME                                            NOT NULL VARCHAR2(30)
+ SEARCH_CONDITION                                               LONG
+ R_OWNER                                                        VARCHAR2(30)
+ R_CONSTRAINT_NAME                                              VARCHAR2(30)
+ DELETE_RULE                                                    VARCHAR2(9)
+ STATUS                                                         VARCHAR2(8)
+ DEFERRABLE                                                     VARCHAR2(14)
+ DEFERRED                                                       VARCHAR2(9)
+ VALIDATED                                                      VARCHAR2(13)
+ GENERATED                                                      VARCHAR2(14)
+ BAD                                                            VARCHAR2(3)
+ RELY                                                           VARCHAR2(4)
+ LAST_CHANGE                                                    DATE
+ INDEX_OWNER                                                    VARCHAR2(30)
+ INDEX_NAME                                                     VARCHAR2(30)
+ INVALID                                                        VARCHAR2(7)
+ VIEW_RELATED                                                   VARCHAR2(14)
+
+SQL> SELECT owner , table_name , constraint_name , constratint_type FROM user_constratins ;
+SELECT owner , table_name , constraint_name , constratint_type FROM user_constratins 
+                                                                    *
+第 1 行出现错误: 
+ORA-00942: 表或视图不存在 
+
+
+SQL> SELECT owner , table_name , constraint_name , constratint_type FROM user_constratints ;
+SELECT owner , table_name , constraint_name , constratint_type FROM user_constratints 
+                                                                    *
+第 1 行出现错误: 
+ORA-00942: 表或视图不存在 
+
+
+SQL> SELECT owner , table_name , constraint_name , constratint_type FROM user_constraints ;
+SELECT owner , table_name , constraint_name , constratint_type FROM user_constraints 
+                                              *
+第 1 行出现错误: 
+ORA-00904: "CONSTRATINT_TYPE": 标识符无效 
+
+
+SQL> SELECT owner , table_name , constraint_name , constraint_type FROM user_constraints ;
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       EMP                                    
+SYS_C0010803                   C                                                                    
+                                                                                                    
+ECUTER                                                       S_CUSTOMER                             
+S_CUSTOMER_ID_NN               C                                                                    
+                                                                                                    
+ECUTER                                                       S_CUSTOMER                             
+S_CUSTOMER_NAME_NN             C                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_CUSTOMER                             
+S_CUSTOMER_CREDIT_RATING_CK    C                                                                    
+                                                                                                    
+ECUTER                                                       S_CUSTOMER                             
+S_CUSTOMER_ID_PK               P                                                                    
+                                                                                                    
+ECUTER                                                       S_DEPT                                 
+S_DEPT_ID_NN                   C                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_DEPT                                 
+S_DEPT_NAME_NN                 C                                                                    
+                                                                                                    
+ECUTER                                                       S_DEPT                                 
+S_DEPT_ID_PK                   P                                                                    
+                                                                                                    
+ECUTER                                                       S_DEPT                                 
+S_DEPT_NAME_REGION_ID_UK       U                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_EMP                                  
+S_EMP_ID_NN                    C                                                                    
+                                                                                                    
+ECUTER                                                       S_EMP                                  
+S_EMP_LAST_NAME_NN             C                                                                    
+                                                                                                    
+ECUTER                                                       S_EMP                                  
+S_EMP_COMMISSION_PCT_CK        C                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_EMP                                  
+S_EMP_ID_PK                    P                                                                    
+                                                                                                    
+ECUTER                                                       S_EMP                                  
+S_EMP_USERID_UK                U                                                                    
+                                                                                                    
+ECUTER                                                       S_IMAGE                                
+S_IMAGE_ID_NN                  C                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_IMAGE                                
+S_IMAGE_FORMAT_CK              C                                                                    
+                                                                                                    
+ECUTER                                                       S_IMAGE                                
+S_IMAGE_USE_FILENAME_CK        C                                                                    
+                                                                                                    
+ECUTER                                                       S_IMAGE                                
+S_IMAGE_ID_PK                  P                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_INVENTORY                            
+S_INVENTORY_PRODUCT_ID_NN      C                                                                    
+                                                                                                    
+ECUTER                                                       S_INVENTORY                            
+S_INVENTORY_WAREHOUSE_ID_NN    C                                                                    
+                                                                                                    
+ECUTER                                                       S_INVENTORY                            
+S_INVENTORY_PRODID_WARID_PK    P                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_ITEM                                 
+S_ITEM_ORD_ID_NN               C                                                                    
+                                                                                                    
+ECUTER                                                       S_ITEM                                 
+S_ITEM_ITEM_ID_NN              C                                                                    
+                                                                                                    
+ECUTER                                                       S_ITEM                                 
+S_ITEM_PRODUCT_ID_NN           C                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_ITEM                                 
+S_ITEM_ORDID_ITEMID_PK         P                                                                    
+                                                                                                    
+ECUTER                                                       S_ITEM                                 
+S_ITEM_ORDID_PRODID_UK         U                                                                    
+                                                                                                    
+ECUTER                                                       S_LONGTEXT                             
+S_LONGTEXT_ID_NN               C                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_LONGTEXT                             
+S_LONGTEXT_USE_FILENAME_CK     C                                                                    
+                                                                                                    
+ECUTER                                                       S_LONGTEXT                             
+S_LONGTEXT_ID_PK               P                                                                    
+                                                                                                    
+ECUTER                                                       S_ORD                                  
+S_ORD_ID_NN                    C                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_ORD                                  
+S_ORD_CUSTOMER_ID_NN           C                                                                    
+                                                                                                    
+ECUTER                                                       S_ORD                                  
+S_ORD_PAYMENT_TYPE_CK          C                                                                    
+                                                                                                    
+ECUTER                                                       S_ORD                                  
+S_ORD_ORDER_FILLED_CK          C                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_ORD                                  
+S_ORD_ID_PK                    P                                                                    
+                                                                                                    
+ECUTER                                                       S_PRODUCT                              
+S_PRODUCT_ID_NN                C                                                                    
+                                                                                                    
+ECUTER                                                       S_PRODUCT                              
+S_PRODUCT_NAME_NN              C                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_PRODUCT                              
+S_PRODUCT_ID_PK                P                                                                    
+                                                                                                    
+ECUTER                                                       S_PRODUCT                              
+S_PRODUCT_NAME_UK              U                                                                    
+                                                                                                    
+ECUTER                                                       S_REGION                               
+S_REGION_ID_NN                 C                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_REGION                               
+S_REGION_NAME_NN               C                                                                    
+                                                                                                    
+ECUTER                                                       S_REGION                               
+S_REGION_ID_PK                 P                                                                    
+                                                                                                    
+ECUTER                                                       S_REGION                               
+S_REGION_NAME_UK               U                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_TITLE                                
+S_TITLE_TITLE_NN               C                                                                    
+                                                                                                    
+ECUTER                                                       S_TITLE                                
+S_TITLE_TITLE_PK               P                                                                    
+                                                                                                    
+ECUTER                                                       S_WAREHOUSE                            
+S_WAREHOUSE_ID_NN              C                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_WAREHOUSE                            
+S_WAREHOUSE_REGION_ID_NN       C                                                                    
+                                                                                                    
+ECUTER                                                       S_WAREHOUSE                            
+S_WAREHOUSE_ID_PK              P                                                                    
+                                                                                                    
+ECUTER                                                       S_DEPT                                 
+S_DEPT_REGION_ID_FK            R                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_EMP                                  
+S_EMP_MANAGER_ID_FK            R                                                                    
+                                                                                                    
+ECUTER                                                       S_EMP                                  
+S_EMP_DEPT_ID_FK               R                                                                    
+                                                                                                    
+ECUTER                                                       S_EMP                                  
+S_EMP_TITLE_FK                 R                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_CUSTOMER                             
+S_SALES_REP_ID_FK              R                                                                    
+                                                                                                    
+ECUTER                                                       S_CUSTOMER                             
+S_CUSTOMER_REGION_ID_FK        R                                                                    
+                                                                                                    
+ECUTER                                                       S_ORD                                  
+S_ORD_CUSTOMER_ID_FK           R                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_ORD                                  
+S_ORD_SALES_REP_ID_FK          R                                                                    
+                                                                                                    
+ECUTER                                                       S_PRODUCT                              
+S_PRODUCT_IMAGE_ID_FK          R                                                                    
+                                                                                                    
+ECUTER                                                       S_PRODUCT                              
+S_PRODUCT_LONGTEXT_ID_FK       R                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_ITEM                                 
+S_ITEM_ORD_ID_FK               R                                                                    
+                                                                                                    
+ECUTER                                                       S_ITEM                                 
+S_ITEM_PRODUCT_ID_FK           R                                                                    
+                                                                                                    
+ECUTER                                                       S_WAREHOUSE                            
+S_WAREHOUSE_MANAGER_ID_FK      R                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       S_WAREHOUSE                            
+S_WAREHOUSE_REGION_ID_FK       R                                                                    
+                                                                                                    
+ECUTER                                                       S_INVENTORY                            
+S_INVENTORY_PRODUCT_ID_FK      R                                                                    
+                                                                                                    
+ECUTER                                                       S_INVENTORY                            
+S_INVENTORY_WAREHOUSE_ID_FK    R                                                                    
+                                                                                                    
+
+OWNER                                                        TABLE_NAME                             
+------------------------------------------------------------ ------------------------------         
+CONSTRAINT_NAME                C                                                                    
+------------------------------ -                                                                    
+ECUTER                                                       MYEMP                                  
+SYS_C0010885                   C                                                                    
+                                                                                                    
+
+已选择64行。
+
+SQL> DESC user_constraints ;
+ 名称                                                  是否为空? 类型
+ ----------------------------------------------------- -------- ------------------------------------
+ OWNER                                                          VARCHAR2(30)
+ CONSTRAINT_NAME                                       NOT NULL VARCHAR2(30)
+ CONSTRAINT_TYPE                                                VARCHAR2(1)
+ TABLE_NAME                                            NOT NULL VARCHAR2(30)
+ SEARCH_CONDITION                                               LONG
+ R_OWNER                                                        VARCHAR2(30)
+ R_CONSTRAINT_NAME                                              VARCHAR2(30)
+ DELETE_RULE                                                    VARCHAR2(9)
+ STATUS                                                         VARCHAR2(8)
+ DEFERRABLE                                                     VARCHAR2(14)
+ DEFERRED                                                       VARCHAR2(9)
+ VALIDATED                                                      VARCHAR2(13)
+ GENERATED                                                      VARCHAR2(14)
+ BAD                                                            VARCHAR2(3)
+ RELY                                                           VARCHAR2(4)
+ LAST_CHANGE                                                    DATE
+ INDEX_OWNER                                                    VARCHAR2(30)
+ INDEX_NAME                                                     VARCHAR2(30)
+ INVALID                                                        VARCHAR2(7)
+ VIEW_RELATED                                                   VARCHAR2(14)
+
+SQL> -- 修改 owner 、table_name 的显示格式
+SQL> COLUMN owner FROMAT a10 ;
+SP2-0158: 未知的 COLUMN 选项 "FROMAT"
+SQL> COLUMN owner FORMAT a10 ;
+SQL> COLUMN table_name FORMAT a20 ;
+SQL> SELECT owner , table_name , constraint_name , constraint_type FROM user_constraints ;
+
+OWNER      TABLE_NAME           CONSTRAINT_NAME                C                                    
+---------- -------------------- ------------------------------ -                                    
+ECUTER     EMP                  SYS_C0010803                   C                                    
+ECUTER     S_CUSTOMER           S_CUSTOMER_ID_NN               C                                    
+ECUTER     S_CUSTOMER           S_CUSTOMER_NAME_NN             C                                    
+ECUTER     S_CUSTOMER           S_CUSTOMER_CREDIT_RATING_CK    C                                    
+ECUTER     S_CUSTOMER           S_CUSTOMER_ID_PK               P                                    
+ECUTER     S_DEPT               S_DEPT_ID_NN                   C                                    
+ECUTER     S_DEPT               S_DEPT_NAME_NN                 C                                    
+ECUTER     S_DEPT               S_DEPT_ID_PK                   P                                    
+ECUTER     S_DEPT               S_DEPT_NAME_REGION_ID_UK       U                                    
+ECUTER     S_EMP                S_EMP_ID_NN                    C                                    
+ECUTER     S_EMP                S_EMP_LAST_NAME_NN             C                                    
+
+OWNER      TABLE_NAME           CONSTRAINT_NAME                C                                    
+---------- -------------------- ------------------------------ -                                    
+ECUTER     S_EMP                S_EMP_COMMISSION_PCT_CK        C                                    
+ECUTER     S_EMP                S_EMP_ID_PK                    P                                    
+ECUTER     S_EMP                S_EMP_USERID_UK                U                                    
+ECUTER     S_IMAGE              S_IMAGE_ID_NN                  C                                    
+ECUTER     S_IMAGE              S_IMAGE_FORMAT_CK              C                                    
+ECUTER     S_IMAGE              S_IMAGE_USE_FILENAME_CK        C                                    
+ECUTER     S_IMAGE              S_IMAGE_ID_PK                  P                                    
+ECUTER     S_INVENTORY          S_INVENTORY_PRODUCT_ID_NN      C                                    
+ECUTER     S_INVENTORY          S_INVENTORY_WAREHOUSE_ID_NN    C                                    
+ECUTER     S_INVENTORY          S_INVENTORY_PRODID_WARID_PK    P                                    
+ECUTER     S_ITEM               S_ITEM_ORD_ID_NN               C                                    
+
+OWNER      TABLE_NAME           CONSTRAINT_NAME                C                                    
+---------- -------------------- ------------------------------ -                                    
+ECUTER     S_ITEM               S_ITEM_ITEM_ID_NN              C                                    
+ECUTER     S_ITEM               S_ITEM_PRODUCT_ID_NN           C                                    
+ECUTER     S_ITEM               S_ITEM_ORDID_ITEMID_PK         P                                    
+ECUTER     S_ITEM               S_ITEM_ORDID_PRODID_UK         U                                    
+ECUTER     S_LONGTEXT           S_LONGTEXT_ID_NN               C                                    
+ECUTER     S_LONGTEXT           S_LONGTEXT_USE_FILENAME_CK     C                                    
+ECUTER     S_LONGTEXT           S_LONGTEXT_ID_PK               P                                    
+ECUTER     S_ORD                S_ORD_ID_NN                    C                                    
+ECUTER     S_ORD                S_ORD_CUSTOMER_ID_NN           C                                    
+ECUTER     S_ORD                S_ORD_PAYMENT_TYPE_CK          C                                    
+ECUTER     S_ORD                S_ORD_ORDER_FILLED_CK          C                                    
+
+OWNER      TABLE_NAME           CONSTRAINT_NAME                C                                    
+---------- -------------------- ------------------------------ -                                    
+ECUTER     S_ORD                S_ORD_ID_PK                    P                                    
+ECUTER     S_PRODUCT            S_PRODUCT_ID_NN                C                                    
+ECUTER     S_PRODUCT            S_PRODUCT_NAME_NN              C                                    
+ECUTER     S_PRODUCT            S_PRODUCT_ID_PK                P                                    
+ECUTER     S_PRODUCT            S_PRODUCT_NAME_UK              U                                    
+ECUTER     S_REGION             S_REGION_ID_NN                 C                                    
+ECUTER     S_REGION             S_REGION_NAME_NN               C                                    
+ECUTER     S_REGION             S_REGION_ID_PK                 P                                    
+ECUTER     S_REGION             S_REGION_NAME_UK               U                                    
+ECUTER     S_TITLE              S_TITLE_TITLE_NN               C                                    
+ECUTER     S_TITLE              S_TITLE_TITLE_PK               P                                    
+
+OWNER      TABLE_NAME           CONSTRAINT_NAME                C                                    
+---------- -------------------- ------------------------------ -                                    
+ECUTER     S_WAREHOUSE          S_WAREHOUSE_ID_NN              C                                    
+ECUTER     S_WAREHOUSE          S_WAREHOUSE_REGION_ID_NN       C                                    
+ECUTER     S_WAREHOUSE          S_WAREHOUSE_ID_PK              P                                    
+ECUTER     S_DEPT               S_DEPT_REGION_ID_FK            R                                    
+ECUTER     S_EMP                S_EMP_MANAGER_ID_FK            R                                    
+ECUTER     S_EMP                S_EMP_DEPT_ID_FK               R                                    
+ECUTER     S_EMP                S_EMP_TITLE_FK                 R                                    
+ECUTER     S_CUSTOMER           S_SALES_REP_ID_FK              R                                    
+ECUTER     S_CUSTOMER           S_CUSTOMER_REGION_ID_FK        R                                    
+ECUTER     S_ORD                S_ORD_CUSTOMER_ID_FK           R                                    
+ECUTER     S_ORD                S_ORD_SALES_REP_ID_FK          R                                    
+
+OWNER      TABLE_NAME           CONSTRAINT_NAME                C                                    
+---------- -------------------- ------------------------------ -                                    
+ECUTER     S_PRODUCT            S_PRODUCT_IMAGE_ID_FK          R                                    
+ECUTER     S_PRODUCT            S_PRODUCT_LONGTEXT_ID_FK       R                                    
+ECUTER     S_ITEM               S_ITEM_ORD_ID_FK               R                                    
+ECUTER     S_ITEM               S_ITEM_PRODUCT_ID_FK           R                                    
+ECUTER     S_WAREHOUSE          S_WAREHOUSE_MANAGER_ID_FK      R                                    
+ECUTER     S_WAREHOUSE          S_WAREHOUSE_REGION_ID_FK       R                                    
+ECUTER     S_INVENTORY          S_INVENTORY_PRODUCT_ID_FK      R                                    
+ECUTER     S_INVENTORY          S_INVENTORY_WAREHOUSE_ID_FK    R                                    
+ECUTER     MYEMP                SYS_C0010885                   C                                    
+
+已选择64行。
+
+SQL> SELECT table_name , constraint_name , constraint_type FROM user_constraints ;
+
+TABLE_NAME           CONSTRAINT_NAME                C                                               
+-------------------- ------------------------------ -                                               
+EMP                  SYS_C0010803                   C                                               
+S_CUSTOMER           S_CUSTOMER_ID_NN               C                                               
+S_CUSTOMER           S_CUSTOMER_NAME_NN             C                                               
+S_CUSTOMER           S_CUSTOMER_CREDIT_RATING_CK    C                                               
+S_CUSTOMER           S_CUSTOMER_ID_PK               P                                               
+S_DEPT               S_DEPT_ID_NN                   C                                               
+S_DEPT               S_DEPT_NAME_NN                 C                                               
+S_DEPT               S_DEPT_ID_PK                   P                                               
+S_DEPT               S_DEPT_NAME_REGION_ID_UK       U                                               
+S_EMP                S_EMP_ID_NN                    C                                               
+S_EMP                S_EMP_LAST_NAME_NN             C                                               
+
+TABLE_NAME           CONSTRAINT_NAME                C                                               
+-------------------- ------------------------------ -                                               
+S_EMP                S_EMP_COMMISSION_PCT_CK        C                                               
+S_EMP                S_EMP_ID_PK                    P                                               
+S_EMP                S_EMP_USERID_UK                U                                               
+S_IMAGE              S_IMAGE_ID_NN                  C                                               
+S_IMAGE              S_IMAGE_FORMAT_CK              C                                               
+S_IMAGE              S_IMAGE_USE_FILENAME_CK        C                                               
+S_IMAGE              S_IMAGE_ID_PK                  P                                               
+S_INVENTORY          S_INVENTORY_PRODUCT_ID_NN      C                                               
+S_INVENTORY          S_INVENTORY_WAREHOUSE_ID_NN    C                                               
+S_INVENTORY          S_INVENTORY_PRODID_WARID_PK    P                                               
+S_ITEM               S_ITEM_ORD_ID_NN               C                                               
+
+TABLE_NAME           CONSTRAINT_NAME                C                                               
+-------------------- ------------------------------ -                                               
+S_ITEM               S_ITEM_ITEM_ID_NN              C                                               
+S_ITEM               S_ITEM_PRODUCT_ID_NN           C                                               
+S_ITEM               S_ITEM_ORDID_ITEMID_PK         P                                               
+S_ITEM               S_ITEM_ORDID_PRODID_UK         U                                               
+S_LONGTEXT           S_LONGTEXT_ID_NN               C                                               
+S_LONGTEXT           S_LONGTEXT_USE_FILENAME_CK     C                                               
+S_LONGTEXT           S_LONGTEXT_ID_PK               P                                               
+S_ORD                S_ORD_ID_NN                    C                                               
+S_ORD                S_ORD_CUSTOMER_ID_NN           C                                               
+S_ORD                S_ORD_PAYMENT_TYPE_CK          C                                               
+S_ORD                S_ORD_ORDER_FILLED_CK          C                                               
+
+TABLE_NAME           CONSTRAINT_NAME                C                                               
+-------------------- ------------------------------ -                                               
+S_ORD                S_ORD_ID_PK                    P                                               
+S_PRODUCT            S_PRODUCT_ID_NN                C                                               
+S_PRODUCT            S_PRODUCT_NAME_NN              C                                               
+S_PRODUCT            S_PRODUCT_ID_PK                P                                               
+S_PRODUCT            S_PRODUCT_NAME_UK              U                                               
+S_REGION             S_REGION_ID_NN                 C                                               
+S_REGION             S_REGION_NAME_NN               C                                               
+S_REGION             S_REGION_ID_PK                 P                                               
+S_REGION             S_REGION_NAME_UK               U                                               
+S_TITLE              S_TITLE_TITLE_NN               C                                               
+S_TITLE              S_TITLE_TITLE_PK               P                                               
+
+TABLE_NAME           CONSTRAINT_NAME                C                                               
+-------------------- ------------------------------ -                                               
+S_WAREHOUSE          S_WAREHOUSE_ID_NN              C                                               
+S_WAREHOUSE          S_WAREHOUSE_REGION_ID_NN       C                                               
+S_WAREHOUSE          S_WAREHOUSE_ID_PK              P                                               
+S_DEPT               S_DEPT_REGION_ID_FK            R                                               
+S_EMP                S_EMP_MANAGER_ID_FK            R                                               
+S_EMP                S_EMP_DEPT_ID_FK               R                                               
+S_EMP                S_EMP_TITLE_FK                 R                                               
+S_CUSTOMER           S_SALES_REP_ID_FK              R                                               
+S_CUSTOMER           S_CUSTOMER_REGION_ID_FK        R                                               
+S_ORD                S_ORD_CUSTOMER_ID_FK           R                                               
+S_ORD                S_ORD_SALES_REP_ID_FK          R                                               
+
+TABLE_NAME           CONSTRAINT_NAME                C                                               
+-------------------- ------------------------------ -                                               
+S_PRODUCT            S_PRODUCT_IMAGE_ID_FK          R                                               
+S_PRODUCT            S_PRODUCT_LONGTEXT_ID_FK       R                                               
+S_ITEM               S_ITEM_ORD_ID_FK               R                                               
+S_ITEM               S_ITEM_PRODUCT_ID_FK           R                                               
+S_WAREHOUSE          S_WAREHOUSE_MANAGER_ID_FK      R                                               
+S_WAREHOUSE          S_WAREHOUSE_REGION_ID_FK       R                                               
+S_INVENTORY          S_INVENTORY_PRODUCT_ID_FK      R                                               
+S_INVENTORY          S_INVENTORY_WAREHOUSE_ID_FK    R                                               
+MYEMP                SYS_C0010885                   C                                               
+
+已选择64行。
+
+SQL> -- 可以根据约束名称删除约束，比如删除 myemp 表中的约束可以使用
+SQL> DROP CONSTRAINT SYS_C0010885 ;
+DROP CONSTRAINT SYS_C0010885 
+     *
+第 1 行出现错误: 
+ORA-00950: 无效 DROP 选项 
+
+
+SQL> ALTER TABLE myemp DROP CONSTRAINT SYS_C0010885 ;
+
+表已更改。
+
+SQL> SELECT table_name , constraint_name , constraint_type FROM user_constraints ;
+
+TABLE_NAME           CONSTRAINT_NAME                C                                               
+-------------------- ------------------------------ -                                               
+EMP                  SYS_C0010803                   C                                               
+S_CUSTOMER           S_CUSTOMER_ID_NN               C                                               
+S_CUSTOMER           S_CUSTOMER_NAME_NN             C                                               
+S_CUSTOMER           S_CUSTOMER_CREDIT_RATING_CK    C                                               
+S_CUSTOMER           S_CUSTOMER_ID_PK               P                                               
+S_DEPT               S_DEPT_ID_NN                   C                                               
+S_DEPT               S_DEPT_NAME_NN                 C                                               
+S_DEPT               S_DEPT_ID_PK                   P                                               
+S_DEPT               S_DEPT_NAME_REGION_ID_UK       U                                               
+S_EMP                S_EMP_ID_NN                    C                                               
+S_EMP                S_EMP_LAST_NAME_NN             C                                               
+
+TABLE_NAME           CONSTRAINT_NAME                C                                               
+-------------------- ------------------------------ -                                               
+S_EMP                S_EMP_COMMISSION_PCT_CK        C                                               
+S_EMP                S_EMP_ID_PK                    P                                               
+S_EMP                S_EMP_USERID_UK                U                                               
+S_IMAGE              S_IMAGE_ID_NN                  C                                               
+S_IMAGE              S_IMAGE_FORMAT_CK              C                                               
+S_IMAGE              S_IMAGE_USE_FILENAME_CK        C                                               
+S_IMAGE              S_IMAGE_ID_PK                  P                                               
+S_INVENTORY          S_INVENTORY_PRODUCT_ID_NN      C                                               
+S_INVENTORY          S_INVENTORY_WAREHOUSE_ID_NN    C                                               
+S_INVENTORY          S_INVENTORY_PRODID_WARID_PK    P                                               
+S_ITEM               S_ITEM_ORD_ID_NN               C                                               
+
+TABLE_NAME           CONSTRAINT_NAME                C                                               
+-------------------- ------------------------------ -                                               
+S_ITEM               S_ITEM_ITEM_ID_NN              C                                               
+S_ITEM               S_ITEM_PRODUCT_ID_NN           C                                               
+S_ITEM               S_ITEM_ORDID_ITEMID_PK         P                                               
+S_ITEM               S_ITEM_ORDID_PRODID_UK         U                                               
+S_LONGTEXT           S_LONGTEXT_ID_NN               C                                               
+S_LONGTEXT           S_LONGTEXT_USE_FILENAME_CK     C                                               
+S_LONGTEXT           S_LONGTEXT_ID_PK               P                                               
+S_ORD                S_ORD_ID_NN                    C                                               
+S_ORD                S_ORD_CUSTOMER_ID_NN           C                                               
+S_ORD                S_ORD_PAYMENT_TYPE_CK          C                                               
+S_ORD                S_ORD_ORDER_FILLED_CK          C                                               
+
+TABLE_NAME           CONSTRAINT_NAME                C                                               
+-------------------- ------------------------------ -                                               
+S_ORD                S_ORD_ID_PK                    P                                               
+S_PRODUCT            S_PRODUCT_ID_NN                C                                               
+S_PRODUCT            S_PRODUCT_NAME_NN              C                                               
+S_PRODUCT            S_PRODUCT_ID_PK                P                                               
+S_PRODUCT            S_PRODUCT_NAME_UK              U                                               
+S_REGION             S_REGION_ID_NN                 C                                               
+S_REGION             S_REGION_NAME_NN               C                                               
+S_REGION             S_REGION_ID_PK                 P                                               
+S_REGION             S_REGION_NAME_UK               U                                               
+S_TITLE              S_TITLE_TITLE_NN               C                                               
+S_TITLE              S_TITLE_TITLE_PK               P                                               
+
+TABLE_NAME           CONSTRAINT_NAME                C                                               
+-------------------- ------------------------------ -                                               
+S_WAREHOUSE          S_WAREHOUSE_ID_NN              C                                               
+S_WAREHOUSE          S_WAREHOUSE_REGION_ID_NN       C                                               
+S_WAREHOUSE          S_WAREHOUSE_ID_PK              P                                               
+S_DEPT               S_DEPT_REGION_ID_FK            R                                               
+S_EMP                S_EMP_MANAGER_ID_FK            R                                               
+S_EMP                S_EMP_DEPT_ID_FK               R                                               
+S_EMP                S_EMP_TITLE_FK                 R                                               
+S_CUSTOMER           S_SALES_REP_ID_FK              R                                               
+S_CUSTOMER           S_CUSTOMER_REGION_ID_FK        R                                               
+S_ORD                S_ORD_CUSTOMER_ID_FK           R                                               
+S_ORD                S_ORD_SALES_REP_ID_FK          R                                               
+
+TABLE_NAME           CONSTRAINT_NAME                C                                               
+-------------------- ------------------------------ -                                               
+S_PRODUCT            S_PRODUCT_IMAGE_ID_FK          R                                               
+S_PRODUCT            S_PRODUCT_LONGTEXT_ID_FK       R                                               
+S_ITEM               S_ITEM_ORD_ID_FK               R                                               
+S_ITEM               S_ITEM_PRODUCT_ID_FK           R                                               
+S_WAREHOUSE          S_WAREHOUSE_MANAGER_ID_FK      R                                               
+S_WAREHOUSE          S_WAREHOUSE_REGION_ID_FK       R                                               
+S_INVENTORY          S_INVENTORY_PRODUCT_ID_FK      R                                               
+S_INVENTORY          S_INVENTORY_WAREHOUSE_ID_FK    R                                               
+
+已选择63行。
+
+SQL> DESC user_cons_columns ;
+ 名称                                                  是否为空? 类型
+ ----------------------------------------------------- -------- ------------------------------------
+ OWNER                                                 NOT NULL VARCHAR2(30)
+ CONSTRAINT_NAME                                       NOT NULL VARCHAR2(30)
+ TABLE_NAME                                            NOT NULL VARCHAR2(30)
+ COLUMN_NAME                                                    VARCHAR2(4000)
+ POSITION                                                       NUMBER
+
+SQL> 
+SQL> -- 设置 linesize
+SQL> set linesize 120 ;
+SQL> 
+SQL> -- 设置 owner 、table_name 、column_name 的显示格式
+SQL> COLUMN owner FORMAT a10 ;
+SQL> COLUMN table_name FORMAT a20 ;
+SQL> COLUMN column_name FORMAT a30 ;
+SQL> 
+SQL> SELECT owner , table_name , column_name , constraint_name FROM user_cons_columns ;
+
+OWNER      TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                          
+---------- -------------------- ------------------------------ ------------------------------                           
+ECUTER     EMP                  EMPNO                          SYS_C0010803                                             
+ECUTER     S_CUSTOMER           ID                             S_CUSTOMER_ID_NN                                         
+ECUTER     S_CUSTOMER           ID                             S_CUSTOMER_ID_PK                                         
+ECUTER     S_CUSTOMER           NAME                           S_CUSTOMER_NAME_NN                                       
+ECUTER     S_CUSTOMER           CREDIT_RATING                  S_CUSTOMER_CREDIT_RATING_CK                              
+ECUTER     S_CUSTOMER           SALES_REP_ID                   S_SALES_REP_ID_FK                                        
+ECUTER     S_CUSTOMER           REGION_ID                      S_CUSTOMER_REGION_ID_FK                                  
+ECUTER     S_DEPT               ID                             S_DEPT_ID_NN                                             
+ECUTER     S_DEPT               ID                             S_DEPT_ID_PK                                             
+ECUTER     S_DEPT               NAME                           S_DEPT_NAME_NN                                           
+ECUTER     S_DEPT               NAME                           S_DEPT_NAME_REGION_ID_UK                                 
+
+OWNER      TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                          
+---------- -------------------- ------------------------------ ------------------------------                           
+ECUTER     S_DEPT               REGION_ID                      S_DEPT_NAME_REGION_ID_UK                                 
+ECUTER     S_DEPT               REGION_ID                      S_DEPT_REGION_ID_FK                                      
+ECUTER     S_EMP                ID                             S_EMP_ID_NN                                              
+ECUTER     S_EMP                ID                             S_EMP_ID_PK                                              
+ECUTER     S_EMP                LAST_NAME                      S_EMP_LAST_NAME_NN                                       
+ECUTER     S_EMP                USERID                         S_EMP_USERID_UK                                          
+ECUTER     S_EMP                MANAGER_ID                     S_EMP_MANAGER_ID_FK                                      
+ECUTER     S_EMP                TITLE                          S_EMP_TITLE_FK                                           
+ECUTER     S_EMP                DEPT_ID                        S_EMP_DEPT_ID_FK                                         
+ECUTER     S_EMP                COMMISSION_PCT                 S_EMP_COMMISSION_PCT_CK                                  
+ECUTER     S_IMAGE              ID                             S_IMAGE_ID_NN                                            
+
+OWNER      TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                          
+---------- -------------------- ------------------------------ ------------------------------                           
+ECUTER     S_IMAGE              ID                             S_IMAGE_ID_PK                                            
+ECUTER     S_IMAGE              FORMAT                         S_IMAGE_FORMAT_CK                                        
+ECUTER     S_IMAGE              USE_FILENAME                   S_IMAGE_USE_FILENAME_CK                                  
+ECUTER     S_INVENTORY          PRODUCT_ID                     S_INVENTORY_PRODUCT_ID_NN                                
+ECUTER     S_INVENTORY          PRODUCT_ID                     S_INVENTORY_PRODID_WARID_PK                              
+ECUTER     S_INVENTORY          PRODUCT_ID                     S_INVENTORY_PRODUCT_ID_FK                                
+ECUTER     S_INVENTORY          WAREHOUSE_ID                   S_INVENTORY_WAREHOUSE_ID_NN                              
+ECUTER     S_INVENTORY          WAREHOUSE_ID                   S_INVENTORY_PRODID_WARID_PK                              
+ECUTER     S_INVENTORY          WAREHOUSE_ID                   S_INVENTORY_WAREHOUSE_ID_FK                              
+ECUTER     S_ITEM               ORD_ID                         S_ITEM_ORD_ID_NN                                         
+ECUTER     S_ITEM               ORD_ID                         S_ITEM_ORDID_ITEMID_PK                                   
+
+OWNER      TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                          
+---------- -------------------- ------------------------------ ------------------------------                           
+ECUTER     S_ITEM               ORD_ID                         S_ITEM_ORDID_PRODID_UK                                   
+ECUTER     S_ITEM               ORD_ID                         S_ITEM_ORD_ID_FK                                         
+ECUTER     S_ITEM               ITEM_ID                        S_ITEM_ITEM_ID_NN                                        
+ECUTER     S_ITEM               ITEM_ID                        S_ITEM_ORDID_ITEMID_PK                                   
+ECUTER     S_ITEM               PRODUCT_ID                     S_ITEM_PRODUCT_ID_NN                                     
+ECUTER     S_ITEM               PRODUCT_ID                     S_ITEM_ORDID_PRODID_UK                                   
+ECUTER     S_ITEM               PRODUCT_ID                     S_ITEM_PRODUCT_ID_FK                                     
+ECUTER     S_LONGTEXT           ID                             S_LONGTEXT_ID_NN                                         
+ECUTER     S_LONGTEXT           ID                             S_LONGTEXT_ID_PK                                         
+ECUTER     S_LONGTEXT           USE_FILENAME                   S_LONGTEXT_USE_FILENAME_CK                               
+ECUTER     S_ORD                ID                             S_ORD_ID_NN                                              
+
+OWNER      TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                          
+---------- -------------------- ------------------------------ ------------------------------                           
+ECUTER     S_ORD                ID                             S_ORD_ID_PK                                              
+ECUTER     S_ORD                CUSTOMER_ID                    S_ORD_CUSTOMER_ID_NN                                     
+ECUTER     S_ORD                CUSTOMER_ID                    S_ORD_CUSTOMER_ID_FK                                     
+ECUTER     S_ORD                SALES_REP_ID                   S_ORD_SALES_REP_ID_FK                                    
+ECUTER     S_ORD                PAYMENT_TYPE                   S_ORD_PAYMENT_TYPE_CK                                    
+ECUTER     S_ORD                ORDER_FILLED                   S_ORD_ORDER_FILLED_CK                                    
+ECUTER     S_PRODUCT            ID                             S_PRODUCT_ID_NN                                          
+ECUTER     S_PRODUCT            ID                             S_PRODUCT_ID_PK                                          
+ECUTER     S_PRODUCT            NAME                           S_PRODUCT_NAME_NN                                        
+ECUTER     S_PRODUCT            NAME                           S_PRODUCT_NAME_UK                                        
+ECUTER     S_PRODUCT            LONGTEXT_ID                    S_PRODUCT_LONGTEXT_ID_FK                                 
+
+OWNER      TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                          
+---------- -------------------- ------------------------------ ------------------------------                           
+ECUTER     S_PRODUCT            IMAGE_ID                       S_PRODUCT_IMAGE_ID_FK                                    
+ECUTER     S_REGION             ID                             S_REGION_ID_NN                                           
+ECUTER     S_REGION             ID                             S_REGION_ID_PK                                           
+ECUTER     S_REGION             NAME                           S_REGION_NAME_NN                                         
+ECUTER     S_REGION             NAME                           S_REGION_NAME_UK                                         
+ECUTER     S_TITLE              TITLE                          S_TITLE_TITLE_NN                                         
+ECUTER     S_TITLE              TITLE                          S_TITLE_TITLE_PK                                         
+ECUTER     S_WAREHOUSE          ID                             S_WAREHOUSE_ID_NN                                        
+ECUTER     S_WAREHOUSE          ID                             S_WAREHOUSE_ID_PK                                        
+ECUTER     S_WAREHOUSE          REGION_ID                      S_WAREHOUSE_REGION_ID_NN                                 
+ECUTER     S_WAREHOUSE          REGION_ID                      S_WAREHOUSE_REGION_ID_FK                                 
+
+OWNER      TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                          
+---------- -------------------- ------------------------------ ------------------------------                           
+ECUTER     S_WAREHOUSE          MANAGER_ID                     S_WAREHOUSE_MANAGER_ID_FK                                
+
+已选择67行。
+
+SQL> spool off

@@ -1,0 +1,145 @@
+SQL> 
+SQL> -- 外键约束
+SQL> 
+SQL> DESC t_majors ;
+ERROR:
+ORA-04043: 对象 t_majors  不存在 
+
+
+SQL> DESC t_students ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                         NUMBER(5)
+ NAME                                                                       VARCHAR2(50)
+ GENDER                                                                     CHAR(6)
+ BIRTHDATE                                                                  DATE
+
+SQL> DROP TABLE t_students PURGE ;
+
+表已删除。
+
+SQL> 
+SQL> -- 创建 被参照表
+SQL> CREATE TABLE t_majors (
+  2     id NUMBER(5) ,
+  3     name VARCHAR2(50) ,
+  4     CONSTRAINT t_majors_id_pk PRIMARY KEY( id )
+  5  );
+
+表已创建。
+
+SQL> 
+SQL> -- 创建 参照表
+SQL> CREATE TABLE t_students (
+  2     id NUMBER(10) ,
+  3     name VARCHAR2(50) ,
+  4     gender VARCHAR2(6） ，
+  5     birthdate DATE ,
+  6     major NUMBER(5) ,
+  7     CONSTRAINT t_students_id_pk PRIMARY KEY( id ) ,
+  8     CONSTRAINT t_students_major_fk FOREIGN KEY ( major ) REFERENCES t_majors( id )
+  9  );
+
+表已创建。
+
+SQL> 
+SQL> -- 查看约束
+SQL> SELECT table_name , constraint_name , constraint_type FROM user_constraints WHERE lower(table_name)='t_majors';
+
+TABLE_NAME           CONSTRAINT_NAME                C                                                                   
+-------------------- ------------------------------ -                                                                   
+T_MAJORS             T_MAJORS_ID_PK                 P                                                                   
+
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns WHERE lower(table_name)='t_majors';
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+T_MAJORS             ID                             T_MAJORS_ID_PK                                                      
+
+SQL> SELECT table_name , constraint_name , constraint_type FROM user_constraints WHERE lower(table_name)='t_students';
+
+TABLE_NAME           CONSTRAINT_NAME                C                                                                   
+-------------------- ------------------------------ -                                                                   
+T_STUDENTS           T_STUDENTS_MAJOR_FK            R                                                                   
+T_STUDENTS           T_STUDENTS_ID_PK               P                                                                   
+
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns WHERE lower(table_name)='t_students';
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+T_STUDENTS           ID                             T_STUDENTS_ID_PK                                                    
+T_STUDENTS           MAJOR                          T_STUDENTS_MAJOR_FK                                                 
+
+SQL> 
+SQL> -- 外键要么取值为空，要么等于被参照关系中的主键
+SQL> 
+SQL> 
+SQL> -- 首先在专业表中插入数据
+SQL> INSERT ALL
+  2     INTO t_majors VALUES ( 1001 , '软件工程' )
+  3     INTO t_majorw ( id , name ) VALUES ( 1002 , '土木工程' )
+  4     INTO t_majors ( name , id ) VALUES ( '环境工程' , 1003 )
+  5  SELECT * FROM dual ;
+   INTO t_majorw ( id , name ) VALUES ( 1002 , '土木工程' )
+        *
+第 3 行出现错误: 
+ORA-00942: 表或视图不存在 
+
+
+SQL> ed
+已写入 file afiedt.buf
+
+  1  INSERT ALL
+  2     INTO t_majors VALUES ( 1001 , '软件工程' )
+  3     INTO t_majors ( id , name ) VALUES ( 1002 , '土木工程' )
+  4     INTO t_majors ( name , id ) VALUES ( '环境工程' , 1003 )
+  5* SELECT * FROM dual 
+SQL> /
+
+已创建3行。
+
+SQL> SELECT * FROM t_majors ;
+
+        ID NAME                                                                                                         
+---------- --------------------                                                                                         
+      1001 软件工程                                                                                                     
+      1002 土木工程                                                                                                     
+      1003 环境工程                                                                                                     
+
+SQL> 
+SQL> -- 为 参照表 插入数据 ( 也就是在 t_students 表中插入数据 )
+SQL> 
+SQL> INSERT INTO t_students ( id , name , major ) VALUES ( 1 , '张三丰' , 1001 ) ;
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_students ;
+
+        ID NAME                 GENDER BIRTHDATE                MAJOR                                                   
+---------- -------------------- ------ ------------------- ----------                                                   
+         1 张三丰                                                1001                                                   
+
+SQL> INSERT INTO t_students ( id , name , major ) VALUES ( 2 , '灭绝师太' , 1002 ) ;
+
+已创建 1 行。
+
+SQL> INSERT INTO t_students ( id , name , major ) VALUES ( 3 , '叶老师' , 5005 ) ;
+INSERT INTO t_students ( id , name , major ) VALUES ( 3 , '叶老师' , 5005 ) 
+*
+第 1 行出现错误: 
+ORA-02291: 违反完整约束条件 (ECUTER.T_STUDENTS_MAJOR_FK) - 未找到父项关键字 
+
+
+SQL> INSERT INTO t_students ( id , name , major ) VALUES ( 3 , '叶老师' , null ) ;
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_students ;
+
+        ID NAME                 GENDER BIRTHDATE                MAJOR                                                   
+---------- -------------------- ------ ------------------- ----------                                                   
+         1 张三丰                                                1001                                                   
+         2 灭绝师太                                              1002                                                   
+         3 叶老师                                                                                                       
+
+SQL> spool off

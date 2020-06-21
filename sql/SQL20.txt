@@ -1,0 +1,501 @@
+SQL> 
+SQL> -- 维护约束
+SQL> 
+SQL> -- 查看约束信息
+SQL> 
+SQL> SELECT table_name , constraint_name , constraint_type FORM user_constraints ;
+SELECT table_name , constraint_name , constraint_type FORM user_constraints 
+                                                           *
+第 1 行出现错误: 
+ORA-00923: 未找到要求的 FROM 关键字 
+
+
+SQL> SELECT table_name , constraint_name , constraint_type FROM user_constraints ;
+
+TABLE_NAME           CONSTRAINT_NAME                C                                                                   
+-------------------- ------------------------------ -                                                                   
+EMP                  SYS_C0010803                   C                                                                   
+S_CUSTOMER           S_CUSTOMER_ID_NN               C                                                                   
+S_CUSTOMER           S_CUSTOMER_NAME_NN             C                                                                   
+S_CUSTOMER           S_CUSTOMER_CREDIT_RATING_CK    C                                                                   
+S_CUSTOMER           S_CUSTOMER_ID_PK               P                                                                   
+S_DEPT               S_DEPT_ID_NN                   C                                                                   
+S_DEPT               S_DEPT_NAME_NN                 C                                                                   
+S_DEPT               S_DEPT_ID_PK                   P                                                                   
+S_DEPT               S_DEPT_NAME_REGION_ID_UK       U                                                                   
+S_EMP                S_EMP_ID_NN                    C                                                                   
+S_EMP                S_EMP_LAST_NAME_NN             C                                                                   
+
+TABLE_NAME           CONSTRAINT_NAME                C                                                                   
+-------------------- ------------------------------ -                                                                   
+S_EMP                S_EMP_COMMISSION_PCT_CK        C                                                                   
+S_EMP                S_EMP_ID_PK                    P                                                                   
+S_EMP                S_EMP_USERID_UK                U                                                                   
+S_IMAGE              S_IMAGE_ID_NN                  C                                                                   
+S_IMAGE              S_IMAGE_FORMAT_CK              C                                                                   
+S_IMAGE              S_IMAGE_USE_FILENAME_CK        C                                                                   
+S_IMAGE              S_IMAGE_ID_PK                  P                                                                   
+S_INVENTORY          S_INVENTORY_PRODUCT_ID_NN      C                                                                   
+S_INVENTORY          S_INVENTORY_WAREHOUSE_ID_NN    C                                                                   
+S_INVENTORY          S_INVENTORY_PRODID_WARID_PK    P                                                                   
+S_ITEM               S_ITEM_ORD_ID_NN               C                                                                   
+
+TABLE_NAME           CONSTRAINT_NAME                C                                                                   
+-------------------- ------------------------------ -                                                                   
+S_ITEM               S_ITEM_ITEM_ID_NN              C                                                                   
+S_ITEM               S_ITEM_PRODUCT_ID_NN           C                                                                   
+S_ITEM               S_ITEM_ORDID_ITEMID_PK         P                                                                   
+S_ITEM               S_ITEM_ORDID_PRODID_UK         U                                                                   
+S_LONGTEXT           S_LONGTEXT_ID_NN               C                                                                   
+S_LONGTEXT           S_LONGTEXT_USE_FILENAME_CK     C                                                                   
+S_LONGTEXT           S_LONGTEXT_ID_PK               P                                                                   
+S_ORD                S_ORD_ID_NN                    C                                                                   
+S_ORD                S_ORD_CUSTOMER_ID_NN           C                                                                   
+S_ORD                S_ORD_PAYMENT_TYPE_CK          C                                                                   
+S_ORD                S_ORD_ORDER_FILLED_CK          C                                                                   
+
+TABLE_NAME           CONSTRAINT_NAME                C                                                                   
+-------------------- ------------------------------ -                                                                   
+S_ORD                S_ORD_ID_PK                    P                                                                   
+S_PRODUCT            S_PRODUCT_ID_NN                C                                                                   
+S_PRODUCT            S_PRODUCT_NAME_NN              C                                                                   
+S_PRODUCT            S_PRODUCT_ID_PK                P                                                                   
+S_PRODUCT            S_PRODUCT_NAME_UK              U                                                                   
+S_REGION             S_REGION_ID_NN                 C                                                                   
+S_REGION             S_REGION_NAME_NN               C                                                                   
+S_REGION             S_REGION_ID_PK                 P                                                                   
+S_REGION             S_REGION_NAME_UK               U                                                                   
+S_TITLE              S_TITLE_TITLE_NN               C                                                                   
+S_TITLE              S_TITLE_TITLE_PK               P                                                                   
+
+TABLE_NAME           CONSTRAINT_NAME                C                                                                   
+-------------------- ------------------------------ -                                                                   
+S_WAREHOUSE          S_WAREHOUSE_ID_NN              C                                                                   
+S_WAREHOUSE          S_WAREHOUSE_REGION_ID_NN       C                                                                   
+S_WAREHOUSE          S_WAREHOUSE_ID_PK              P                                                                   
+S_DEPT               S_DEPT_REGION_ID_FK            R                                                                   
+S_EMP                S_EMP_MANAGER_ID_FK            R                                                                   
+S_EMP                S_EMP_DEPT_ID_FK               R                                                                   
+S_EMP                S_EMP_TITLE_FK                 R                                                                   
+S_CUSTOMER           S_SALES_REP_ID_FK              R                                                                   
+S_CUSTOMER           S_CUSTOMER_REGION_ID_FK        R                                                                   
+S_ORD                S_ORD_CUSTOMER_ID_FK           R                                                                   
+S_ORD                S_ORD_SALES_REP_ID_FK          R                                                                   
+
+TABLE_NAME           CONSTRAINT_NAME                C                                                                   
+-------------------- ------------------------------ -                                                                   
+S_PRODUCT            S_PRODUCT_IMAGE_ID_FK          R                                                                   
+S_PRODUCT            S_PRODUCT_LONGTEXT_ID_FK       R                                                                   
+S_ITEM               S_ITEM_ORD_ID_FK               R                                                                   
+S_ITEM               S_ITEM_PRODUCT_ID_FK           R                                                                   
+S_WAREHOUSE          S_WAREHOUSE_MANAGER_ID_FK      R                                                                   
+S_WAREHOUSE          S_WAREHOUSE_REGION_ID_FK       R                                                                   
+S_INVENTORY          S_INVENTORY_PRODUCT_ID_FK      R                                                                   
+S_INVENTORY          S_INVENTORY_WAREHOUSE_ID_FK    R                                                                   
+
+已选择63行。
+
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns ;
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+EMP                  EMPNO                          SYS_C0010803                                                        
+S_CUSTOMER           ID                             S_CUSTOMER_ID_NN                                                    
+S_CUSTOMER           ID                             S_CUSTOMER_ID_PK                                                    
+S_CUSTOMER           NAME                           S_CUSTOMER_NAME_NN                                                  
+S_CUSTOMER           CREDIT_RATING                  S_CUSTOMER_CREDIT_RATING_CK                                         
+S_CUSTOMER           SALES_REP_ID                   S_SALES_REP_ID_FK                                                   
+S_CUSTOMER           REGION_ID                      S_CUSTOMER_REGION_ID_FK                                             
+S_DEPT               ID                             S_DEPT_ID_NN                                                        
+S_DEPT               ID                             S_DEPT_ID_PK                                                        
+S_DEPT               NAME                           S_DEPT_NAME_NN                                                      
+S_DEPT               NAME                           S_DEPT_NAME_REGION_ID_UK                                            
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+S_DEPT               REGION_ID                      S_DEPT_NAME_REGION_ID_UK                                            
+S_DEPT               REGION_ID                      S_DEPT_REGION_ID_FK                                                 
+S_EMP                ID                             S_EMP_ID_NN                                                         
+S_EMP                ID                             S_EMP_ID_PK                                                         
+S_EMP                LAST_NAME                      S_EMP_LAST_NAME_NN                                                  
+S_EMP                USERID                         S_EMP_USERID_UK                                                     
+S_EMP                MANAGER_ID                     S_EMP_MANAGER_ID_FK                                                 
+S_EMP                TITLE                          S_EMP_TITLE_FK                                                      
+S_EMP                DEPT_ID                        S_EMP_DEPT_ID_FK                                                    
+S_EMP                COMMISSION_PCT                 S_EMP_COMMISSION_PCT_CK                                             
+S_IMAGE              ID                             S_IMAGE_ID_NN                                                       
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+S_IMAGE              ID                             S_IMAGE_ID_PK                                                       
+S_IMAGE              FORMAT                         S_IMAGE_FORMAT_CK                                                   
+S_IMAGE              USE_FILENAME                   S_IMAGE_USE_FILENAME_CK                                             
+S_INVENTORY          PRODUCT_ID                     S_INVENTORY_PRODUCT_ID_NN                                           
+S_INVENTORY          PRODUCT_ID                     S_INVENTORY_PRODID_WARID_PK                                         
+S_INVENTORY          PRODUCT_ID                     S_INVENTORY_PRODUCT_ID_FK                                           
+S_INVENTORY          WAREHOUSE_ID                   S_INVENTORY_WAREHOUSE_ID_NN                                         
+S_INVENTORY          WAREHOUSE_ID                   S_INVENTORY_PRODID_WARID_PK                                         
+S_INVENTORY          WAREHOUSE_ID                   S_INVENTORY_WAREHOUSE_ID_FK                                         
+S_ITEM               ORD_ID                         S_ITEM_ORD_ID_NN                                                    
+S_ITEM               ORD_ID                         S_ITEM_ORDID_ITEMID_PK                                              
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+S_ITEM               ORD_ID                         S_ITEM_ORDID_PRODID_UK                                              
+S_ITEM               ORD_ID                         S_ITEM_ORD_ID_FK                                                    
+S_ITEM               ITEM_ID                        S_ITEM_ITEM_ID_NN                                                   
+S_ITEM               ITEM_ID                        S_ITEM_ORDID_ITEMID_PK                                              
+S_ITEM               PRODUCT_ID                     S_ITEM_PRODUCT_ID_NN                                                
+S_ITEM               PRODUCT_ID                     S_ITEM_ORDID_PRODID_UK                                              
+S_ITEM               PRODUCT_ID                     S_ITEM_PRODUCT_ID_FK                                                
+S_LONGTEXT           ID                             S_LONGTEXT_ID_NN                                                    
+S_LONGTEXT           ID                             S_LONGTEXT_ID_PK                                                    
+S_LONGTEXT           USE_FILENAME                   S_LONGTEXT_USE_FILENAME_CK                                          
+S_ORD                ID                             S_ORD_ID_NN                                                         
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+S_ORD                ID                             S_ORD_ID_PK                                                         
+S_ORD                CUSTOMER_ID                    S_ORD_CUSTOMER_ID_NN                                                
+S_ORD                CUSTOMER_ID                    S_ORD_CUSTOMER_ID_FK                                                
+S_ORD                SALES_REP_ID                   S_ORD_SALES_REP_ID_FK                                               
+S_ORD                PAYMENT_TYPE                   S_ORD_PAYMENT_TYPE_CK                                               
+S_ORD                ORDER_FILLED                   S_ORD_ORDER_FILLED_CK                                               
+S_PRODUCT            ID                             S_PRODUCT_ID_NN                                                     
+S_PRODUCT            ID                             S_PRODUCT_ID_PK                                                     
+S_PRODUCT            NAME                           S_PRODUCT_NAME_NN                                                   
+S_PRODUCT            NAME                           S_PRODUCT_NAME_UK                                                   
+S_PRODUCT            LONGTEXT_ID                    S_PRODUCT_LONGTEXT_ID_FK                                            
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+S_PRODUCT            IMAGE_ID                       S_PRODUCT_IMAGE_ID_FK                                               
+S_REGION             ID                             S_REGION_ID_NN                                                      
+S_REGION             ID                             S_REGION_ID_PK                                                      
+S_REGION             NAME                           S_REGION_NAME_NN                                                    
+S_REGION             NAME                           S_REGION_NAME_UK                                                    
+S_TITLE              TITLE                          S_TITLE_TITLE_NN                                                    
+S_TITLE              TITLE                          S_TITLE_TITLE_PK                                                    
+S_WAREHOUSE          ID                             S_WAREHOUSE_ID_NN                                                   
+S_WAREHOUSE          ID                             S_WAREHOUSE_ID_PK                                                   
+S_WAREHOUSE          REGION_ID                      S_WAREHOUSE_REGION_ID_NN                                            
+S_WAREHOUSE          REGION_ID                      S_WAREHOUSE_REGION_ID_FK                                            
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+S_WAREHOUSE          MANAGER_ID                     S_WAREHOUSE_MANAGER_ID_FK                                           
+
+已选择67行。
+
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 创建表时指定 非空(Not Null)约束 、惟一(Unique)约束、缺省约束(Default)
+SQL> -- 并显式指定约束名称(如果未显式指定约束名称，则 Oracle DBMS会自动为约束设置名，这些名称前缀是 SYS_C )
+SQL> 
+SQL> CREATE TABLE t_customers (
+  2     id NUMBER(10) CONSTRAINT t_customers_id_uk UNIQUE ,
+  3     name VARCHAR2(50) CONSTRAINT t_customers_name_nn NOT NULL ,
+  4     birthdate DATE DEFAULT current_date
+  5  );
+
+表已创建。
+
+SQL> -- 查看表结构
+SQL> DESC t_customers ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                         NUMBER(10)
+ NAME                                                              NOT NULL VARCHAR2(50)
+ BIRTHDATE                                                                  DATE
+
+SQL> -- 查看 t_customers 各个列上存在的约束信息
+SQL> SELECT table_name , column_name , constraint_name
+  2  FROM user_cons_columns
+  3  WHERE lower( table_name ) = 't_customers' ;
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+T_CUSTOMERS          ID                             T_CUSTOMERS_ID_UK                                                   
+T_CUSTOMERS          NAME                           T_CUSTOMERS_NAME_NN                                                 
+
+SQL> SELECT table_name , constraint_name , constraint_type FROM user_constraints WHERE lower( table_name ) = 't_customers' ;
+
+TABLE_NAME           CONSTRAINT_NAME                C                                                                   
+-------------------- ------------------------------ -                                                                   
+T_CUSTOMERS          T_CUSTOMERS_NAME_NN            C                                                                   
+T_CUSTOMERS          T_CUSTOMERS_ID_UK              U                                                                   
+
+SQL> -- 注意，缺省约束在 user_constraints 和 user
+SQL> -- 注意，缺省约束在 user_constraints 和 user_cons_columns 中是查询不到的
+SQL> 
+SQL> -- 通过 插入数据来测试 非空约束、惟一约束、缺省约束
+SQL> 
+SQL> 
+SQL> INSERT INTO t_customers ( id , name , birthdate ) VALUES ( null , null , null ) ;
+INSERT INTO t_customers ( id , name , birthdate ) VALUES ( null , null , null ) 
+                                                                  *
+第 1 行出现错误: 
+ORA-01400: 无法将 NULL 插入 ("ECUTER"."T_CUSTOMERS"."NAME") 
+
+
+SQL> SELECT * FROM t_customers ;
+
+未选定行
+
+SQL> INSERT INTO t_customers ( id , name , birthdate ) VALUES ( null , '叶师傅' , null ) ;
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_customers ;
+
+        ID NAME                 BIRTHDATE                                                                               
+---------- -------------------- -------------------                                                                     
+           叶师傅                                                                                                       
+
+SQL> INSERT INTO t_customers ( id , name , birthdate ) VALUES ( null , '李小龙' , default );
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_customers ;
+
+        ID NAME                 BIRTHDATE                                                                               
+---------- -------------------- -------------------                                                                     
+           叶师傅                                                                                                       
+           李小龙               2020-06-21 14:54:50                                                                     
+
+SQL>  INSERT INTO t_customers ( id , name ) VALUES ( null , '叶准' ) ;
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_customers ;
+
+        ID NAME                 BIRTHDATE                                                                               
+---------- -------------------- -------------------                                                                     
+           叶师傅                                                                                                       
+           李小龙               2020-06-21 14:54:50                                                                     
+           叶准                 2020-06-21 14:56:27                                                                     
+
+SQL> -- 测试 sysdate 和 current_date
+SQL> SELECT sysdate , current_date FROM dual ;
+
+SYSDATE             CURRENT_DATE                                                                                        
+------------------- -------------------                                                                                 
+2020-06-21 14:57:03 2020-06-21 14:57:03                                                                                 
+
+SQL> INSERT INTO t_customers ( id , name ) VALUES ( 1 , '叶问' );
+
+已创建 1 行。
+
+SQL> INSERT INTO t_customers ( id , name ) VALUES ( 1 , '张天志' );
+INSERT INTO t_customers ( id , name ) VALUES ( 1 , '张天志' )
+*
+第 1 行出现错误: 
+ORA-00001: 违反唯一约束条件 (ECUTER.T_CUSTOMERS_ID_UK) 
+
+
+SQL> SELECT * FROM t_customers;
+
+        ID NAME                 BIRTHDATE                                                                               
+---------- -------------------- -------------------                                                                     
+           叶师傅                                                                                                       
+           李小龙               2020-06-21 14:54:50                                                                     
+           叶准                 2020-06-21 14:56:27                                                                     
+         1 叶问                 2020-06-21 14:57:53                                                                     
+
+SQL> INSERT INTO t_customers ( id , name ) VALUES ( 2 , '张天志' );
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_customers;
+
+        ID NAME                 BIRTHDATE                                                                               
+---------- -------------------- -------------------                                                                     
+           叶师傅                                                                                                       
+           李小龙               2020-06-21 14:54:50                                                                     
+           叶准                 2020-06-21 14:56:27                                                                     
+         1 叶问                 2020-06-21 14:57:53                                                                     
+         2 张天志               2020-06-21 14:58:57                                                                     
+
+SQL> -- 为什么 在 id 列的不同行可以有多个 空值 ?
+SQL> -- 因为在 Oracle 认为 空 和 空 是不相等的，是不可以比较的
+SQL> -- 因此 id 列在多行都为 空 时并不构成重复，所以不违反 唯一性约束
+SQL> 
+SQL> -- 其他数据库未必是这么处理的( 比如 MySQL )
+SQL> 
+SQL> SELECT table_name , column_name , constraint_name
+  2  FROM user_cons_columns
+  3  WHERE lower( table_name ) = 't_customers' ;
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+T_CUSTOMERS          NAME                           T_CUSTOMERS_NAME_NN                                                 
+T_CUSTOMERS          ID                             T_CUSTOMERS_ID_UK                                                   
+
+SQL> -- 通过 约束名称 删除 t_customers 表上的所有约束
+SQL> ALTER TABLE t_customers DROP CONSTRAINT t_customers_name_nn ;
+
+表已更改。
+
+SQL> SELECT table_name , column_name , constraint_name
+  2  FROM user_cons_columns
+  3  WHERE lower( table_name ) = 't_customers' ;
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+T_CUSTOMERS          ID                             T_CUSTOMERS_ID_UK                                                   
+
+SQL> ALTER TABLE t_customers DROP CONSTRAINT t_customers_id_uk ;
+
+表已更改。
+
+SQL> SELECT table_name , column_name , constraint_name
+  2  FROM user_cons_columns
+  3  WHERE lower( table_name ) = 't_customers' ;
+
+未选定行
+
+SQL> 
+SQL> 
+SQL> -- 暂不清除默认约束
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 在删除约束之后，再次测试插入操作
+SQL> 
+SQL> TRANCATE TABLE t_customers ;
+SP2-0734: 未知的命令开头 "TRANCATE T..." - 忽略了剩余的行。
+SQL> TRUNCATE TABLE t_customers ;
+
+表被截断。
+
+SQL> INSERT INTO t_customers ( id , name ) VALUES ( 1 , null ) ;
+
+已创建 1 行。
+
+SQL> /
+
+已创建 1 行。
+
+SQL> /
+
+已创建 1 行。
+
+SQL> /
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_customers ;
+
+        ID NAME                 BIRTHDATE                                                                               
+---------- -------------------- -------------------                                                                     
+         1                      2020-06-21 15:09:50                                                                     
+         1                      2020-06-21 15:09:52                                                                     
+         1                      2020-06-21 15:09:53                                                                     
+         1                      2020-06-21 15:09:54                                                                     
+
+SQL> TRUNCATE TABLE t_customers ;
+
+表被截断。
+
+SQL> -- 在建表后，为表的某个列追加约束
+SQL> 
+SQL> ALTER TABLE t_customers MODIFY ( name CONSTRAINT t_customers_name_nn NOT NULL ) ;
+
+表已更改。
+
+SQL> -- 为某长表的某个列去除非空约束
+SQL> ALTER TABLE t_customers MODIFY ( name NULL );
+
+表已更改。
+
+SQL> SELECT table_name , column_name , constraint_name
+  2  FROM user_cons_columns
+  3  WHERE lower( table_name ) = 't_customers' ;
+
+未选定行
+
+SQL> ALTER TABLE t_customers MODIFY ( id CONSTRAINT t_customers_id_uk UNIQUE ) ;
+
+表已更改。
+
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns WHERE lower(table_name)='t_customers';
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+T_CUSTOMERS          ID                             T_CUSTOMERS_ID_UK                                                   
+
+SQL> -- 删除惟一约束
+SQL> ALTER TABLE t_customers MODIFY ( id );
+
+表已更改。
+
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns WHERE lower(table_name)='t_customers';
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+T_CUSTOMERS          ID                             T_CUSTOMERS_ID_UK                                                   
+
+SQL> ALTER TABLE t_customers MODIFY ( id NOT UNIQUE );
+ALTER TABLE t_customers MODIFY ( id NOT UNIQUE )
+                                        *
+第 1 行出现错误: 
+ORA-00905: 缺失关键字 
+
+
+SQL> -- 惟一约束需要借助于约束名称来删除
+SQL> 
+SQL> ALTER TABLE t_customers DROP CONSTRAINT t_customers_id_uk ;
+
+表已更改。
+
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns WHERE lower(table_name)='t_customers';
+
+未选定行
+
+SQL> 
+SQL> 
+SQL> ALTER TABLE t_customers ADD CONSTRAINT t_customers_name_nn name NOT NULL ;
+ALTER TABLE t_customers ADD CONSTRAINT t_customers_name_nn name NOT NULL 
+                                                           *
+第 1 行出现错误: 
+ORA-02263: 需要指定此列的数据类型 
+
+
+SQL> ALTER TABLE t_customers ADD CONSTRAINT t_customers_id_uk UNIQUE( id ) ;
+
+表已更改。
+
+SQL> SELECT table_name , column_name , constraint_name FROM user_cons_columns WHERE lower(table_name)='t_customers';
+
+TABLE_NAME           COLUMN_NAME                    CONSTRAINT_NAME                                                     
+-------------------- ------------------------------ ------------------------------                                      
+T_CUSTOMERS          ID                             T_CUSTOMERS_ID_UK                                                   
+
+SQL> 
+SQL> INSERT INTO t_customers ( id , name ) VALUES ( 100 , '武松' );
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_customers ;
+
+        ID NAME                 BIRTHDATE                                                                               
+---------- -------------------- -------------------                                                                     
+       100 武松                 2020-06-21 15:28:01                                                                     
+
+SQL> ALTER TABLE t_customers MODIFY ( birthdate DEFAULT NULL ) ;
+
+表已更改。
+
+SQL> INSERT INTO t_customers ( id , name ) VALUES ( 200 , '武大郎' );
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_customers ;
+
+        ID NAME                 BIRTHDATE                                                                               
+---------- -------------------- -------------------                                                                     
+       100 武松                 2020-06-21 15:28:01                                                                     
+       200 武大郎                                                                                                       
+
+SQL> spool off
