@@ -1,0 +1,174 @@
+SQL> 
+SQL> -- 查询 t_studnets 和 myemp 表
+SQL> SELECT * FROM t_students ;
+
+        ID NAME                 GENDER BIRTHDATE                                                    
+---------- -------------------- ------ -------------------                                          
+         1 张君宝               男                                                                  
+           郭襄                 女                                                                  
+
+SQL> SELECT * FROM myemp ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE                   SAL       COMM     DEPTNO     
+---------- ---------- --------- ---------- ------------------- ---------- ---------- ----------     
+         1 觉远                                                      5000                           
+         2 杨过                                                      6000                           
+
+SQL> -- 尝试修改 t_students 表中的 郭襄的 生日
+SQL> 
+SQL> UPDATE t_students SET birthdate = sysdate ;
+
+已更新2行。
+
+SQL> SELECT * FROM t_students ;
+
+        ID NAME                 GENDER BIRTHDATE                                                    
+---------- -------------------- ------ -------------------                                          
+         1 张君宝               男     2020-06-21 10:27:31                                          
+           郭襄                 女     2020-06-21 10:27:31                                          
+
+SQL> -- 回滚事务，撤销刚才的修改操作
+SQL> rollback ;
+
+回退已完成。
+
+SQL> SELECT * FROM t_students ;
+
+        ID NAME                 GENDER BIRTHDATE                                                    
+---------- -------------------- ------ -------------------                                          
+         1 张君宝               男                                                                  
+           郭襄                 女                                                                  
+
+SQL> UPDATE t_students SET birthdate = sysdate , id = 2 WHERE name = '郭襄';
+
+已更新 1 行。
+
+SQL> SELECT * FROM t_students ;
+
+        ID NAME                 GENDER BIRTHDATE                                                    
+---------- -------------------- ------ -------------------                                          
+         1 张君宝               男                                                                  
+         2 郭襄                 女     2020-06-21 10:28:26                                          
+
+SQL> -- 提交事务
+SQL> commit ;
+
+提交完成。
+
+SQL> -- 尝试为 张君宝 指定 birthdate
+SQL> 
+SQL> UPDATE t_students SET birthdate = to_date( '2018-08-10' , 'yyyy-mm-dd' ) WHERE name = '张君宝' ;
+
+已更新 1 行。
+
+SQL> SELECT * FROM t_students ;
+
+        ID NAME                 GENDER BIRTHDATE                                                    
+---------- -------------------- ------ -------------------                                          
+         1 张君宝               男     2018-08-10 00:00:00                                          
+         2 郭襄                 女     2020-06-21 10:28:26                                          
+
+SQL> -- 提交事务
+SQL> commit ;
+
+提交完成。
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 删除数据
+SQL> 
+SQL> SELECT * FROM myemp ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE                   SAL       COMM     DEPTNO     
+---------- ---------- --------- ---------- ------------------- ---------- ---------- ----------     
+         1 觉远                                                      5000                           
+         2 杨过                                                      6000                           
+
+SQL> 
+SQL> DELETE FROM myemp ;
+
+已删除2行。
+
+SQL> SELECT * FROM myemp ;
+
+未选定行
+
+SQL> -- 回滚事务
+SQL> rollback ;
+
+回退已完成。
+
+SQL> SELECT * FROM myemp ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE                   SAL       COMM     DEPTNO     
+---------- ---------- --------- ---------- ------------------- ---------- ---------- ----------     
+         1 觉远                                                      5000                           
+         2 杨过                                                      6000                           
+
+SQL> -- 删除 觉远
+SQL> DELETE FROM myemp WHERE id = 1 ;
+DELETE FROM myemp WHERE id = 1 
+                        *
+第 1 行出现错误: 
+ORA-00904: "ID": 标识符无效 
+
+
+SQL> DELETE FROM myemp WHERE empno = 1 ;
+
+已删除 1 行。
+
+SQL> SELECT * FROM myemp ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE                   SAL       COMM     DEPTNO     
+---------- ---------- --------- ---------- ------------------- ---------- ---------- ----------     
+         2 杨过                                                      6000                           
+
+SQL> -- 提交事务
+SQL> commit ;
+
+提交完成。
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 是否允许通过 一个 DELETE 语句删除两张表中的数据?
+SQL> 
+SQL> SELECT * FROM t_students ;
+
+        ID NAME                 GENDER BIRTHDATE                                                    
+---------- -------------------- ------ -------------------                                          
+         1 张君宝               男     2018-08-10 00:00:00                                          
+         2 郭襄                 女     2020-06-21 10:28:26                                          
+
+SQL> SELECT * FROM myemp ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE                   SAL       COMM     DEPTNO     
+---------- ---------- --------- ---------- ------------------- ---------- ---------- ----------     
+         2 杨过                                                      6000                           
+
+SQL> DELETE FROM myemp , t_students WHERE id = 2 OR empno = 2 ;
+DELETE FROM myemp , t_students WHERE id = 2 OR empno = 2 
+                  *
+第 1 行出现错误: 
+ORA-00933: SQL 命令未正确结束 
+
+
+SQL> -- 是否允许使用 DELETE * FROM
+SQL> DELETE * FROM myemp ;
+DELETE * FROM myemp 
+       *
+第 1 行出现错误: 
+ORA-00903: 表名无效 
+
+
+SQL> DELETE t_students FROM myemp ;
+DELETE t_students FROM myemp 
+                  *
+第 1 行出现错误: 
+ORA-00933: SQL 命令未正确结束 
+
+
+SQL> spool off
