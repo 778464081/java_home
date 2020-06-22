@@ -1,0 +1,296 @@
+SQL> 
+SQL> -- 查看 t_majors 和 t_students 表
+SQL> 
+SQL> SELECT * FROM t_majors ;
+
+        ID NAME                                                                 
+---------- --------------------------------------------------                   
+      1001 软件工程                                                             
+      1002 土木工程                                                             
+      1003 环境工程                                                             
+
+SQL> SELECT * FROM t_students ;
+
+        ID NAME                                               GENDER            
+---------- -------------------------------------------------- ------            
+BIRTHDATE           MAJOR                                                       
+-------------- ----------                                                       
+         1 张三丰                                                               
+                     1001                                                       
+                                                                                
+         2 灭绝师太                                                             
+                     1002                                                       
+                                                                                
+         3 叶老师                                                               
+                                                                                
+                                                                                
+
+SQL> set linesize 120 ;
+SQL> COLUMN name FORMAT a20;
+SQL> SELECT * FROM t_students ;
+
+        ID NAME                 GENDER BIRTHDATE           MAJOR                                                        
+---------- -------------------- ------ -------------- ----------                                                        
+         1 张三丰                                           1001                                                        
+         2 灭绝师太                                         1002                                                        
+         3 叶老师                                                                                                       
+
+SQL> 
+SQL> -- 查询 t_students 表中的约束
+SQL> 
+SQL> desc user_constraints ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ OWNER                                                                      VARCHAR2(30)
+ CONSTRAINT_NAME                                                   NOT NULL VARCHAR2(30)
+ CONSTRAINT_TYPE                                                            VARCHAR2(1)
+ TABLE_NAME                                                        NOT NULL VARCHAR2(30)
+ SEARCH_CONDITION                                                           LONG
+ R_OWNER                                                                    VARCHAR2(30)
+ R_CONSTRAINT_NAME                                                          VARCHAR2(30)
+ DELETE_RULE                                                                VARCHAR2(9)
+ STATUS                                                                     VARCHAR2(8)
+ DEFERRABLE                                                                 VARCHAR2(14)
+ DEFERRED                                                                   VARCHAR2(9)
+ VALIDATED                                                                  VARCHAR2(13)
+ GENERATED                                                                  VARCHAR2(14)
+ BAD                                                                        VARCHAR2(3)
+ RELY                                                                       VARCHAR2(4)
+ LAST_CHANGE                                                                DATE
+ INDEX_OWNER                                                                VARCHAR2(30)
+ INDEX_NAME                                                                 VARCHAR2(30)
+ INVALID                                                                    VARCHAR2(7)
+ VIEW_RELATED                                                               VARCHAR2(14)
+
+SQL> desc user_cons_columns ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ OWNER                                                             NOT NULL VARCHAR2(30)
+ CONSTRAINT_NAME                                                   NOT NULL VARCHAR2(30)
+ TABLE_NAME                                                        NOT NULL VARCHAR2(30)
+ COLUMN_NAME                                                                VARCHAR2(4000)
+ POSITION                                                                   NUMBER
+
+SQL> start format.sql
+SQL> SELECT owner , table_name , column_name , constraint_name FROM user_cons_columns
+  2  WHERE lower(table_name) = 't_students' ;
+
+OWNER      TABLE_NAME           COLUMN_NAME          CONSTRAINT_NAME                                                    
+---------- -------------------- -------------------- ------------------------------                                     
+ECUTER     T_STUDENTS           ID                   T_STUDENTS_ID_PK                                                   
+ECUTER     T_STUDENTS           MAJOR                T_STUDENTS_MAJOR_FK                                                
+
+SQL> -- 修改约束名称
+SQL> ALTER TABLE t_students RENAME CONSTRAINT t_students_id_pk TO pk_t_students_id ;
+
+表已更改。
+
+SQL> SELECT owner , table_name , column_name , constraint_name FROM user_cons_columns
+  2  WHERE lower(table_name) = 't_students' ;
+
+OWNER      TABLE_NAME           COLUMN_NAME          CONSTRAINT_NAME                                                    
+---------- -------------------- -------------------- ------------------------------                                     
+ECUTER     T_STUDENTS           ID                   PK_T_STUDENTS_ID                                                   
+ECUTER     T_STUDENTS           MAJOR                T_STUDENTS_MAJOR_FK                                                
+
+SQL> -- 不使用约束名删除主键约束
+SQL> ALTER TABLE t_students DROP PRIMARY KEY ;
+
+表已更改。
+
+SQL> SELECT owner , table_name , column_name , constraint_name FROM user_cons_columns
+  2  WHERE lower(table_name) = 't_students' ;
+
+OWNER      TABLE_NAME           COLUMN_NAME          CONSTRAINT_NAME                                                    
+---------- -------------------- -------------------- ------------------------------                                     
+ECUTER     T_STUDENTS           MAJOR                T_STUDENTS_MAJOR_FK                                                
+
+SQL> -- 不使用约束名删除外键约束
+SQL> ALTER TABLE t_students DROP FOREIGN KEY( major ) ;
+ALTER TABLE t_students DROP FOREIGN KEY( major ) 
+                            *
+第 1 行出现错误: 
+ORA-00905: 缺失关键字 
+
+
+SQL> -- 可见不使用约束名采用 DROP FOREIGN KEY 方式无法删除外键约束
+SQL> 
+SQL> -- 测试检查约束 ( check )
+SQL> 
+SQL> DESC t_customers ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                         NUMBER(10)
+ NAME                                                                       VARCHAR2(50)
+ BIRTHDATE                                                                  DATE
+
+SQL> -- 如果期望向 t_customers 表中插入数据时，保证 id 大于 9999 ，并且 name 长度 大于 5
+SQL> -- 因为 t_customers 表已经存在，因此只能采用 ALTER TABLE 方式为其指定检查约束
+SQL> 
+SQL> ALTER TABLE t_customers ADD CONSTRAINT t_customers_id_name_ck CHECK ( id > 9999 and length(name) > 5 );
+ALTER TABLE t_customers ADD CONSTRAINT t_customers_id_name_ck CHECK ( id > 9999 and length(name) > 5 )
+                                       *
+第 1 行出现错误: 
+ORA-02293: 无法验证 (ECUTER.T_CUSTOMERS_ID_NAME_CK) - 违反检查约束条件 
+
+
+SQL> -- 添加检查约束时，表中已经存在的数据如果不满足检查约束对应的表达式，此时会添加失败
+SQL> 
+SQL> 
+SQL> SELECT owner , table_name , column_name , constraint_name FROM user_cons_columns
+  2  WHERE lower(table_name) = 't_customers' ;
+
+OWNER      TABLE_NAME           COLUMN_NAME          CONSTRAINT_NAME                                                    
+---------- -------------------- -------------------- ------------------------------                                     
+ECUTER     T_CUSTOMERS          ID                   T_CUSTOMERS_ID_UK                                                  
+
+SQL> SELECT * FROM t_customers ;
+
+        ID NAME                 BIRTHDATE                                                                               
+---------- -------------------- --------------                                                                          
+       100 武松                 21-6月 -20                                                                              
+       200 武大郎                                                                                                       
+
+SQL> -- 截断表
+SQL> TRUNCATE TABLE t_customers ;
+
+表被截断。
+
+SQL> -- 截断表后再次添加 检查约束
+SQL> ALTER TABLE t_customers ADD CONSTRAINT t_customers_id_name_ck CHECK ( id > 9999 and length(name) > 5 );
+
+表已更改。
+
+SQL> -- 检查约束添加成功
+SQL> 
+SQL> -- 测试
+SQL> 
+SQL> INSERT INTO t_customers ( id , name ) VALUES ( 9999 , '张三丰' );
+INSERT INTO t_customers ( id , name ) VALUES ( 9999 , '张三丰' )
+*
+第 1 行出现错误: 
+ORA-02290: 违反检查约束条件 (ECUTER.T_CUSTOMERS_ID_NAME_CK) 
+
+
+SQL> INSERT INTO t_customers ( id , name ) VALUES ( 10000 , '张三丰' );
+INSERT INTO t_customers ( id , name ) VALUES ( 10000 , '张三丰' )
+*
+第 1 行出现错误: 
+ORA-02290: 违反检查约束条件 (ECUTER.T_CUSTOMERS_ID_NAME_CK) 
+
+
+SQL> INSERT INTO t_customers ( id , name ) VALUES ( 10000 , '少年张三丰' );
+INSERT INTO t_customers ( id , name ) VALUES ( 10000 , '少年张三丰' )
+*
+第 1 行出现错误: 
+ORA-02290: 违反检查约束条件 (ECUTER.T_CUSTOMERS_ID_NAME_CK) 
+
+
+SQL> INSERT INTO t_customers ( id , name ) VALUES ( 10000 , '少年太极张三丰' );
+
+已创建 1 行。
+
+SQL> SELECT * FROM t_customers ;
+
+        ID NAME                 BIRTHDATE                                                                               
+---------- -------------------- --------------                                                                          
+     10000 少年太极张三丰                                                                                               
+
+SQL> SELECT owner , table_name , column_name , constraint_name FROM user_cons_columns
+  2  WHERE lower(table_name) = 't_customers' ;
+
+OWNER      TABLE_NAME           COLUMN_NAME          CONSTRAINT_NAME                                                    
+---------- -------------------- -------------------- ------------------------------                                     
+ECUTER     T_CUSTOMERS          ID                   T_CUSTOMERS_ID_UK                                                  
+ECUTER     T_CUSTOMERS          ID                   T_CUSTOMERS_ID_NAME_CK                                             
+ECUTER     T_CUSTOMERS          NAME                 T_CUSTOMERS_ID_NAME_CK                                             
+
+SQL> 
+SQL> -- 当 t_customers 中存在检查约束 t_customers_id_name_ck 时
+SQL> -- 无法在 t_customers 表中插入 id <= 9999 或 length(name) <= 5 的数据
+SQL> 
+SQL> commit ;
+
+提交完成。
+
+SQL> -- 提交事务，是让以前所做 DML 操作 ( INSERT 、 UPDATE、DELETE ) 最终生效
+SQL> 
+SQL> 
+SQL> SELECT * FROM t_customers ;
+
+        ID NAME                 BIRTHDATE                                                                               
+---------- -------------------- --------------                                                                          
+     10000 少年太极张三丰                                                                                               
+
+SQL> 
+SQL> 
+SQL> INSERT INTO t_customers VALUES ( 1000 , '张三丰' , sysdate ) ;
+INSERT INTO t_customers VALUES ( 1000 , '张三丰' , sysdate ) 
+*
+第 1 行出现错误: 
+ORA-02290: 违反检查约束条件 (ECUTER.T_CUSTOMERS_ID_NAME_CK) 
+
+
+SQL> -- 选择禁用约束后再插入以上数据
+SQL> 
+SQL> ALTER TABLE t_customers DISABLE CONSTRAINT t_customers_id_name_ck ;
+
+表已更改。
+
+SQL> INSERT INTO t_customers VALUES ( 1000 , '张三丰' , sysdate ) ;
+
+已创建 1 行。
+
+SQL> -- 约束还在吗?
+SQL> SELECT owner , table_name , column_name , constraint_name FROM user_cons_columns
+  2  WHERE lower(table_name) = 't_customers' ;
+
+OWNER      TABLE_NAME           COLUMN_NAME          CONSTRAINT_NAME                                                    
+---------- -------------------- -------------------- ------------------------------                                     
+ECUTER     T_CUSTOMERS          ID                   T_CUSTOMERS_ID_UK                                                  
+ECUTER     T_CUSTOMERS          ID                   T_CUSTOMERS_ID_NAME_CK                                             
+ECUTER     T_CUSTOMERS          NAME                 T_CUSTOMERS_ID_NAME_CK                                             
+
+SQL> -- 查看 t_customers 表中的数据
+SQL> 
+SQL> SELECT * FROM t_customers ;
+
+        ID NAME                 BIRTHDATE                                                                               
+---------- -------------------- --------------                                                                          
+     10000 少年太极张三丰                                                                                               
+      1000 张三丰               22-6月 -20                                                                              
+
+SQL> 
+SQL> -- 如果期望重新启用检查约束，则需要保证数据库表中的数据都满足检查约束对应的表达式
+SQL> 
+SQL> DELETE FROM t_customers WHERE id = 1000 ;
+
+已删除 1 行。
+
+SQL> SELECT * FROM t_customers ;
+
+        ID NAME                 BIRTHDATE                                                                               
+---------- -------------------- --------------                                                                          
+     10000 少年太极张三丰                                                                                               
+
+SQL> 
+SQL> -- 重新启用被禁用的约束
+SQL> ALTER TABLE t_custoemrs ENABLE CONSTRAINT t_customers_id_name_ck ;
+ALTER TABLE t_custoemrs ENABLE CONSTRAINT t_customers_id_name_ck 
+*
+第 1 行出现错误: 
+ORA-00942: 表或视图不存在 
+
+
+SQL> ALTER TABLE t_customers ENABLE CONSTRAINT t_customers_id_name_ck ;
+
+表已更改。
+
+SQL> INSERT INTO t_customers VALUES ( 1000 , '张三丰' , sysdate ) ;
+INSERT INTO t_customers VALUES ( 1000 , '张三丰' , sysdate ) 
+*
+第 1 行出现错误: 
+ORA-02290: 违反检查约束条件 (ECUTER.T_CUSTOMERS_ID_NAME_CK) 
+
+
+SQL> spool off

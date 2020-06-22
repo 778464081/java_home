@@ -1,0 +1,316 @@
+SQL> 
+SQL> -- 索引
+SQL> 
+SQL> -- 与索引有关的数据字典
+SQL> 
+SQL> -- user_objects
+SQL> DESC user_objects ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ OBJECT_NAME                                                                VARCHAR2(128)
+ SUBOBJECT_NAME                                                             VARCHAR2(30)
+ OBJECT_ID                                                                  NUMBER
+ DATA_OBJECT_ID                                                             NUMBER
+ OBJECT_TYPE                                                                VARCHAR2(19)
+ CREATED                                                                    DATE
+ LAST_DDL_TIME                                                              DATE
+ TIMESTAMP                                                                  VARCHAR2(19)
+ STATUS                                                                     VARCHAR2(7)
+ TEMPORARY                                                                  VARCHAR2(1)
+ GENERATED                                                                  VARCHAR2(1)
+ SECONDARY                                                                  VARCHAR2(1)
+ NAMESPACE                                                                  NUMBER
+ EDITION_NAME                                                               VARCHAR2(30)
+
+SQL> -- 执行 设置查询格式的 脚本
+SQL> 
+SQL> START D:/SQL/format.sql
+SQL> 
+SQL> SELECT object_name , object_type , status FROM user_objects ;
+
+OBJECT_NAME          OBJECT_TYPE         STATUS                                                                         
+-------------------- ------------------- -------                                                                        
+EMP                  TABLE               VALID                                                                          
+DEPT                 TABLE               VALID                                                                          
+BONUS                TABLE               VALID                                                                          
+SALGRADE             TABLE               VALID                                                                          
+DUMMY                TABLE               VALID                                                                          
+S_CUSTOMER_ID        SEQUENCE            VALID                                                                          
+S_DEPT_ID            SEQUENCE            VALID                                                                          
+S_EMP_ID             SEQUENCE            VALID                                                                          
+S_IMAGE_ID           SEQUENCE            VALID                                                                          
+S_LONGTEXT_ID        SEQUENCE            VALID                                                                          
+S_ORD_ID             SEQUENCE            VALID                                                                          
+
+OBJECT_NAME          OBJECT_TYPE         STATUS                                                                         
+-------------------- ------------------- -------                                                                        
+S_PRODUCT_ID         SEQUENCE            VALID                                                                          
+S_REGION_ID          SEQUENCE            VALID                                                                          
+S_WAREHOUSE_ID       SEQUENCE            VALID                                                                          
+S_CUSTOMER           TABLE               VALID                                                                          
+S_CUSTOMER_ID_PK     INDEX               VALID                                                                          
+S_DEPT               TABLE               VALID                                                                          
+S_DEPT_ID_PK         INDEX               VALID                                                                          
+S_DEPT_NAME_REGION_I INDEX               VALID                                                                          
+D_UK                                                                                                                    
+                                                                                                                        
+S_EMP                TABLE               VALID                                                                          
+
+OBJECT_NAME          OBJECT_TYPE         STATUS                                                                         
+-------------------- ------------------- -------                                                                        
+S_EMP_ID_PK          INDEX               VALID                                                                          
+S_EMP_USERID_UK      INDEX               VALID                                                                          
+S_IMAGE              TABLE               VALID                                                                          
+S_IMAGE_ID_PK        INDEX               VALID                                                                          
+S_INVENTORY          TABLE               VALID                                                                          
+S_INVENTORY_PRODID_W INDEX               VALID                                                                          
+ARID_PK                                                                                                                 
+                                                                                                                        
+S_ITEM               TABLE               VALID                                                                          
+S_ITEM_ORDID_ITEMID_ INDEX               VALID                                                                          
+PK                                                                                                                      
+
+OBJECT_NAME          OBJECT_TYPE         STATUS                                                                         
+-------------------- ------------------- -------                                                                        
+                                                                                                                        
+S_ITEM_ORDID_PRODID_ INDEX               VALID                                                                          
+UK                                                                                                                      
+                                                                                                                        
+S_LONGTEXT           TABLE               VALID                                                                          
+S_LONGTEXT_ID_PK     INDEX               VALID                                                                          
+S_ORD                TABLE               VALID                                                                          
+S_ORD_ID_PK          INDEX               VALID                                                                          
+S_PRODUCT            TABLE               VALID                                                                          
+S_PRODUCT_ID_PK      INDEX               VALID                                                                          
+S_PRODUCT_NAME_UK    INDEX               VALID                                                                          
+
+OBJECT_NAME          OBJECT_TYPE         STATUS                                                                         
+-------------------- ------------------- -------                                                                        
+S_REGION             TABLE               VALID                                                                          
+S_REGION_ID_PK       INDEX               VALID                                                                          
+S_REGION_NAME_UK     INDEX               VALID                                                                          
+S_TITLE              TABLE               VALID                                                                          
+S_TITLE_TITLE_PK     INDEX               VALID                                                                          
+S_WAREHOUSE          TABLE               VALID                                                                          
+S_WAREHOUSE_ID_PK    INDEX               VALID                                                                          
+T_MAJORS_ID_PK       INDEX               VALID                                                                          
+T_CLASSES            TABLE               VALID                                                                          
+MYEMP                TABLE               VALID                                                                          
+T_CUSTOMERS          TABLE               VALID                                                                          
+
+OBJECT_NAME          OBJECT_TYPE         STATUS                                                                         
+-------------------- ------------------- -------                                                                        
+T_CUSTOMERS_ID_UK    INDEX               VALID                                                                          
+T_CLASSES_ID_PK      INDEX               VALID                                                                          
+T_TEACHERS           TABLE               VALID                                                                          
+T_TEACHERS_ID_PK     INDEX               VALID                                                                          
+T_PRODUCTS           TABLE               VALID                                                                          
+SYS_C0010906         INDEX               VALID                                                                          
+T_SCORES             TABLE               VALID                                                                          
+T_SCORES_PK          INDEX               VALID                                                                          
+T_MAJORS             TABLE               VALID                                                                          
+T_STUDENTS           TABLE               VALID                                                                          
+
+已选择57行。
+
+SQL> SELECT object_name , object_type , status FROM user_objects WHERE lower(object_type) = 'index';
+
+OBJECT_NAME          OBJECT_TYPE         STATUS                                                                         
+-------------------- ------------------- -------                                                                        
+T_TEACHERS_ID_PK     INDEX               VALID                                                                          
+T_SCORES_PK          INDEX               VALID                                                                          
+T_MAJORS_ID_PK       INDEX               VALID                                                                          
+T_CUSTOMERS_ID_UK    INDEX               VALID                                                                          
+T_CLASSES_ID_PK      INDEX               VALID                                                                          
+S_WAREHOUSE_ID_PK    INDEX               VALID                                                                          
+S_TITLE_TITLE_PK     INDEX               VALID                                                                          
+S_REGION_NAME_UK     INDEX               VALID                                                                          
+S_REGION_ID_PK       INDEX               VALID                                                                          
+S_PRODUCT_NAME_UK    INDEX               VALID                                                                          
+S_PRODUCT_ID_PK      INDEX               VALID                                                                          
+
+OBJECT_NAME          OBJECT_TYPE         STATUS                                                                         
+-------------------- ------------------- -------                                                                        
+S_ORD_ID_PK          INDEX               VALID                                                                          
+S_LONGTEXT_ID_PK     INDEX               VALID                                                                          
+S_ITEM_ORDID_PRODID_ INDEX               VALID                                                                          
+UK                                                                                                                      
+                                                                                                                        
+S_ITEM_ORDID_ITEMID_ INDEX               VALID                                                                          
+PK                                                                                                                      
+                                                                                                                        
+S_INVENTORY_PRODID_W INDEX               VALID                                                                          
+ARID_PK                                                                                                                 
+                                                                                                                        
+
+OBJECT_NAME          OBJECT_TYPE         STATUS                                                                         
+-------------------- ------------------- -------                                                                        
+S_IMAGE_ID_PK        INDEX               VALID                                                                          
+S_EMP_USERID_UK      INDEX               VALID                                                                          
+S_EMP_ID_PK          INDEX               VALID                                                                          
+S_DEPT_NAME_REGION_I INDEX               VALID                                                                          
+D_UK                                                                                                                    
+                                                                                                                        
+S_DEPT_ID_PK         INDEX               VALID                                                                          
+S_CUSTOMER_ID_PK     INDEX               VALID                                                                          
+SYS_C0010906         INDEX               VALID                                                                          
+
+已选择23行。
+
+SQL> 
+SQL> 
+SQL> 
+SQL> -- user_indexes
+SQL> 
+SQL> DESC user_indexes ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ INDEX_NAME                                                        NOT NULL VARCHAR2(30)
+ INDEX_TYPE                                                                 VARCHAR2(27)
+ TABLE_OWNER                                                       NOT NULL VARCHAR2(30)
+ TABLE_NAME                                                        NOT NULL VARCHAR2(30)
+ TABLE_TYPE                                                                 VARCHAR2(11)
+ UNIQUENESS                                                                 VARCHAR2(9)
+ COMPRESSION                                                                VARCHAR2(8)
+ PREFIX_LENGTH                                                              NUMBER
+ TABLESPACE_NAME                                                            VARCHAR2(30)
+ INI_TRANS                                                                  NUMBER
+ MAX_TRANS                                                                  NUMBER
+ INITIAL_EXTENT                                                             NUMBER
+ NEXT_EXTENT                                                                NUMBER
+ MIN_EXTENTS                                                                NUMBER
+ MAX_EXTENTS                                                                NUMBER
+ PCT_INCREASE                                                               NUMBER
+ PCT_THRESHOLD                                                              NUMBER
+ INCLUDE_COLUMN                                                             NUMBER
+ FREELISTS                                                                  NUMBER
+ FREELIST_GROUPS                                                            NUMBER
+ PCT_FREE                                                                   NUMBER
+ LOGGING                                                                    VARCHAR2(3)
+ BLEVEL                                                                     NUMBER
+ LEAF_BLOCKS                                                                NUMBER
+ DISTINCT_KEYS                                                              NUMBER
+ AVG_LEAF_BLOCKS_PER_KEY                                                    NUMBER
+ AVG_DATA_BLOCKS_PER_KEY                                                    NUMBER
+ CLUSTERING_FACTOR                                                          NUMBER
+ STATUS                                                                     VARCHAR2(8)
+ NUM_ROWS                                                                   NUMBER
+ SAMPLE_SIZE                                                                NUMBER
+ LAST_ANALYZED                                                              DATE
+ DEGREE                                                                     VARCHAR2(40)
+ INSTANCES                                                                  VARCHAR2(40)
+ PARTITIONED                                                                VARCHAR2(3)
+ TEMPORARY                                                                  VARCHAR2(1)
+ GENERATED                                                                  VARCHAR2(1)
+ SECONDARY                                                                  VARCHAR2(1)
+ BUFFER_POOL                                                                VARCHAR2(7)
+ FLASH_CACHE                                                                VARCHAR2(7)
+ CELL_FLASH_CACHE                                                           VARCHAR2(7)
+ USER_STATS                                                                 VARCHAR2(3)
+ DURATION                                                                   VARCHAR2(15)
+ PCT_DIRECT_ACCESS                                                          NUMBER
+ ITYP_OWNER                                                                 VARCHAR2(30)
+ ITYP_NAME                                                                  VARCHAR2(30)
+ PARAMETERS                                                                 VARCHAR2(1000)
+ GLOBAL_STATS                                                               VARCHAR2(3)
+ DOMIDX_STATUS                                                              VARCHAR2(12)
+ DOMIDX_OPSTATUS                                                            VARCHAR2(6)
+ FUNCIDX_STATUS                                                             VARCHAR2(8)
+ JOIN_INDEX                                                                 VARCHAR2(3)
+ IOT_REDUNDANT_PKEY_ELIM                                                    VARCHAR2(3)
+ DROPPED                                                                    VARCHAR2(3)
+ VISIBILITY                                                                 VARCHAR2(9)
+ DOMIDX_MANAGEMENT                                                          VARCHAR2(14)
+ SEGMENT_CREATED                                                            VARCHAR2(3)
+
+SQL> SELECT table_name , index_name , index_type FROM user_indexes ;
+
+TABLE_NAME           INDEX_NAME                     INDEX_TYPE                                                          
+-------------------- ------------------------------ ---------------------------                                         
+T_TEACHERS           T_TEACHERS_ID_PK               NORMAL                                                              
+T_SCORES             T_SCORES_PK                    NORMAL                                                              
+T_PRODUCTS           SYS_C0010906                   NORMAL                                                              
+T_MAJORS             T_MAJORS_ID_PK                 NORMAL                                                              
+T_CUSTOMERS          T_CUSTOMERS_ID_UK              NORMAL                                                              
+T_CLASSES            T_CLASSES_ID_PK                NORMAL                                                              
+S_WAREHOUSE          S_WAREHOUSE_ID_PK              NORMAL                                                              
+S_TITLE              S_TITLE_TITLE_PK               NORMAL                                                              
+S_REGION             S_REGION_ID_PK                 NORMAL                                                              
+S_REGION             S_REGION_NAME_UK               NORMAL                                                              
+S_PRODUCT            S_PRODUCT_ID_PK                NORMAL                                                              
+
+TABLE_NAME           INDEX_NAME                     INDEX_TYPE                                                          
+-------------------- ------------------------------ ---------------------------                                         
+S_PRODUCT            S_PRODUCT_NAME_UK              NORMAL                                                              
+S_ORD                S_ORD_ID_PK                    NORMAL                                                              
+S_LONGTEXT           S_LONGTEXT_ID_PK               NORMAL                                                              
+S_ITEM               S_ITEM_ORDID_ITEMID_PK         NORMAL                                                              
+S_ITEM               S_ITEM_ORDID_PRODID_UK         NORMAL                                                              
+S_INVENTORY          S_INVENTORY_PRODID_WARID_PK    NORMAL                                                              
+S_IMAGE              S_IMAGE_ID_PK                  NORMAL                                                              
+S_EMP                S_EMP_ID_PK                    NORMAL                                                              
+S_EMP                S_EMP_USERID_UK                NORMAL                                                              
+S_DEPT               S_DEPT_ID_PK                   NORMAL                                                              
+S_DEPT               S_DEPT_NAME_REGION_ID_UK       NORMAL                                                              
+
+TABLE_NAME           INDEX_NAME                     INDEX_TYPE                                                          
+-------------------- ------------------------------ ---------------------------                                         
+S_CUSTOMER           S_CUSTOMER_ID_PK               NORMAL                                                              
+
+已选择23行。
+
+SQL> -- user_ind_columns
+SQL> DESC user_ind_columns ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ INDEX_NAME                                                                 VARCHAR2(30)
+ TABLE_NAME                                                                 VARCHAR2(30)
+ COLUMN_NAME                                                                VARCHAR2(4000)
+ COLUMN_POSITION                                                            NUMBER
+ COLUMN_LENGTH                                                              NUMBER
+ CHAR_LENGTH                                                                NUMBER
+ DESCEND                                                                    VARCHAR2(4)
+
+SQL> SELECT table_name , index_name , column_name FROM user_ind_columns ;
+
+TABLE_NAME           INDEX_NAME                     COLUMN_NAME                                                         
+-------------------- ------------------------------ --------------------                                                
+S_CUSTOMER           S_CUSTOMER_ID_PK               ID                                                                  
+S_DEPT               S_DEPT_ID_PK                   ID                                                                  
+S_DEPT               S_DEPT_NAME_REGION_ID_UK       NAME                                                                
+S_DEPT               S_DEPT_NAME_REGION_ID_UK       REGION_ID                                                           
+S_EMP                S_EMP_ID_PK                    ID                                                                  
+S_EMP                S_EMP_USERID_UK                USERID                                                              
+S_IMAGE              S_IMAGE_ID_PK                  ID                                                                  
+S_INVENTORY          S_INVENTORY_PRODID_WARID_PK    PRODUCT_ID                                                          
+S_INVENTORY          S_INVENTORY_PRODID_WARID_PK    WAREHOUSE_ID                                                        
+S_ITEM               S_ITEM_ORDID_PRODID_UK         ORD_ID                                                              
+S_ITEM               S_ITEM_ORDID_ITEMID_PK         ORD_ID                                                              
+
+TABLE_NAME           INDEX_NAME                     COLUMN_NAME                                                         
+-------------------- ------------------------------ --------------------                                                
+S_ITEM               S_ITEM_ORDID_ITEMID_PK         ITEM_ID                                                             
+S_ITEM               S_ITEM_ORDID_PRODID_UK         PRODUCT_ID                                                          
+S_LONGTEXT           S_LONGTEXT_ID_PK               ID                                                                  
+S_ORD                S_ORD_ID_PK                    ID                                                                  
+S_PRODUCT            S_PRODUCT_ID_PK                ID                                                                  
+S_PRODUCT            S_PRODUCT_NAME_UK              NAME                                                                
+S_REGION             S_REGION_ID_PK                 ID                                                                  
+S_REGION             S_REGION_NAME_UK               NAME                                                                
+S_TITLE              S_TITLE_TITLE_PK               TITLE                                                               
+S_WAREHOUSE          S_WAREHOUSE_ID_PK              ID                                                                  
+T_MAJORS             T_MAJORS_ID_PK                 ID                                                                  
+
+TABLE_NAME           INDEX_NAME                     COLUMN_NAME                                                         
+-------------------- ------------------------------ --------------------                                                
+T_CUSTOMERS          T_CUSTOMERS_ID_UK              ID                                                                  
+T_CLASSES            T_CLASSES_ID_PK                ID                                                                  
+T_TEACHERS           T_TEACHERS_ID_PK               ID                                                                  
+T_PRODUCTS           SYS_C0010906                   ID                                                                  
+T_SCORES             T_SCORES_PK                    STUDENT_ID                                                          
+T_SCORES             T_SCORES_PK                    COURSE_ID                                                           
+T_SCORES             T_SCORES_PK                    EXAM_TIME                                                           
+
+已选择29行。
+
+SQL> spool off

@@ -1,0 +1,289 @@
+
+SQL> -- 查看当前用户
+SQL> SHOW USER ;
+USER 为 "ECUTER"
+SQL>
+SQL> -- 查询 emp 表中的所有雇员的 empno 、ename 、job 、sal
+SQL> SELECT empno , ename , job , sal FROM emp ;
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7369 SMITH      CLERK            800
+      7499 ALLEN      SALESMAN        1600
+      7521 WARD       SALESMAN        1250
+      7566 JONES      MANAGER         2975
+      7654 MARTIN     SALESMAN        1250
+      7698 BLAKE      MANAGER         2850
+      7782 CLARK      MANAGER         2450
+      7788 SCOTT      ANALYST         3000
+      7839 KING       PRESIDENT       5000
+      7844 TURNER     SALESMAN        1500
+      7876 ADAMS      CLERK           1100
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7900 JAMES      CLERK            950
+      7902 FORD       ANALYST         3000
+      7934 MILLER     CLERK           1300
+      9257 HUA'AN     CLERK           1300
+      8526 QIU'XIANG  ANALYST         1400
+
+已选择16行。
+
+SQL> -- 设置 AUTOTRACE
+SQL> SET AUTOTRACE OFF
+SQL>
+SQL>
+SQL> SELECT empno , ename , job , sal FROM emp ;
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7369 SMITH      CLERK            800
+      7499 ALLEN      SALESMAN        1600
+      7521 WARD       SALESMAN        1250
+      7566 JONES      MANAGER         2975
+      7654 MARTIN     SALESMAN        1250
+      7698 BLAKE      MANAGER         2850
+      7782 CLARK      MANAGER         2450
+      7788 SCOTT      ANALYST         3000
+      7839 KING       PRESIDENT       5000
+      7844 TURNER     SALESMAN        1500
+      7876 ADAMS      CLERK           1100
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7900 JAMES      CLERK            950
+      7902 FORD       ANALYST         3000
+      7934 MILLER     CLERK           1300
+      9257 HUA'AN     CLERK           1300
+      8526 QIU'XIANG  ANALYST         1400
+
+已选择16行。
+
+SQL> 
+SQL> -- 通过 help 查看 set 命令的用法
+SQL> 
+SQL> help set
+
+ SET
+ ---
+
+ Sets a system variable to alter the SQL*Plus environment settings
+ for your current session. For example, to:
+     -   set the display width for data
+     -   customize HTML formatting
+     -   enable or disable printing of column headings
+     -   set the number of lines per page
+
+ SET system_variable value
+
+ where system_variable and value represent one of the following clauses:
+
+   APPI[NFO]{OFF|ON|text}                   NEWP[AGE] {1|n|NONE}
+   ARRAY[SIZE] {15|n}                       NULL text
+   AUTO[COMMIT] {OFF|ON|IMM[EDIATE]|n}      NUMF[ORMAT] format
+   AUTOP[RINT] {OFF|ON}                     NUM[WIDTH] {10|n}
+   AUTORECOVERY {OFF|ON}                    PAGES[IZE] {14|n}
+   AUTOT[RACE] {OFF|ON|TRACE[ONLY]}         PAU[SE] {OFF|ON|text}
+     [EXP[LAIN]] [STAT[ISTICS]]             RECSEP {WR[APPED]|EA[CH]|OFF}
+   BLO[CKTERMINATOR] {.|c|ON|OFF}           RECSEPCHAR {_|c}
+   CMDS[EP] {;|c|OFF|ON}                    SERVEROUT[PUT] {ON|OFF}
+   COLSEP {_|text}                            [SIZE {n | UNLIMITED}]
+   CON[CAT] {.|c|ON|OFF}                      [FOR[MAT]  {WRA[PPED] |
+   COPYC[OMMIT] {0|n}                          WOR[D_WRAPPED] |
+   COPYTYPECHECK {ON|OFF}                      TRU[NCATED]}]
+   DEF[INE] {&|c|ON|OFF}                    SHIFT[INOUT] {VIS[IBLE] |
+   DESCRIBE [DEPTH {1|n|ALL}]                 INV[ISIBLE]}
+     [LINENUM {OFF|ON}] [INDENT {OFF|ON}]   SHOW[MODE] {OFF|ON}
+   ECHO {OFF|ON}                            SQLBL[ANKLINES] {OFF|ON}
+   EDITF[ILE] file_name[.ext]               SQLC[ASE] {MIX[ED] |
+   EMB[EDDED] {OFF|ON}                        LO[WER] | UP[PER]}
+   ERRORL[OGGING] {ON|OFF}                  SQLCO[NTINUE] {> | text}
+     [TABLE [schema.]tablename]             SQLN[UMBER] {ON|OFF}
+     [TRUNCATE] [IDENTIFIER identifier]     SQLPLUSCOMPAT[IBILITY] {x.y[.z]}
+   ESC[APE] {\|c|OFF|ON}                    SQLPRE[FIX] {#|c}
+   ESCCHAR {@|?|%|$|OFF}                    SQLP[ROMPT] {SQL>|text}
+   EXITC[OMMIT] {ON|OFF}                    SQLT[ERMINATOR] {;|c|ON|OFF}
+   FEED[BACK] {6|n|ON|OFF}                  SUF[FIX] {SQL|text}
+   FLAGGER {OFF|ENTRY|INTERMED[IATE]|FULL}  TAB {ON|OFF}
+   FLU[SH] {ON|OFF}                         TERM[OUT] {ON|OFF}
+   HEA[DING] {ON|OFF}                       TI[ME] {OFF|ON}
+   HEADS[EP] {||c|ON|OFF}                   TIMI[NG] {OFF|ON}
+   INSTANCE [instance_path|LOCAL]           TRIM[OUT] {ON|OFF}
+   LIN[ESIZE] {80|n}                        TRIMS[POOL] {OFF|ON}
+   LOBOF[FSET] {1|n}                        UND[ERLINE] {-|c|ON|OFF}
+   LOGSOURCE [pathname]                     VER[IFY] {ON|OFF}
+   LONG {80|n}                              WRA[P] {ON|OFF}
+   LONGC[HUNKSIZE] {80|n}                   XQUERY {BASEURI text|
+   MARK[UP] HTML [OFF|ON]                     ORDERING{UNORDERED|
+     [HEAD text] [BODY text] [TABLE text]              ORDERED|DEFAULT}|
+     [ENTMAP {ON|OFF}]                        NODE{BYVALUE|BYREFERENCE|
+     [SPOOL {OFF|ON}]                              DEFAULT}|
+     [PRE[FORMAT] {OFF|ON}]                   CONTEXT text}
+
+
+SQL> help set autotrace
+SP2-0172: 找不到符合此主题的帮助。
+SQL> 
+SQL> SET AUTOTRACE ON
+SP2-0618: 无法找到会话标识符。启用检查 PLUSTRACE 角色
+SP2-0611: 启用 STATISTICS 报告时出错
+SQL>
+SQL>
+SQL> -- 遇到以上问题时，需要创建 plustrace 角色并授权
+SQL> -- 所以，需要用 sys 用户 以 sysdba 角色登录到 Oracle DBMS 中,
+SQL> -- 并执行 ORACLE_BASE\product\11.2.0\dbhome_1\sqlplus\admin\plustrce.sql 脚本
+SQL> 
+SQL> connect sys as sysdba
+输入口令:
+已连接。
+SQL> 
+SQL> SHOW USER ;
+USER 为 "SYS"
+SQL> 
+SQL> -- 使用 START 命令 或 @ 来执行指定的脚本
+SQL> START C:\databases\oracle\product\11.2.0\dbhome_1\sqlplus\admin\plustrce.sql
+SQL>
+SQL> drop role plustrace;
+drop role plustrace
+          *
+第 1 行出现错误:
+ORA-01919: 角色 'PLUSTRACE' 不存在
+
+
+SQL> create role plustrace;
+
+角色已创建。
+
+SQL>
+SQL> grant select on v_$sesstat to plustrace;
+
+授权成功。
+
+SQL> grant select on v_$statname to plustrace;
+
+授权成功。
+
+SQL> grant select on v_$mystat to plustrace;
+
+授权成功。
+
+SQL> grant plustrace to dba with admin option;
+
+授权成功。
+
+SQL>
+SQL> set echo off
+SQL>
+SQL> -- 以上操作就是 plustrce.sql 脚本中的语句( 创建角色并授权 )
+SQL>
+SQL> SHOW USER ;
+USER 为 "SYS"
+SQL> 
+SQL> -- 通过 SYS 用户 将 plustrace 角色授予 ecuter 用户
+SQL>
+SQL> grant plustrace to ecuter ;
+
+授权成功。
+
+SQL>
+SQL> -- 重新 以 ecuter 用户 连接到 Oracle DBMS
+SQL>
+SQL> connect ecuter/ecuter
+已连接。
+SQL>
+SQL> SHOW USER ;
+USER 为 "ECUTER"
+SQL>
+SQL>
+SQL> -- 再次尝试执行 SET AUTOTRACE ON
+SQL> SET AUTOTRACE ON
+SQL>
+SQL> -- 不再提示 “SP2-0618: 无法找到会话标识符。启用检查 PLUSTRACE 角色”
+SQL> 
+SQL> -- 再次执行查询语句
+SQL> SELECT empno , ename , job , sal FROM emp ;
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7369 SMITH      CLERK            800
+      7499 ALLEN      SALESMAN        1600
+      7521 WARD       SALESMAN        1250
+      7566 JONES      MANAGER         2975
+      7654 MARTIN     SALESMAN        1250
+      7698 BLAKE      MANAGER         2850
+      7782 CLARK      MANAGER         2450
+      7788 SCOTT      ANALYST         3000
+      7839 KING       PRESIDENT       5000
+      7844 TURNER     SALESMAN        1500
+      7876 ADAMS      CLERK           1100
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7900 JAMES      CLERK            950
+      7902 FORD       ANALYST         3000
+      7934 MILLER     CLERK           1300
+      9257 HUA'AN     CLERK           1300
+      8526 QIU'XIANG  ANALYST         1400
+
+已选择16行。
+
+
+执行计划
+----------------------------------------------------------
+Plan hash value: 3956160932
+
+--------------------------------------------------------------------------
+| Id  | Operation         | Name | Rows  | Bytes | Cost (%CPU)| Time     |
+--------------------------------------------------------------------------
+|   0 | SELECT STATEMENT  |      |    16 |   368 |     3   (0)| 00:00:01 |
+|   1 |  TABLE ACCESS FULL| EMP  |    16 |   368 |     3   (0)| 00:00:01 |
+--------------------------------------------------------------------------
+
+
+统计信息
+----------------------------------------------------------
+          0  recursive calls
+          0  db block gets
+          8  consistent gets
+          0  physical reads
+          0  redo size
+       1285  bytes sent via SQL*Net to client
+        530  bytes received via SQL*Net from client
+          3  SQL*Net roundtrips to/from client
+          0  sorts (memory)
+          0  sorts (disk)
+         16  rows processed
+
+SQL>
+SQL> 
+SQL> -- 关闭 AUTOTRACE
+SQL> SET AUTOTRACE OFF
+SQL>
+SQL> SELECT empno , ename , job , sal FROM emp ;
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7369 SMITH      CLERK            800
+      7499 ALLEN      SALESMAN        1600
+      7521 WARD       SALESMAN        1250
+      7566 JONES      MANAGER         2975
+      7654 MARTIN     SALESMAN        1250
+      7698 BLAKE      MANAGER         2850
+      7782 CLARK      MANAGER         2450
+      7788 SCOTT      ANALYST         3000
+      7839 KING       PRESIDENT       5000
+      7844 TURNER     SALESMAN        1500
+      7876 ADAMS      CLERK           1100
+
+     EMPNO ENAME      JOB              SAL
+---------- ---------- --------- ----------
+      7900 JAMES      CLERK            950
+      7902 FORD       ANALYST         3000
+      7934 MILLER     CLERK           1300
+      9257 HUA'AN     CLERK           1300
+      8526 QIU'XIANG  ANALYST         1400
+
+已选择16行。
+
+SQL>

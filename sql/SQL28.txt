@@ -1,0 +1,40 @@
+SQL> SELECT table_name , index_name , index_type FROM user_indexes
+  2  WHERE lower(table_name) = 'myemp';
+
+TABLE_NAME           INDEX_NAME                     INDEX_TYPE
+-------------------- ------------------------------ ---------------------------
+MYEMP                IND_MYEMP_NAME_ID              FUNCTION-BASED NORMAL
+MYEMP                IND_MYEMP_NAME                 FUNCTION-BASED NORMAL
+
+
+执行计划
+----------------------------------------------------------
+ERROR:
+ORA-01039: 视图基本对象的权限不足
+
+
+SP2-0612: 生成 AUTOTRACE EXPLAIN 报告时出错
+SQL> ALTER INDEX ind_myemp_name RENAME TO ind_myemp_lower_name
+  2  ;
+
+索引已更改。
+
+SQL> SELECT table_name , index_name , index_type FROM user_indexes
+  2  WHERE lower(table_name) = 'myemp';
+
+TABLE_NAME           INDEX_NAME                     INDEX_TYPE
+-------------------- ------------------------------ ---------------------------
+MYEMP                IND_MYEMP_NAME_ID              FUNCTION-BASED NORMAL
+MYEMP                IND_MYEMP_LOWER_NAME           FUNCTION-BASED NORMAL
+
+
+执行计划
+----------------------------------------------------------
+ERROR:
+ORA-01039: 视图基本对象的权限不足
+
+
+SP2-0612: 生成 AUTOTRACE EXPLAIN 报告时出错
+SQL>
+SQL> -- 不必理会 "ORA-01039: 视图基本对象的权限不足"
+SQL>

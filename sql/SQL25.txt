@@ -1,0 +1,250 @@
+SQL> -- 索引
+SQL> 
+SQL> -- 创建索引
+SQL> 
+SQL> -- 创建一张只有 工号、姓名、岗位、薪水 四个列的表
+SQL> 
+SQL> DROP TABLE myemp PURGE ;
+
+表已删除。
+
+SQL> CREATE TABLE myemp (
+  2     id NUMBER(10) ,
+  3     name VARCHAR2(50) ,
+  4     job VARCHAR2(30) ,
+  5     salary NUMBER(7,2)
+  6  );
+
+表已创建。
+
+SQL> -- 通过 INSERT SELECT 方式将 emp 表 和 s_emp 表中的数据 “复制” 到 myemp　表中
+SQL> 
+SQL> INSERT INTO myemp ( id , name , job , salary ) SELECT empno , ename , job , sal FROM emp ;
+
+已创建16行。
+
+SQL> INSERT INTO myemp ( id , name , job , salary ) SELECT id , first_name , title , salary FROM s_emp ;
+
+已创建25行。
+
+SQL> -- 提交事务
+SQL> commit ;
+
+提交完成。
+
+SQL> -- 查询 myemp 表中的数据
+SQL> 
+SQL> SELECT * FROM myemp ;
+
+        ID NAME                 JOB                                SALARY                                               
+---------- -------------------- ------------------------------ ----------                                               
+      7369 SMITH                CLERK                                 800                                               
+      7499 ALLEN                SALESMAN                             1600                                               
+      7521 WARD                 SALESMAN                             1250                                               
+      7566 JONES                MANAGER                              2975                                               
+      7654 MARTIN               SALESMAN                             1250                                               
+      7698 BLAKE                MANAGER                              2850                                               
+      7782 CLARK                MANAGER                              2450                                               
+      7788 SCOTT                ANALYST                              3000                                               
+      7839 KING                 PRESIDENT                            5000                                               
+      7844 TURNER               SALESMAN                             1500                                               
+      7876 ADAMS                CLERK                                1100                                               
+
+        ID NAME                 JOB                                SALARY                                               
+---------- -------------------- ------------------------------ ----------                                               
+      7900 JAMES                CLERK                                 950                                               
+      7902 FORD                 ANALYST                              3000                                               
+      7934 MILLER               CLERK                                1300                                               
+      9257 HUA'AN               CLERK                                1300                                               
+      8526 QIU'XIANG            ANALYST                              1400                                               
+         1 Carmen               President                            2500                                               
+         2 LaDoris              VP, Operations                       1450                                               
+         3 Midori               VP, Sales                            1400                                               
+         4 Mark                 VP, Finance                          1450                                               
+         5 Audry                VP, Administration                   1550                                               
+         6 Molly                Warehouse Manager                    1200                                               
+
+        ID NAME                 JOB                                SALARY                                               
+---------- -------------------- ------------------------------ ----------                                               
+         7 Roberta              Warehouse Manager                    1250                                               
+         8 Ben                  Warehouse Manager                    1100                                               
+         9 Antoinette           Warehouse Manager                    1300                                               
+        10 Marta                Warehouse Manager                    1307                                               
+        11 Colin                Sales Representative                 1400                                               
+        12 Henry                Sales Representative                 1490                                               
+        13 Yasmin               Sales Representative                 1515                                               
+        14 Mai                  Sales Representative                 1525                                               
+        15 Andre                Sales Representative                 1450                                               
+        16 Elena                Stock Clerk                          1400                                               
+        17 George               Stock Clerk                           940                                               
+
+        ID NAME                 JOB                                SALARY                                               
+---------- -------------------- ------------------------------ ----------                                               
+        18 Akira                Stock Clerk                          1200                                               
+        19 Vikram               Stock Clerk                           795                                               
+        20 Chad                 Stock Clerk                           750                                               
+        21 Alexander            Stock Clerk                           850                                               
+        22 Eddie                Stock Clerk                           800                                               
+        23 Radha                Stock Clerk                           795                                               
+        24 Bela                 Stock Clerk                           860                                               
+        25 Sylvie               Stock Clerk                          1100                                               
+
+已选择41行。
+
+SQL> SELECT * FROM myemp ORDER BY id ;
+
+        ID NAME                 JOB                                SALARY                                               
+---------- -------------------- ------------------------------ ----------                                               
+         1 Carmen               President                            2500                                               
+         2 LaDoris              VP, Operations                       1450                                               
+         3 Midori               VP, Sales                            1400                                               
+         4 Mark                 VP, Finance                          1450                                               
+         5 Audry                VP, Administration                   1550                                               
+         6 Molly                Warehouse Manager                    1200                                               
+         7 Roberta              Warehouse Manager                    1250                                               
+         8 Ben                  Warehouse Manager                    1100                                               
+         9 Antoinette           Warehouse Manager                    1300                                               
+        10 Marta                Warehouse Manager                    1307                                               
+        11 Colin                Sales Representative                 1400                                               
+
+        ID NAME                 JOB                                SALARY                                               
+---------- -------------------- ------------------------------ ----------                                               
+        12 Henry                Sales Representative                 1490                                               
+        13 Yasmin               Sales Representative                 1515                                               
+        14 Mai                  Sales Representative                 1525                                               
+        15 Andre                Sales Representative                 1450                                               
+        16 Elena                Stock Clerk                          1400                                               
+        17 George               Stock Clerk                           940                                               
+        18 Akira                Stock Clerk                          1200                                               
+        19 Vikram               Stock Clerk                           795                                               
+        20 Chad                 Stock Clerk                           750                                               
+        21 Alexander            Stock Clerk                           850                                               
+        22 Eddie                Stock Clerk                           800                                               
+
+        ID NAME                 JOB                                SALARY                                               
+---------- -------------------- ------------------------------ ----------                                               
+        23 Radha                Stock Clerk                           795                                               
+        24 Bela                 Stock Clerk                           860                                               
+        25 Sylvie               Stock Clerk                          1100                                               
+      7369 SMITH                CLERK                                 800                                               
+      7499 ALLEN                SALESMAN                             1600                                               
+      7521 WARD                 SALESMAN                             1250                                               
+      7566 JONES                MANAGER                              2975                                               
+      7654 MARTIN               SALESMAN                             1250                                               
+      7698 BLAKE                MANAGER                              2850                                               
+      7782 CLARK                MANAGER                              2450                                               
+      7788 SCOTT                ANALYST                              3000                                               
+
+        ID NAME                 JOB                                SALARY                                               
+---------- -------------------- ------------------------------ ----------                                               
+      7839 KING                 PRESIDENT                            5000                                               
+      7844 TURNER               SALESMAN                             1500                                               
+      7876 ADAMS                CLERK                                1100                                               
+      7900 JAMES                CLERK                                 950                                               
+      7902 FORD                 ANALYST                              3000                                               
+      7934 MILLER               CLERK                                1300                                               
+      8526 QIU'XIANG            ANALYST                              1400                                               
+      9257 HUA'AN               CLERK                                1300                                               
+
+已选择41行。
+
+SQL> SELECT rowid , * FROM myemp ;
+SELECT rowid , * FROM myemp 
+               *
+第 1 行出现错误: 
+ORA-00936: 缺失表达式 
+
+
+SQL> SELECT rowid , myemp.* FROM myemp ;
+
+ROWID                      ID NAME                 JOB                                SALARY                            
+------------------ ---------- -------------------- ------------------------------ ----------                            
+AAAR+VAAEAAAAG8AAA       7369 SMITH                CLERK                                 800                            
+AAAR+VAAEAAAAG8AAB       7499 ALLEN                SALESMAN                             1600                            
+AAAR+VAAEAAAAG8AAC       7521 WARD                 SALESMAN                             1250                            
+AAAR+VAAEAAAAG8AAD       7566 JONES                MANAGER                              2975                            
+AAAR+VAAEAAAAG8AAE       7654 MARTIN               SALESMAN                             1250                            
+AAAR+VAAEAAAAG8AAF       7698 BLAKE                MANAGER                              2850                            
+AAAR+VAAEAAAAG8AAG       7782 CLARK                MANAGER                              2450                            
+AAAR+VAAEAAAAG8AAH       7788 SCOTT                ANALYST                              3000                            
+AAAR+VAAEAAAAG8AAI       7839 KING                 PRESIDENT                            5000                            
+AAAR+VAAEAAAAG8AAJ       7844 TURNER               SALESMAN                             1500                            
+AAAR+VAAEAAAAG8AAK       7876 ADAMS                CLERK                                1100                            
+
+ROWID                      ID NAME                 JOB                                SALARY                            
+------------------ ---------- -------------------- ------------------------------ ----------                            
+AAAR+VAAEAAAAG8AAL       7900 JAMES                CLERK                                 950                            
+AAAR+VAAEAAAAG8AAM       7902 FORD                 ANALYST                              3000                            
+AAAR+VAAEAAAAG8AAN       7934 MILLER               CLERK                                1300                            
+AAAR+VAAEAAAAG8AAO       9257 HUA'AN               CLERK                                1300                            
+AAAR+VAAEAAAAG8AAP       8526 QIU'XIANG            ANALYST                              1400                            
+AAAR+VAAEAAAAG8AAQ          1 Carmen               President                            2500                            
+AAAR+VAAEAAAAG8AAR          2 LaDoris              VP, Operations                       1450                            
+AAAR+VAAEAAAAG8AAS          3 Midori               VP, Sales                            1400                            
+AAAR+VAAEAAAAG8AAT          4 Mark                 VP, Finance                          1450                            
+AAAR+VAAEAAAAG8AAU          5 Audry                VP, Administration                   1550                            
+AAAR+VAAEAAAAG8AAV          6 Molly                Warehouse Manager                    1200                            
+
+ROWID                      ID NAME                 JOB                                SALARY                            
+------------------ ---------- -------------------- ------------------------------ ----------                            
+AAAR+VAAEAAAAG8AAW          7 Roberta              Warehouse Manager                    1250                            
+AAAR+VAAEAAAAG8AAX          8 Ben                  Warehouse Manager                    1100                            
+AAAR+VAAEAAAAG8AAY          9 Antoinette           Warehouse Manager                    1300                            
+AAAR+VAAEAAAAG8AAZ         10 Marta                Warehouse Manager                    1307                            
+AAAR+VAAEAAAAG8AAa         11 Colin                Sales Representative                 1400                            
+AAAR+VAAEAAAAG8AAb         12 Henry                Sales Representative                 1490                            
+AAAR+VAAEAAAAG8AAc         13 Yasmin               Sales Representative                 1515                            
+AAAR+VAAEAAAAG8AAd         14 Mai                  Sales Representative                 1525                            
+AAAR+VAAEAAAAG8AAe         15 Andre                Sales Representative                 1450                            
+AAAR+VAAEAAAAG8AAf         16 Elena                Stock Clerk                          1400                            
+AAAR+VAAEAAAAG8AAg         17 George               Stock Clerk                           940                            
+
+ROWID                      ID NAME                 JOB                                SALARY                            
+------------------ ---------- -------------------- ------------------------------ ----------                            
+AAAR+VAAEAAAAG8AAh         18 Akira                Stock Clerk                          1200                            
+AAAR+VAAEAAAAG8AAi         19 Vikram               Stock Clerk                           795                            
+AAAR+VAAEAAAAG8AAj         20 Chad                 Stock Clerk                           750                            
+AAAR+VAAEAAAAG8AAk         21 Alexander            Stock Clerk                           850                            
+AAAR+VAAEAAAAG8AAl         22 Eddie                Stock Clerk                           800                            
+AAAR+VAAEAAAAG8AAm         23 Radha                Stock Clerk                           795                            
+AAAR+VAAEAAAAG8AAn         24 Bela                 Stock Clerk                           860                            
+AAAR+VAAEAAAAG8AAo         25 Sylvie               Stock Clerk                          1100                            
+
+已选择41行。
+
+SQL> -- 创建索引: 提高根据 name 进行查询时的效率
+SQL> 
+SQL> CREATE INDEX i_myemp_name ON myemp ( name ) ;
+
+索引已创建。
+
+SQL> 
+SQL> SELECT table_name , index_name , index_type FROM user_indexes WHERE lower(table_name) = 'myemp' ;
+
+TABLE_NAME           INDEX_NAME                     INDEX_TYPE                                                          
+-------------------- ------------------------------ ---------------------------                                         
+MYEMP                I_MYEMP_NAME                   NORMAL                                                              
+
+SQL> 
+SQL> 
+SQL> -- 当使用 name 所谓查询条件去查询 myemp 表中的数据时，就会使用 i_myemp_name 索引
+SQL> 
+SQL> SELECT rowid , myemp.* FROM myemp WHERE name = 'Bela' ;
+
+ROWID                      ID NAME                 JOB                                SALARY                            
+------------------ ---------- -------------------- ------------------------------ ----------                            
+AAAR+VAAEAAAAG8AAn         24 Bela                 Stock Clerk                           860                            
+
+SQL> 
+SQL> -- 删除索引
+SQL> DROP INDEX i_myemp_name ;
+
+索引已删除。
+
+SQL> SELECT rowid , myemp.* FROM myemp WHERE name = 'Bela' ;
+
+ROWID                      ID NAME                 JOB                                SALARY                            
+------------------ ---------- -------------------- ------------------------------ ----------                            
+AAAR+VAAEAAAAG8AAn         24 Bela                 Stock Clerk                           860                            
+
+SQL> spool off

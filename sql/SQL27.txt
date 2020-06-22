@@ -1,0 +1,497 @@
+SQL> -- 执行计划
+SQL> 
+SQL> -- 启用 AUTOTRACE
+SQL> 
+SQL> -- 查询 dept 表中所有数据
+SQL> 
+SQL> SELECT * FROM dept ;
+
+    DEPTNO DNAME          LOC                                                   
+---------- -------------- -------------                                         
+        10 ACCOUNTING     NEW YORK                                              
+        20 RESEARCH       DALLAS                                                
+        30 SALES          CHICAGO                                               
+        40 OPERATIONS     BOSTON                                                
+
+SQL> -- 默认 AUTOTRACE 是关闭的
+SQL> 
+SQL> -- 启用 AUTOTRACE 使用 SET AUTOTRACE ...
+SQL> 
+SQL> SET AUTOTRACE ON
+SQL> 
+SQL> SELECT * FROM dept ;
+
+    DEPTNO DNAME          LOC                                                   
+---------- -------------- -------------                                         
+        10 ACCOUNTING     NEW YORK                                              
+        20 RESEARCH       DALLAS                                                
+        30 SALES          CHICAGO                                               
+        40 OPERATIONS     BOSTON                                                
+
+
+执行计划
+----------------------------------------------------------                      
+Plan hash value: 3383998547                                                     
+                                                                                
+--------------------------------------------------------------------------      
+| Id  | Operation         | Name | Rows  | Bytes | Cost (%CPU)| Time     |      
+--------------------------------------------------------------------------      
+|   0 | SELECT STATEMENT  |      |     4 |    80 |     3   (0)| 00:00:01 |      
+|   1 |  TABLE ACCESS FULL| DEPT |     4 |    80 |     3   (0)| 00:00:01 |      
+--------------------------------------------------------------------------      
+
+
+统计信息
+----------------------------------------------------------                      
+          0  recursive calls                                                    
+          0  db block gets                                                      
+          8  consistent gets                                                    
+          0  physical reads                                                     
+          0  redo size                                                          
+        803  bytes sent via SQL*Net to client                                   
+        519  bytes received via SQL*Net from client                             
+          2  SQL*Net roundtrips to/from client                                  
+          0  sorts (memory)                                                     
+          0  sorts (disk)                                                       
+          4  rows processed                                                     
+
+SQL> SET  AUTOTRACE  TRACEONLY ;
+SQL> 
+SQL> SELECT * FROM dept ;
+
+
+执行计划
+----------------------------------------------------------                      
+Plan hash value: 3383998547                                                     
+                                                                                
+--------------------------------------------------------------------------      
+| Id  | Operation         | Name | Rows  | Bytes | Cost (%CPU)| Time     |      
+--------------------------------------------------------------------------      
+|   0 | SELECT STATEMENT  |      |     4 |    80 |     3   (0)| 00:00:01 |      
+|   1 |  TABLE ACCESS FULL| DEPT |     4 |    80 |     3   (0)| 00:00:01 |      
+--------------------------------------------------------------------------      
+
+
+统计信息
+----------------------------------------------------------                      
+          0  recursive calls                                                    
+          0  db block gets                                                      
+          8  consistent gets                                                    
+          0  physical reads                                                     
+          0  redo size                                                          
+        803  bytes sent via SQL*Net to client                                   
+        519  bytes received via SQL*Net from client                             
+          2  SQL*Net roundtrips to/from client                                  
+          0  sorts (memory)                                                     
+          0  sorts (disk)                                                       
+          4  rows processed                                                     
+
+SQL> 
+SQL> SET  AUTOTRACE  ON EXPLAIN  ;
+SQL> 
+SQL> SELECT * FROM dept ;
+
+    DEPTNO DNAME          LOC                                                   
+---------- -------------- -------------                                         
+        10 ACCOUNTING     NEW YORK                                              
+        20 RESEARCH       DALLAS                                                
+        30 SALES          CHICAGO                                               
+        40 OPERATIONS     BOSTON                                                
+
+
+执行计划
+----------------------------------------------------------                      
+Plan hash value: 3383998547                                                     
+                                                                                
+--------------------------------------------------------------------------      
+| Id  | Operation         | Name | Rows  | Bytes | Cost (%CPU)| Time     |      
+--------------------------------------------------------------------------      
+|   0 | SELECT STATEMENT  |      |     4 |    80 |     3   (0)| 00:00:01 |      
+|   1 |  TABLE ACCESS FULL| DEPT |     4 |    80 |     3   (0)| 00:00:01 |      
+--------------------------------------------------------------------------      
+
+SQL> SET  AUTOTRACE  ON STATISTICS ;
+SQL> 
+SQL> SELECT * FROM dept ;
+
+    DEPTNO DNAME          LOC                                                   
+---------- -------------- -------------                                         
+        10 ACCOUNTING     NEW YORK                                              
+        20 RESEARCH       DALLAS                                                
+        30 SALES          CHICAGO                                               
+        40 OPERATIONS     BOSTON                                                
+
+
+统计信息
+----------------------------------------------------------                      
+          0  recursive calls                                                    
+          0  db block gets                                                      
+          8  consistent gets                                                    
+          0  physical reads                                                     
+          0  redo size                                                          
+        803  bytes sent via SQL*Net to client                                   
+        519  bytes received via SQL*Net from client                             
+          2  SQL*Net roundtrips to/from client                                  
+          0  sorts (memory)                                                     
+          0  sorts (disk)                                                       
+          4  rows processed                                                     
+
+SQL> SET  AUTOTRACE  ON EXPLAIN ;
+SQL> 
+SQL> 
+SQL> SELECT * FROM dept ;
+
+    DEPTNO DNAME          LOC                                                   
+---------- -------------- -------------                                         
+        10 ACCOUNTING     NEW YORK                                              
+        20 RESEARCH       DALLAS                                                
+        30 SALES          CHICAGO                                               
+        40 OPERATIONS     BOSTON                                                
+
+
+执行计划
+----------------------------------------------------------                      
+Plan hash value: 3383998547                                                     
+                                                                                
+--------------------------------------------------------------------------      
+| Id  | Operation         | Name | Rows  | Bytes | Cost (%CPU)| Time     |      
+--------------------------------------------------------------------------      
+|   0 | SELECT STATEMENT  |      |     4 |    80 |     3   (0)| 00:00:01 |      
+|   1 |  TABLE ACCESS FULL| DEPT |     4 |    80 |     3   (0)| 00:00:01 |      
+--------------------------------------------------------------------------      
+
+SQL> -- 查询 myemp 表
+SQL> 
+SQL> SELECT * FROM myemp WHERE id = 9527 ;
+
+未选定行
+
+
+执行计划
+----------------------------------------------------------                      
+Plan hash value: 2418123361                                                     
+                                                                                
+---------------------------------------------------------------------------     
+| Id  | Operation         | Name  | Rows  | Bytes | Cost (%CPU)| Time     |     
+---------------------------------------------------------------------------     
+|   0 | SELECT STATEMENT  |       |     1 |    70 |     3   (0)| 00:00:01 |     
+|*  1 |  TABLE ACCESS FULL| MYEMP |     1 |    70 |     3   (0)| 00:00:01 |     
+---------------------------------------------------------------------------     
+                                                                                
+Predicate Information (identified by operation id):                             
+---------------------------------------------------                             
+                                                                                
+   1 - filter("ID"=9527)                                                        
+                                                                                
+Note                                                                            
+-----                                                                           
+   - dynamic sampling used for this statement (level=2)                         
+
+SQL> SELECT * FROM myemp WHERE id = 9257 ;
+
+        ID NAME                                                                 
+---------- --------------------------------------------------                   
+JOB                                SALARY                                       
+------------------------------ ----------                                       
+      9257 HUA'AN                                                               
+CLERK                                1300                                       
+                                                                                
+
+
+执行计划
+----------------------------------------------------------                      
+Plan hash value: 2418123361                                                     
+                                                                                
+---------------------------------------------------------------------------     
+| Id  | Operation         | Name  | Rows  | Bytes | Cost (%CPU)| Time     |     
+---------------------------------------------------------------------------     
+|   0 | SELECT STATEMENT  |       |     1 |    70 |     3   (0)| 00:00:01 |     
+|*  1 |  TABLE ACCESS FULL| MYEMP |     1 |    70 |     3   (0)| 00:00:01 |     
+---------------------------------------------------------------------------     
+                                                                                
+Predicate Information (identified by operation id):                             
+---------------------------------------------------                             
+                                                                                
+   1 - filter("ID"=9257)                                                        
+                                                                                
+Note                                                                            
+-----                                                                           
+   - dynamic sampling used for this statement (level=2)                         
+
+SQL> COLUMN name FORMAT a20 ;
+SQL> SELECT * FROM myemp WHERE id = 9257 ;
+
+        ID NAME                 JOB                                SALARY       
+---------- -------------------- ------------------------------ ----------       
+      9257 HUA'AN               CLERK                                1300       
+
+
+执行计划
+----------------------------------------------------------                      
+Plan hash value: 2418123361                                                     
+                                                                                
+---------------------------------------------------------------------------     
+| Id  | Operation         | Name  | Rows  | Bytes | Cost (%CPU)| Time     |     
+---------------------------------------------------------------------------     
+|   0 | SELECT STATEMENT  |       |     1 |    70 |     3   (0)| 00:00:01 |     
+|*  1 |  TABLE ACCESS FULL| MYEMP |     1 |    70 |     3   (0)| 00:00:01 |     
+---------------------------------------------------------------------------     
+                                                                                
+Predicate Information (identified by operation id):                             
+---------------------------------------------------                             
+                                                                                
+   1 - filter("ID"=9257)                                                        
+                                                                                
+Note                                                                            
+-----                                                                           
+   - dynamic sampling used for this statement (level=2)                         
+
+SQL> -- 使用 有索引的 name 来作为查询条件进行查询
+SQL> 
+SQL> SELECT * FROM myemp WHERE name = 'HUA''AN' ;
+
+        ID NAME                 JOB                                SALARY       
+---------- -------------------- ------------------------------ ----------       
+      9257 HUA'AN               CLERK                                1300       
+
+
+执行计划
+----------------------------------------------------------                      
+Plan hash value: 2418123361                                                     
+                                                                                
+---------------------------------------------------------------------------     
+| Id  | Operation         | Name  | Rows  | Bytes | Cost (%CPU)| Time     |     
+---------------------------------------------------------------------------     
+|   0 | SELECT STATEMENT  |       |     1 |    70 |     3   (0)| 00:00:01 |     
+|*  1 |  TABLE ACCESS FULL| MYEMP |     1 |    70 |     3   (0)| 00:00:01 |     
+---------------------------------------------------------------------------     
+                                                                                
+Predicate Information (identified by operation id):                             
+---------------------------------------------------                             
+                                                                                
+   1 - filter("NAME"='HUA''AN')                                                 
+                                                                                
+Note                                                                            
+-----                                                                           
+   - dynamic sampling used for this statement (level=2)                         
+
+SQL> -- 为 myemp 表创建一个索引，以便于提高根据 name 进行查询时的效率
+SQL> 
+SQL> CREATE INDEX ind_myemp_name ON myemp ( lower(name) );
+
+索引已创建。
+
+SQL> 
+SQL> SELECT table_name , index_name , index_type FROM user_indexes WHERE lower(table_name)='myemp' ;
+
+TABLE_NAME                     INDEX_NAME                                       
+------------------------------ ------------------------------                   
+INDEX_TYPE                                                                      
+---------------------------                                                     
+MYEMP                          IND_MYEMP_NAME                                   
+FUNCTION-BASED NORMAL                                                           
+                                                                                
+
+
+执行计划
+----------------------------------------------------------                      
+ERROR:
+ORA-01039: 视图基本对象的权限不足 
+
+
+SP2-0612: 生成 AUTOTRACE EXPLAIN 报告时出错
+SQL> SET AUTOTRACE OFF
+SQL> SELECT table_name , index_name , index_type FROM user_indexes WHERE lower(table_name)='myemp' ;
+
+TABLE_NAME                     INDEX_NAME                                       
+------------------------------ ------------------------------                   
+INDEX_TYPE                                                                      
+---------------------------                                                     
+MYEMP                          IND_MYEMP_NAME                                   
+FUNCTION-BASED NORMAL                                                           
+                                                                                
+
+SQL> START format.sql
+SQL> /
+
+TABLE_NAME           INDEX_NAME                     INDEX_TYPE                                                          
+-------------------- ------------------------------ ---------------------------                                         
+MYEMP                IND_MYEMP_NAME                 FUNCTION-BASED NORMAL                                               
+
+SQL> 
+SQL> SET AUTOTRACE ON EXPLAIN ;
+SQL> 
+SQL> 
+SQL> SELECT * FROM myemp WHERE id = 9257 ;
+
+        ID NAME                 JOB                                SALARY                                               
+---------- -------------------- ------------------------------ ----------                                               
+      9257 HUA'AN               CLERK                                1300                                               
+
+
+执行计划
+----------------------------------------------------------                                                              
+Plan hash value: 2418123361                                                                                             
+                                                                                                                        
+---------------------------------------------------------------------------                                             
+| Id  | Operation         | Name  | Rows  | Bytes | Cost (%CPU)| Time     |                                             
+---------------------------------------------------------------------------                                             
+|   0 | SELECT STATEMENT  |       |     1 |    70 |     3   (0)| 00:00:01 |                                             
+|*  1 |  TABLE ACCESS FULL| MYEMP |     1 |    70 |     3   (0)| 00:00:01 |                                             
+---------------------------------------------------------------------------                                             
+                                                                                                                        
+Predicate Information (identified by operation id):                                                                     
+---------------------------------------------------                                                                     
+                                                                                                                        
+   1 - filter("ID"=9257)                                                                                                
+                                                                                                                        
+Note                                                                                                                    
+-----                                                                                                                   
+   - dynamic sampling used for this statement (level=2)                                                                 
+
+SQL> SELECT * FROM myemp WHERE lower(name) = 'hua''an' ;
+
+        ID NAME                 JOB                                SALARY                                               
+---------- -------------------- ------------------------------ ----------                                               
+      9257 HUA'AN               CLERK                                1300                                               
+
+
+执行计划
+----------------------------------------------------------                                                              
+Plan hash value: 2852364061                                                                                             
+                                                                                                                        
+----------------------------------------------------------------------------------------------                          
+| Id  | Operation                   | Name           | Rows  | Bytes | Cost (%CPU)| Time     |                          
+----------------------------------------------------------------------------------------------                          
+|   0 | SELECT STATEMENT            |                |     1 |    97 |     2   (0)| 00:00:01 |                          
+|   1 |  TABLE ACCESS BY INDEX ROWID| MYEMP          |     1 |    97 |     2   (0)| 00:00:01 |                          
+|*  2 |   INDEX RANGE SCAN          | IND_MYEMP_NAME |     1 |       |     1   (0)| 00:00:01 |                          
+----------------------------------------------------------------------------------------------                          
+                                                                                                                        
+Predicate Information (identified by operation id):                                                                     
+---------------------------------------------------                                                                     
+                                                                                                                        
+   2 - access(LOWER("NAME")='hua''an')                                                                                  
+                                                                                                                        
+Note                                                                                                                    
+-----                                                                                                                   
+   - dynamic sampling used for this statement (level=2)                                                                 
+
+SQL> 
+SQL> SELECT * FROM myemp WHERE name = 'HUA''AN';
+
+        ID NAME                 JOB                                SALARY                                               
+---------- -------------------- ------------------------------ ----------                                               
+      9257 HUA'AN               CLERK                                1300                                               
+
+
+执行计划
+----------------------------------------------------------                                                              
+Plan hash value: 2418123361                                                                                             
+                                                                                                                        
+---------------------------------------------------------------------------                                             
+| Id  | Operation         | Name  | Rows  | Bytes | Cost (%CPU)| Time     |                                             
+---------------------------------------------------------------------------                                             
+|   0 | SELECT STATEMENT  |       |     1 |    70 |     3   (0)| 00:00:01 |                                             
+|*  1 |  TABLE ACCESS FULL| MYEMP |     1 |    70 |     3   (0)| 00:00:01 |                                             
+---------------------------------------------------------------------------                                             
+                                                                                                                        
+Predicate Information (identified by operation id):                                                                     
+---------------------------------------------------                                                                     
+                                                                                                                        
+   1 - filter("NAME"='HUA''AN')                                                                                         
+                                                                                                                        
+Note                                                                                                                    
+-----                                                                                                                   
+   - dynamic sampling used for this statement (level=2)                                                                 
+
+SQL> SELECT * FROM myemp WHERE lower(name) = 'bela' OR id = 9257 ;
+
+        ID NAME                 JOB                                SALARY                                               
+---------- -------------------- ------------------------------ ----------                                               
+      9257 HUA'AN               CLERK                                1300                                               
+        24 Bela                 Stock Clerk                           860                                               
+
+
+执行计划
+----------------------------------------------------------                                                              
+Plan hash value: 2418123361                                                                                             
+                                                                                                                        
+---------------------------------------------------------------------------                                             
+| Id  | Operation         | Name  | Rows  | Bytes | Cost (%CPU)| Time     |                                             
+---------------------------------------------------------------------------                                             
+|   0 | SELECT STATEMENT  |       |     1 |    97 |     3   (0)| 00:00:01 |                                             
+|*  1 |  TABLE ACCESS FULL| MYEMP |     1 |    97 |     3   (0)| 00:00:01 |                                             
+---------------------------------------------------------------------------                                             
+                                                                                                                        
+Predicate Information (identified by operation id):                                                                     
+---------------------------------------------------                                                                     
+                                                                                                                        
+   1 - filter("ID"=9257 OR LOWER("NAME")='bela')                                                                        
+                                                                                                                        
+Note                                                                                                                    
+-----                                                                                                                   
+   - dynamic sampling used for this statement (level=2)                                                                 
+
+SQL> -- 针对 name 和 id 创建一个索引
+SQL> CREATE INDEX ind_myemp_name_id ON myemp ( lower(name) , id ) ;
+
+索引已创建。
+
+SQL> SELECT * FROM myemp WHERE lower(name) = 'bela' OR id = 9257 ;
+
+        ID NAME                 JOB                                SALARY                                               
+---------- -------------------- ------------------------------ ----------                                               
+      9257 HUA'AN               CLERK                                1300                                               
+        24 Bela                 Stock Clerk                           860                                               
+
+
+执行计划
+----------------------------------------------------------                                                              
+Plan hash value: 2418123361                                                                                             
+                                                                                                                        
+---------------------------------------------------------------------------                                             
+| Id  | Operation         | Name  | Rows  | Bytes | Cost (%CPU)| Time     |                                             
+---------------------------------------------------------------------------                                             
+|   0 | SELECT STATEMENT  |       |     1 |    97 |     3   (0)| 00:00:01 |                                             
+|*  1 |  TABLE ACCESS FULL| MYEMP |     1 |    97 |     3   (0)| 00:00:01 |                                             
+---------------------------------------------------------------------------                                             
+                                                                                                                        
+Predicate Information (identified by operation id):                                                                     
+---------------------------------------------------                                                                     
+                                                                                                                        
+   1 - filter("ID"=9257 OR LOWER("NAME")='bela')                                                                        
+                                                                                                                        
+Note                                                                                                                    
+-----                                                                                                                   
+   - dynamic sampling used for this statement (level=2)                                                                 
+
+SQL> SELECT * FROM myemp WHERE lower(name) = 'bela' AND id = 24 ;
+
+        ID NAME                 JOB                                SALARY                                               
+---------- -------------------- ------------------------------ ----------                                               
+        24 Bela                 Stock Clerk                           860                                               
+
+
+执行计划
+----------------------------------------------------------                                                              
+Plan hash value: 773055317                                                                                              
+                                                                                                                        
+-------------------------------------------------------------------------------------------------                       
+| Id  | Operation                   | Name              | Rows  | Bytes | Cost (%CPU)| Time     |                       
+-------------------------------------------------------------------------------------------------                       
+|   0 | SELECT STATEMENT            |                   |     1 |    97 |     2   (0)| 00:00:01 |                       
+|   1 |  TABLE ACCESS BY INDEX ROWID| MYEMP             |     1 |    97 |     2   (0)| 00:00:01 |                       
+|*  2 |   INDEX RANGE SCAN          | IND_MYEMP_NAME_ID |     1 |       |     1   (0)| 00:00:01 |                       
+-------------------------------------------------------------------------------------------------                       
+                                                                                                                        
+Predicate Information (identified by operation id):                                                                     
+---------------------------------------------------                                                                     
+                                                                                                                        
+   2 - access(LOWER("NAME")='bela' AND "ID"=24)                                                                         
+                                                                                                                        
+Note                                                                                                                    
+-----                                                                                                                   
+   - dynamic sampling used for this statement (level=2)                                                                 
+
+SQL> spool off
