@@ -1,0 +1,170 @@
+SQL> 
+SQL> -- 创建两张简单的表 (每张表两个列)
+SQL> 
+SQL> DROP TABLE t_majors PURGE ;
+DROP TABLE t_majors PURGE 
+           *
+第 1 行出现错误: 
+ORA-02449: 表中的唯一/主键被外键引用 
+
+
+SQL> DROP TABLE t_majors PURGE CASCADE;
+DROP TABLE t_majors PURGE CASCADE
+                          *
+第 1 行出现错误: 
+ORA-00933: SQL 命令未正确结束 
+
+
+SQL> DROP TABLE t_students PURGE ;
+
+表已删除。
+
+SQL> DROP TABLE t_majors PURGE ;
+
+表已删除。
+
+SQL> CREATE TABLE t_majors ( id NUMBER(5) , name VARCHAR2(20) ) ;
+
+表已创建。
+
+SQL> INSERT INTO t_majors VALUES ( 1001 , '软件工程' );
+
+已创建 1 行。
+
+
+执行计划
+----------------------------------------------------------                                                              
+                                                                                                                        
+-------------------------------------------------------------------------------------                                   
+| Id  | Operation                | Name     | Rows  | Bytes | Cost (%CPU)| Time     |                                   
+-------------------------------------------------------------------------------------                                   
+|   0 | INSERT STATEMENT         |          |     1 |   100 |     1   (0)| 00:00:01 |                                   
+|   1 |  LOAD TABLE CONVENTIONAL | T_MAJORS |       |       |            |          |                                   
+-------------------------------------------------------------------------------------                                   
+
+SQL> SET AUTOTRACE OFF
+SQL> INSERT INTO t_majors VALUES ( 2002 , '土木工程' );
+
+已创建 1 行。
+
+SQL> INSERT INTO t_majors VALUES ( 3003 , '环境工程' );
+
+已创建 1 行。
+
+SQL> commit ;
+
+提交完成。
+
+SQL> SELECT * FROM t_majors ;
+
+        ID NAME                                                                                                         
+---------- --------------------                                                                                         
+      1001 软件工程                                                                                                     
+      2002 土木工程                                                                                                     
+      3003 环境工程                                                                                                     
+
+SQL> 
+SQL> CREATE TABLE t_courses ( id NUMBER(5) , name VARCHAR2(20) ) ;
+
+表已创建。
+
+SQL> INSERT INTO t_courses VALUES ( 9001 , 'Java' );
+
+已创建 1 行。
+
+SQL> INSERT INTO t_courses VALUES ( 9002 , 'Database' );
+
+已创建 1 行。
+
+SQL> INSERT INTO t_courses VALUES ( 2002 , 'HTML/CSS' );
+
+已创建 1 行。
+
+SQL> INSERT INTO t_courses VALUES ( 9003 , 'JavaScript' );
+
+已创建 1 行。
+
+SQL> commit ;
+
+提交完成。
+
+SQL> SELECT * FROM t_courses ;
+
+        ID NAME                                                                                                         
+---------- --------------------                                                                                         
+      9001 Java                                                                                                         
+      9002 Database                                                                                                     
+      2002 HTML/CSS                                                                                                     
+      9003 JavaScript                                                                                                   
+
+SQL> SELECT * FROM t_majors ;
+
+        ID NAME                                                                                                         
+---------- --------------------                                                                                         
+      1001 软件工程                                                                                                     
+      2002 土木工程                                                                                                     
+      3003 环境工程                                                                                                     
+
+SQL> SELECT * FROM t_majors , t_courses ;
+
+        ID NAME                         ID NAME                                                                         
+---------- -------------------- ---------- --------------------                                                         
+      1001 软件工程                   9001 Java                                                                         
+      1001 软件工程                   9002 Database                                                                     
+      1001 软件工程                   2002 HTML/CSS                                                                     
+      1001 软件工程                   9003 JavaScript                                                                   
+      2002 土木工程                   9001 Java                                                                         
+      2002 土木工程                   9002 Database                                                                     
+      2002 土木工程                   2002 HTML/CSS                                                                     
+      2002 土木工程                   9003 JavaScript                                                                   
+      3003 环境工程                   9001 Java                                                                         
+      3003 环境工程                   9002 Database                                                                     
+      3003 环境工程                   2002 HTML/CSS                                                                     
+
+        ID NAME                         ID NAME                                                                         
+---------- -------------------- ---------- --------------------                                                         
+      3003 环境工程                   9003 JavaScript                                                                   
+
+已选择12行。
+
+SQL> -- 从以上的笛卡尔乘积中查找 专业 id 为 1001 的信息
+SQL> SELECT * FROM t_majors , t_courses WHERE id = 1001 ;
+SELECT * FROM t_majors , t_courses WHERE id = 1001 
+                                         *
+第 1 行出现错误: 
+ORA-00918: 未明确定义列 
+
+
+SQL> SELECT * FROM t_majors , t_courses WHERE t_majors.id = 1001 ;
+
+        ID NAME                         ID NAME                                                                         
+---------- -------------------- ---------- --------------------                                                         
+      1001 软件工程                   9001 Java                                                                         
+      1001 软件工程                   9002 Database                                                                     
+      1001 软件工程                   2002 HTML/CSS                                                                     
+      1001 软件工程                   9003 JavaScript                                                                   
+
+SQL> -- 以上查询会先形成笛卡尔乘积，再从笛卡尔乘积中挑选 专业id 为 1001 的数据
+SQL> 
+SQL> -- 可以在 FROM 之后的 表名 之后 使用 空格 隔开，指定表的别名
+SQL> 
+SQL> SELECT * FROM t_majors m , t_courses c WHERE m.id = 1001 ;
+
+        ID NAME                         ID NAME                                                                         
+---------- -------------------- ---------- --------------------                                                         
+      1001 软件工程                   9001 Java                                                                         
+      1001 软件工程                   9002 Database                                                                     
+      1001 软件工程                   2002 HTML/CSS                                                                     
+      1001 软件工程                   9003 JavaScript                                                                   
+
+SQL> -- 仅列出 专业名称 和 课程名称
+SQL> SELECT m.name , c.name FROM t_majors m , t_courses c WHERE m.id = 1001 ;
+
+NAME                 NAME                                                                                               
+-------------------- --------------------                                                                               
+软件工程             Java                                                                                               
+软件工程             Database                                                                                           
+软件工程             HTML/CSS                                                                                           
+软件工程             JavaScript                                                                                         
+
+SQL> spool off

@@ -1,0 +1,464 @@
+SQL> -- 查看 emp 表结构
+SQL> DESC emp ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMPNO                                                             NOT NULL NUMBER(4)
+ ENAME                                                                      VARCHAR2(10)
+ JOB                                                                        VARCHAR2(9)
+ MGR                                                                        NUMBER(4)
+ HIREDATE                                                                   DATE
+ SAL                                                                        NUMBER(7,2)
+ COMM                                                                       NUMBER(7,2)
+ DEPTNO                                                                     NUMBER(2)
+
+SQL> -- 查看 dept 表结构
+SQL> DESC dept ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ DEPTNO                                                                     NUMBER(2)
+ DNAME                                                                      VARCHAR2(14)
+ LOC                                                                        VARCHAR2(13)
+
+SQL> -- 查看 emp 表中的数据
+SQL> SET linesize 120 ;
+SQL> SELECT * FROM emp ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                              
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                              
+      7369 SMITH      CLERK           7902 17-12月-80            800                    20                              
+      7499 ALLEN      SALESMAN        7698 20-2月 -81           1600        300         30                              
+      7521 WARD       SALESMAN        7698 22-2月 -81           1250        500         30                              
+      7566 JONES      MANAGER         7839 02-4月 -81           2975                    20                              
+      7654 MARTIN     SALESMAN        7698 28-9月 -81           1250       1400         30                              
+      7698 BLAKE      MANAGER         7839 01-5月 -81           2850                    30                              
+      7782 CLARK      MANAGER         7839 09-6月 -81           2450                    10                              
+      7788 SCOTT      ANALYST         7566 09-12月-82           3000                    20                              
+      7839 KING       PRESIDENT            17-11月-81           5000                    10                              
+      7844 TURNER     SALESMAN        7698 08-9月 -81           1500          0         30                              
+      7876 ADAMS      CLERK           7788 12-1月 -83           1100                    20                              
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                              
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                              
+      7900 JAMES      CLERK           7698 03-12月-81            950                    30                              
+      7902 FORD       ANALYST         7566 03-12月-81           3000                    20                              
+      7934 MILLER     CLERK           7782 23-1月 -82           1300                    10                              
+      9257 HUA'AN     CLERK           7839 23-1月 -85           1300                                                    
+      8526 QIU'XIANG  ANALYST         7839 23-1月 -85           1400                                                    
+
+已选择16行。
+
+SQL> -- 查看 dept 表中的数据
+SQL> SELECT * FROM dept ;
+
+    DEPTNO DNAME          LOC                                                                                           
+---------- -------------- -------------                                                                                 
+        10 ACCOUNTING     NEW YORK                                                                                      
+        20 RESEARCH       DALLAS                                                                                        
+        30 SALES          CHICAGO                                                                                       
+        40 OPERATIONS     BOSTON                                                                                        
+
+SQL> 
+SQL> -- 查询 emp 表 和 dept 表 ( 因为屏幕大小有限，所以仅仅显示部分列即可 )
+SQL> SELECT e.empno , e.ename , e.deptno , d.deptno , d.dname , d.loc
+  2  FROM emp e , dept d ;
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7369 SMITH              20         10 ACCOUNTING     NEW YORK                                                     
+      7499 ALLEN              30         10 ACCOUNTING     NEW YORK                                                     
+      7521 WARD               30         10 ACCOUNTING     NEW YORK                                                     
+      7566 JONES              20         10 ACCOUNTING     NEW YORK                                                     
+      7654 MARTIN             30         10 ACCOUNTING     NEW YORK                                                     
+      7698 BLAKE              30         10 ACCOUNTING     NEW YORK                                                     
+      7782 CLARK              10         10 ACCOUNTING     NEW YORK                                                     
+      7788 SCOTT              20         10 ACCOUNTING     NEW YORK                                                     
+      7839 KING               10         10 ACCOUNTING     NEW YORK                                                     
+      7844 TURNER             30         10 ACCOUNTING     NEW YORK                                                     
+      7876 ADAMS              20         10 ACCOUNTING     NEW YORK                                                     
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7900 JAMES              30         10 ACCOUNTING     NEW YORK                                                     
+      7902 FORD               20         10 ACCOUNTING     NEW YORK                                                     
+      7934 MILLER             10         10 ACCOUNTING     NEW YORK                                                     
+      9257 HUA'AN                        10 ACCOUNTING     NEW YORK                                                     
+      8526 QIU'XIANG                     10 ACCOUNTING     NEW YORK                                                     
+      7369 SMITH              20         20 RESEARCH       DALLAS                                                       
+      7499 ALLEN              30         20 RESEARCH       DALLAS                                                       
+      7521 WARD               30         20 RESEARCH       DALLAS                                                       
+      7566 JONES              20         20 RESEARCH       DALLAS                                                       
+      7654 MARTIN             30         20 RESEARCH       DALLAS                                                       
+      7698 BLAKE              30         20 RESEARCH       DALLAS                                                       
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7782 CLARK              10         20 RESEARCH       DALLAS                                                       
+      7788 SCOTT              20         20 RESEARCH       DALLAS                                                       
+      7839 KING               10         20 RESEARCH       DALLAS                                                       
+      7844 TURNER             30         20 RESEARCH       DALLAS                                                       
+      7876 ADAMS              20         20 RESEARCH       DALLAS                                                       
+      7900 JAMES              30         20 RESEARCH       DALLAS                                                       
+      7902 FORD               20         20 RESEARCH       DALLAS                                                       
+      7934 MILLER             10         20 RESEARCH       DALLAS                                                       
+      9257 HUA'AN                        20 RESEARCH       DALLAS                                                       
+      8526 QIU'XIANG                     20 RESEARCH       DALLAS                                                       
+      7369 SMITH              20         30 SALES          CHICAGO                                                      
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7499 ALLEN              30         30 SALES          CHICAGO                                                      
+      7521 WARD               30         30 SALES          CHICAGO                                                      
+      7566 JONES              20         30 SALES          CHICAGO                                                      
+      7654 MARTIN             30         30 SALES          CHICAGO                                                      
+      7698 BLAKE              30         30 SALES          CHICAGO                                                      
+      7782 CLARK              10         30 SALES          CHICAGO                                                      
+      7788 SCOTT              20         30 SALES          CHICAGO                                                      
+      7839 KING               10         30 SALES          CHICAGO                                                      
+      7844 TURNER             30         30 SALES          CHICAGO                                                      
+      7876 ADAMS              20         30 SALES          CHICAGO                                                      
+      7900 JAMES              30         30 SALES          CHICAGO                                                      
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7902 FORD               20         30 SALES          CHICAGO                                                      
+      7934 MILLER             10         30 SALES          CHICAGO                                                      
+      9257 HUA'AN                        30 SALES          CHICAGO                                                      
+      8526 QIU'XIANG                     30 SALES          CHICAGO                                                      
+      7369 SMITH              20         40 OPERATIONS     BOSTON                                                       
+      7499 ALLEN              30         40 OPERATIONS     BOSTON                                                       
+      7521 WARD               30         40 OPERATIONS     BOSTON                                                       
+      7566 JONES              20         40 OPERATIONS     BOSTON                                                       
+      7654 MARTIN             30         40 OPERATIONS     BOSTON                                                       
+      7698 BLAKE              30         40 OPERATIONS     BOSTON                                                       
+      7782 CLARK              10         40 OPERATIONS     BOSTON                                                       
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7788 SCOTT              20         40 OPERATIONS     BOSTON                                                       
+      7839 KING               10         40 OPERATIONS     BOSTON                                                       
+      7844 TURNER             30         40 OPERATIONS     BOSTON                                                       
+      7876 ADAMS              20         40 OPERATIONS     BOSTON                                                       
+      7900 JAMES              30         40 OPERATIONS     BOSTON                                                       
+      7902 FORD               20         40 OPERATIONS     BOSTON                                                       
+      7934 MILLER             10         40 OPERATIONS     BOSTON                                                       
+      9257 HUA'AN                        40 OPERATIONS     BOSTON                                                       
+      8526 QIU'XIANG                     40 OPERATIONS     BOSTON                                                       
+
+已选择64行。
+
+SQL> -- 先产生笛卡尔乘积，然后从笛卡尔乘积中筛选数据
+SQL> 
+SQL> SELECT e.empno , e.ename , e.deptno , d.deptno , d.dname , d.loc
+  2  FROM emp e , dept d
+  3  WHERE e.deptno = d.deptno ;
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7369 SMITH              20         20 RESEARCH       DALLAS                                                       
+      7499 ALLEN              30         30 SALES          CHICAGO                                                      
+      7521 WARD               30         30 SALES          CHICAGO                                                      
+      7566 JONES              20         20 RESEARCH       DALLAS                                                       
+      7654 MARTIN             30         30 SALES          CHICAGO                                                      
+      7698 BLAKE              30         30 SALES          CHICAGO                                                      
+      7782 CLARK              10         10 ACCOUNTING     NEW YORK                                                     
+      7788 SCOTT              20         20 RESEARCH       DALLAS                                                       
+      7839 KING               10         10 ACCOUNTING     NEW YORK                                                     
+      7844 TURNER             30         30 SALES          CHICAGO                                                      
+      7876 ADAMS              20         20 RESEARCH       DALLAS                                                       
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7900 JAMES              30         30 SALES          CHICAGO                                                      
+      7902 FORD               20         20 RESEARCH       DALLAS                                                       
+      7934 MILLER             10         10 ACCOUNTING     NEW YORK                                                     
+
+已选择14行。
+
+SQL> -- 以上查询的含义是: 查询每个员工的个人信息 及 其部门信息 ( 不统计没有部门的员工 和 没有员工的部门 )
+SQL> 
+SQL> -- 由以上查询可知，如果从两张表中仅挑选满足 emp.deptno = dept.deptno 条件的数据，就可以不产生笛卡尔乘积
+SQL> 
+SQL> -- 此时就可以将 emp.deptno = dept.deptno 当做 【连接条件】 来对待
+SQL> 
+SQL> -- 实际上 deptno 可以是 dept 表的主键，emp 表中的 deptno 可以是个外键(它参照dept表的主键)
+SQL> 
+SQL> -- 使用 标准 SQL 语句 实现 内连接查询
+SQL> 
+SQL> SELECT e.empno , e.ename , e.deptno , d.deptno , d.dname , d.loc
+  2  FROM emp e
+  3  INNER JOIN dept d
+  4  ON e.deptno = d.deptno ;
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7369 SMITH              20         20 RESEARCH       DALLAS                                                       
+      7499 ALLEN              30         30 SALES          CHICAGO                                                      
+      7521 WARD               30         30 SALES          CHICAGO                                                      
+      7566 JONES              20         20 RESEARCH       DALLAS                                                       
+      7654 MARTIN             30         30 SALES          CHICAGO                                                      
+      7698 BLAKE              30         30 SALES          CHICAGO                                                      
+      7782 CLARK              10         10 ACCOUNTING     NEW YORK                                                     
+      7788 SCOTT              20         20 RESEARCH       DALLAS                                                       
+      7839 KING               10         10 ACCOUNTING     NEW YORK                                                     
+      7844 TURNER             30         30 SALES          CHICAGO                                                      
+      7876 ADAMS              20         20 RESEARCH       DALLAS                                                       
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7900 JAMES              30         30 SALES          CHICAGO                                                      
+      7902 FORD               20         20 RESEARCH       DALLAS                                                       
+      7934 MILLER             10         10 ACCOUNTING     NEW YORK                                                     
+
+已选择14行。
+
+SQL> -- 此时已经不再产生笛卡尔乘积
+SQL> 
+SQL> -- 其中的 INNER 关键字可以省略
+SQL> 
+SQL> SELECT e.empno , e.ename , e.deptno , d.deptno , d.dname , d.loc
+  2  FROM emp e
+  3  JOIN dept d
+  4  ON e.deptno = d.deptno ;
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7369 SMITH              20         20 RESEARCH       DALLAS                                                       
+      7499 ALLEN              30         30 SALES          CHICAGO                                                      
+      7521 WARD               30         30 SALES          CHICAGO                                                      
+      7566 JONES              20         20 RESEARCH       DALLAS                                                       
+      7654 MARTIN             30         30 SALES          CHICAGO                                                      
+      7698 BLAKE              30         30 SALES          CHICAGO                                                      
+      7782 CLARK              10         10 ACCOUNTING     NEW YORK                                                     
+      7788 SCOTT              20         20 RESEARCH       DALLAS                                                       
+      7839 KING               10         10 ACCOUNTING     NEW YORK                                                     
+      7844 TURNER             30         30 SALES          CHICAGO                                                      
+      7876 ADAMS              20         20 RESEARCH       DALLAS                                                       
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7900 JAMES              30         30 SALES          CHICAGO                                                      
+      7902 FORD               20         20 RESEARCH       DALLAS                                                       
+      7934 MILLER             10         10 ACCOUNTING     NEW YORK                                                     
+
+已选择14行。
+
+SQL> -- 查询 emp 表中 部门号 为 20 的雇员的个人信息 和 部门信息
+SQL> SELECT e.empno , e.ename , e.deptno , d.deptno , d.dname , d.loc
+  2  FROM emp e
+  3  JOIN dept d
+  4  ON e.deptno = d.deptno
+  5  WHERE e.deptno = 20 ;
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7369 SMITH              20         20 RESEARCH       DALLAS                                                       
+      7566 JONES              20         20 RESEARCH       DALLAS                                                       
+      7788 SCOTT              20         20 RESEARCH       DALLAS                                                       
+      7876 ADAMS              20         20 RESEARCH       DALLAS                                                       
+      7902 FORD               20         20 RESEARCH       DALLAS                                                       
+
+SQL> -- 查询 emp 表中 部门号 为 20 的雇员的个人信息 和 部门信息 ，并按照 工号进行降序排列
+SQL> SELECT e.empno , e.ename , e.deptno , d.deptno , d.dname , d.loc
+  2  FROM emp e
+  3  JOIN dept d
+  4  ON e.deptno = d.deptno
+  5  WHERE e.deptno = 20
+  6  ORDER BY empno DESC ;
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7902 FORD               20         20 RESEARCH       DALLAS                                                       
+      7876 ADAMS              20         20 RESEARCH       DALLAS                                                       
+      7788 SCOTT              20         20 RESEARCH       DALLAS                                                       
+      7566 JONES              20         20 RESEARCH       DALLAS                                                       
+      7369 SMITH              20         20 RESEARCH       DALLAS                                                       
+
+SQL> 
+SQL> 
+SQL> -- 以下写法与之前的写法有什么区别 (注意不单是写法上的区别)
+SQL> 
+SQL> SELECT e.empno , e.ename , e.deptno , d.deptno , d.dname , d.loc
+  2  F
+  3  ;
+
+*
+第 3 行出现错误: 
+ORA-00923: 未找到要求的 FROM 关键字 
+
+
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT e.empno , e.ename , e.deptno , d.deptno , d.dname , d.loc
+  2  FROM emp e 
+  3  JOIN dept d
+  4  ON e.deptno = d.deptno AND e.deptno = 20
+  5* ORDER BY empno DESC
+SQL> /
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7902 FORD               20         20 RESEARCH       DALLAS                                                       
+      7876 ADAMS              20         20 RESEARCH       DALLAS                                                       
+      7788 SCOTT              20         20 RESEARCH       DALLAS                                                       
+      7566 JONES              20         20 RESEARCH       DALLAS                                                       
+      7369 SMITH              20         20 RESEARCH       DALLAS                                                       
+
+SQL> -- 将 e.deptno = 20 写在 ON e.deptno = d.deptno 之后 与 写在单独的 WHERE 子句之后有什么区别?
+SQL> 
+SQL> 
+SQL> -- 在 查询结果中 包含 join 关键字之前的表中不满足连接条件的数据
+SQL> 
+SQL> SELECT e.empno , e.ename , e.deptno , d.deptno , d.dname , d.loc
+  2  FROM emp e LEFT OUTER JOIN dept d
+  3  ON e.deptno = d.deptno ;
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7934 MILLER             10         10 ACCOUNTING     NEW YORK                                                     
+      7839 KING               10         10 ACCOUNTING     NEW YORK                                                     
+      7782 CLARK              10         10 ACCOUNTING     NEW YORK                                                     
+      7902 FORD               20         20 RESEARCH       DALLAS                                                       
+      7876 ADAMS              20         20 RESEARCH       DALLAS                                                       
+      7788 SCOTT              20         20 RESEARCH       DALLAS                                                       
+      7566 JONES              20         20 RESEARCH       DALLAS                                                       
+      7369 SMITH              20         20 RESEARCH       DALLAS                                                       
+      7900 JAMES              30         30 SALES          CHICAGO                                                      
+      7844 TURNER             30         30 SALES          CHICAGO                                                      
+      7698 BLAKE              30         30 SALES          CHICAGO                                                      
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7654 MARTIN             30         30 SALES          CHICAGO                                                      
+      7521 WARD               30         30 SALES          CHICAGO                                                      
+      7499 ALLEN              30         30 SALES          CHICAGO                                                      
+      8526 QIU'XIANG                                                                                                    
+      9257 HUA'AN                                                                                                       
+
+已选择16行。
+
+SQL> -- 以上查询就是左外连接的结果
+SQL> -- 以上查询的含义是:
+SQL> -- 查询emp表中所有雇员的个人信息和部门信息，如果某些雇员没有部门，也将其列在查询结果中
+SQL> 
+SQL> 
+SQL> -- 在 查询结果中 包含 join 关键字之后的表中不满足连接条件的数据
+SQL> 
+SQL> SELECT e.empno , e.ename , e.deptno , d.deptno , d.dname , d.loc
+  2  FROM emp e RIGHT OUTER JOIN dept d
+  3  ON e.deptno = d.deptno ;
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7369 SMITH              20         20 RESEARCH       DALLAS                                                       
+      7499 ALLEN              30         30 SALES          CHICAGO                                                      
+      7521 WARD               30         30 SALES          CHICAGO                                                      
+      7566 JONES              20         20 RESEARCH       DALLAS                                                       
+      7654 MARTIN             30         30 SALES          CHICAGO                                                      
+      7698 BLAKE              30         30 SALES          CHICAGO                                                      
+      7782 CLARK              10         10 ACCOUNTING     NEW YORK                                                     
+      7788 SCOTT              20         20 RESEARCH       DALLAS                                                       
+      7839 KING               10         10 ACCOUNTING     NEW YORK                                                     
+      7844 TURNER             30         30 SALES          CHICAGO                                                      
+      7876 ADAMS              20         20 RESEARCH       DALLAS                                                       
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7900 JAMES              30         30 SALES          CHICAGO                                                      
+      7902 FORD               20         20 RESEARCH       DALLAS                                                       
+      7934 MILLER             10         10 ACCOUNTING     NEW YORK                                                     
+                                         40 OPERATIONS     BOSTON                                                       
+
+已选择15行。
+
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 全连接 ( Oracle 支持 ，MySQL 不支持 )
+SQL> 
+SQL> SELECT e.empno , e.ename , e.deptno , d.deptno , d.dname , d.loc
+  2  FROM emp e FULL OUTER JOIN dept d
+  3  ON e.deptno = d.deptno ;
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7369 SMITH              20         20 RESEARCH       DALLAS                                                       
+      7499 ALLEN              30         30 SALES          CHICAGO                                                      
+      7521 WARD               30         30 SALES          CHICAGO                                                      
+      7566 JONES              20         20 RESEARCH       DALLAS                                                       
+      7654 MARTIN             30         30 SALES          CHICAGO                                                      
+      7698 BLAKE              30         30 SALES          CHICAGO                                                      
+      7782 CLARK              10         10 ACCOUNTING     NEW YORK                                                     
+      7788 SCOTT              20         20 RESEARCH       DALLAS                                                       
+      7839 KING               10         10 ACCOUNTING     NEW YORK                                                     
+      7844 TURNER             30         30 SALES          CHICAGO                                                      
+      7876 ADAMS              20         20 RESEARCH       DALLAS                                                       
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME          LOC                                                          
+---------- ---------- ---------- ---------- -------------- -------------                                                
+      7900 JAMES              30         30 SALES          CHICAGO                                                      
+      7902 FORD               20         20 RESEARCH       DALLAS                                                       
+      7934 MILLER             10         10 ACCOUNTING     NEW YORK                                                     
+      9257 HUA'AN                                                                                                       
+      8526 QIU'XIANG                                                                                                    
+                                         40 OPERATIONS     BOSTON                                                       
+
+已选择17行。
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 最后，尝试查询 emp 表中每个雇员的工号、姓名、薪水、薪水级别
+SQL> 
+SQL> DESE salgrade ;
+SP2-0734: 未知的命令开头 "DESE salgr..." - 忽略了剩余的行。
+SQL> DESC salgrade ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ GRADE                                                                      NUMBER
+ LOSAL                                                                      NUMBER
+ HISAL                                                                      NUMBER
+
+SQL> SELECT * FROM salgrade ;
+
+     GRADE      LOSAL      HISAL                                                                                        
+---------- ---------- ----------                                                                                        
+         1        700       1200                                                                                        
+         2       1201       1400                                                                                        
+         3       1401       2000                                                                                        
+         4       2001       3000                                                                                        
+         5       3001       9999                                                                                        
+
+SQL> SELECT e.empno , e.ename , e.sal , g.grade
+  2  FROM emp e
+  3  JOIN salgrade g
+  4  ON e.sal BETWEEN g.losal AND g.hisal ;
+
+     EMPNO ENAME             SAL      GRADE                                                                             
+---------- ---------- ---------- ----------                                                                             
+      7369 SMITH             800          1                                                                             
+      7900 JAMES             950          1                                                                             
+      7876 ADAMS            1100          1                                                                             
+      7521 WARD             1250          2                                                                             
+      7654 MARTIN           1250          2                                                                             
+      7934 MILLER           1300          2                                                                             
+      9257 HUA'AN           1300          2                                                                             
+      8526 QIU'XIANG        1400          2                                                                             
+      7844 TURNER           1500          3                                                                             
+      7499 ALLEN            1600          3                                                                             
+      7782 CLARK            2450          4                                                                             
+
+     EMPNO ENAME             SAL      GRADE                                                                             
+---------- ---------- ---------- ----------                                                                             
+      7698 BLAKE            2850          4                                                                             
+      7566 JONES            2975          4                                                                             
+      7788 SCOTT            3000          4                                                                             
+      7902 FORD             3000          4                                                                             
+      7839 KING             5000          5                                                                             
+
+已选择16行。
+
+SQL> spool off
