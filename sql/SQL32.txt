@@ -1,0 +1,437 @@
+SQL> -- 查看 emp 表的表结构
+SQL> 
+SQL> DESC emp;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMPNO                                                             NOT NULL NUMBER(4)
+ ENAME                                                                      VARCHAR2(10)
+ JOB                                                                        VARCHAR2(9)
+ MGR                                                                        NUMBER(4)
+ HIREDATE                                                                   DATE
+ SAL                                                                        NUMBER(7,2)
+ COMM                                                                       NUMBER(7,2)
+ DEPTNO                                                                     NUMBER(2)
+
+SQL> START format.sql
+SQL> -- 查看 emp 表中的所有数据
+SQL> SELECT * FROM emp ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                              
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                              
+      7369 SMITH      CLERK           7902 17-12月-80            800                    20                              
+      7499 ALLEN      SALESMAN        7698 20-2月 -81           1600        300         30                              
+      7521 WARD       SALESMAN        7698 22-2月 -81           1250        500         30                              
+      7566 JONES      MANAGER         7839 02-4月 -81           2975                    20                              
+      7654 MARTIN     SALESMAN        7698 28-9月 -81           1250       1400         30                              
+      7698 BLAKE      MANAGER         7839 01-5月 -81           2850                    30                              
+      7782 CLARK      MANAGER         7839 09-6月 -81           2450                    10                              
+      7788 SCOTT      ANALYST         7566 09-12月-82           3000                    20                              
+      7839 KING       PRESIDENT            17-11月-81           5000                    10                              
+      7844 TURNER     SALESMAN        7698 08-9月 -81           1500          0         30                              
+      7876 ADAMS      CLERK           7788 12-1月 -83           1100                    20                              
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                              
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                              
+      7900 JAMES      CLERK           7698 03-12月-81            950                    30                              
+      7902 FORD       ANALYST         7566 03-12月-81           3000                    20                              
+      7934 MILLER     CLERK           7782 23-1月 -82           1300                    10                              
+      9257 HUA'AN     CLERK           7839 23-1月 -85           1300                                                    
+      8526 QIU'XIANG  ANALYST         7839 23-1月 -85           1400                                                    
+
+已选择16行。
+
+SQL> 
+SQL> -- 查看 s_emp 表的表结构
+SQL> DESC s_emp ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                NOT NULL NUMBER(7)
+ LAST_NAME                                                         NOT NULL VARCHAR2(25)
+ FIRST_NAME                                                                 VARCHAR2(25)
+ USERID                                                                     VARCHAR2(8)
+ START_DATE                                                                 DATE
+ COMMENTS                                                                   VARCHAR2(255)
+ MANAGER_ID                                                                 NUMBER(7)
+ TITLE                                                                      VARCHAR2(25)
+ DEPT_ID                                                                    NUMBER(7)
+ SALARY                                                                     NUMBER(11,2)
+ COMMISSION_PCT                                                             NUMBER(4,2)
+
+SQL> START format.sql
+SQL> SELECT * FROM s_emp ;
+
+ ID LAST_NAME       FIRST_NAME      USERID   START_DATE     COMMENTS   MANAGER_ID TITLE           DEPT_ID     SALARY COMMISSION_PCT
+--- --------------- --------------- -------- -------------- ---------- ---------- --------------- ------- ---------- --------------
+ 01 Velasquez       Carmen          cvelasqu 03-3月 -90                           President            50       2500
+ 02 Ngao            LaDoris         lngao    08-3月 -90                        01 VP, Operations       41       1450
+ 03 Nagayama        Midori          mnagayam 17-6月 -91                        01 VP, Sales            31       1400
+ 04 Quick-To-See    Mark            mquickto 07-4月 -90                        01 VP, Finance          10       1450
+ 05 Ropeburn        Audry           aropebur 04-3月 -90                        01 VP, Administrat      50       1550
+                                                                                  ion
+
+ 06 Urguhart        Molly           murguhar 18-6月 -91                        02 Warehouse Manag      41       1200
+                                                                                  er
+
+ 07 Menchu          Roberta         rmenchu  14-5月 -90                        02 Warehouse Manag      42       1250
+                                                                                  er
+
+ 08 Biri            Ben             bbiri    07-4月 -90                        02 Warehouse Manag      43       1100
+                                                                                  er
+
+ 09 Catchpole       Antoinette      acatchpo 09-2月 -92                        02 Warehouse Manag      44       1300
+                                                                                  er
+
+ 10 Havel           Marta           mhavel   27-2月 -91                        02 Warehouse Manag      45       1307
+                                                                                  er
+
+
+ ID LAST_NAME       FIRST_NAME      USERID   START_DATE     COMMENTS   MANAGER_ID TITLE           DEPT_ID     SALARY COMMISSION_PCT
+--- --------------- --------------- -------- -------------- ---------- ---------- --------------- ------- ---------- --------------
+ 11 Magee           Colin           cmagee   14-5月 -90                        03 Sales Represent      31       1400             10
+                                                                                  ative
+
+ 12 Giljum          Henry           hgiljum  18-1月 -92                        03 Sales Represent      32       1490           12.5
+                                                                                  ative
+
+ 13 Sedeghi         Yasmin          ysedeghi 18-2月 -91                        03 Sales Represent      33       1515             10
+                                                                                  ative
+
+ 14 Nguyen          Mai             mnguyen  22-1月 -92                        03 Sales Represent      34       1525             15
+                                                                                  ative
+
+ 15 Dumas           Andre           adumas   09-10月-91                        03 Sales Represent      35       1450           17.5
+                                                                                  ative
+
+ 16 Maduro          Elena           emaduro  07-2月 -92                        06 Stock Clerk          41       1400
+ 17 Smith           George          gsmith   08-3月 -90                        06 Stock Clerk          41        940
+ 18 Nozaki          Akira           anozaki  09-2月 -91                        07 Stock Clerk          42       1200
+ 19 Patel           Vikram          vpatel   06-8月 -91                        07 Stock Clerk          42        795
+ 20 Newman          Chad            cnewman  21-7月 -91                        08 Stock Clerk          43        750
+ 21 3karian         Alexander       a3kari   26-5月 -91                        08 Stock Clerk          43        850
+ 22 Chang           Eddie           echang   30-11月-90                        09 Stock Clerk          44        800
+
+ ID LAST_NAME       FIRST_NAME      USERID   START_DATE     COMMENTS   MANAGER_ID TITLE           DEPT_ID     SALARY COMMISSION_PCT
+--- --------------- --------------- -------- -------------- ---------- ---------- --------------- ------- ---------- --------------
+ 23 Patel           Radha           rpatel   17-10月-90                        09 Stock Clerk          34        795
+ 24 Dancs           Bela            bdancs   17-3月 -91                        10 Stock Clerk          45        860
+ 25 Schwartz        Sylvie          sschwart 09-5月 -91                        10 Stock Clerk          45       1100
+
+已选择25行。
+
+SQL> SELECT empno , ename , mgr FROM emp ;
+
+     EMPNO ENAME             MGR                                                                                        
+---------- ---------- ----------                                                                                        
+      7369 SMITH            7902                                                                                        
+      7499 ALLEN            7698                                                                                        
+      7521 WARD             7698                                                                                        
+      7566 JONES            7839                                                                                        
+      7654 MARTIN           7698                                                                                        
+      7698 BLAKE            7839                                                                                        
+      7782 CLARK            7839                                                                                        
+      7788 SCOTT            7566                                                                                        
+      7839 KING                                                                                                         
+      7844 TURNER           7698                                                                                        
+      7876 ADAMS            7788                                                                                        
+
+     EMPNO ENAME             MGR                                                                                        
+---------- ---------- ----------                                                                                        
+      7900 JAMES            7698                                                                                        
+      7902 FORD             7566                                                                                        
+      7934 MILLER           7782                                                                                        
+      9257 HUA'AN           7839                                                                                        
+      8526 QIU'XIANG        7839                                                                                        
+
+已选择16行。
+
+SQL> 
+SQL> SELECT id , first_name , last_name , manager_id FROM s_emp ;
+
+ ID FIRST_NAME      LAST_NAME       MANAGER_ID                                                                          
+--- --------------- --------------- ----------                                                                          
+ 01 Carmen          Velasquez                                                                                           
+ 02 LaDoris         Ngao                    01                                                                          
+ 03 Midori          Nagayama                01                                                                          
+ 04 Mark            Quick-To-See            01                                                                          
+ 05 Audry           Ropeburn                01                                                                          
+ 06 Molly           Urguhart                02                                                                          
+ 07 Roberta         Menchu                  02                                                                          
+ 08 Ben             Biri                    02                                                                          
+ 09 Antoinette      Catchpole               02                                                                          
+ 10 Marta           Havel                   02                                                                          
+ 11 Colin           Magee                   03                                                                          
+
+ ID FIRST_NAME      LAST_NAME       MANAGER_ID                                                                          
+--- --------------- --------------- ----------                                                                          
+ 12 Henry           Giljum                  03                                                                          
+ 13 Yasmin          Sedeghi                 03                                                                          
+ 14 Mai             Nguyen                  03                                                                          
+ 15 Andre           Dumas                   03                                                                          
+ 16 Elena           Maduro                  06                                                                          
+ 17 George          Smith                   06                                                                          
+ 18 Akira           Nozaki                  07                                                                          
+ 19 Vikram          Patel                   07                                                                          
+ 20 Chad            Newman                  08                                                                          
+ 21 Alexander       3karian                 08                                                                          
+ 22 Eddie           Chang                   09                                                                          
+
+ ID FIRST_NAME      LAST_NAME       MANAGER_ID                                                                          
+--- --------------- --------------- ----------                                                                          
+ 23 Radha           Patel                   09                                                                          
+ 24 Bela            Dancs                   10                                                                          
+ 25 Sylvie          Schwartz                10                                                                          
+
+已选择25行。
+
+SQL> 
+SQL> 
+SQL> -- 创建一个无限极分类表( 某个分类下可以有子分类，子分类可以继续有子分类)
+SQL> CREATE TABLE t_categories (
+  2  
+SQL> DESC t_categories ;
+ERROR:
+ORA-04043: 对象 t_categories  不存在 
+
+
+SQL> CREATE TABLE t_categories (
+  2      id NUMBER(10) ,
+  3      name VARCHAR2(20) ,
+  4      pid NUMBER(10) ,
+  5      PRIM
+  6  ;
+
+*
+第 6 行出现错误: 
+ORA-00907: 缺失右括号 
+
+
+SQL> ed
+已写入 file afiedt.buf
+
+  1  CREATE TABLE t_categories (
+  2      id NUMBER(10) ,
+  3      name VARCHAR2(20) ,
+  4      pid NUMBER(10) ,
+  5      CONSTRAINT t_categories_id_pk PRIMARY KEY ( id ) ,
+  6      CONSTRAINT t_categories_pid_fk FOREIGN KEY ( pid ) REFERENCES t_categories ( id )
+  7* )
+SQL> /
+
+表已创建。
+
+SQL> DESC t_categories ;
+ 名称                                                              是否为空? 类型
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ ID                                                                NOT NULL NUMBER(10)
+ NAME                                                                       VARCHAR2(20)
+ PID                                                                        NUMBER(10)
+
+SQL> 
+SQL> -- 查看索引
+SQL> SELECT index_name , index_type FROM user_indexes WHERE lower(table_name) = 't_categories' ;
+
+INDEX_NAME                     INDEX_TYPE                                                                               
+------------------------------ ---------------------------                                                              
+T_CATEGORIES_ID_PK             NORMAL                                                                                   
+
+SQL> 
+SQL> -- 查看约束
+SQL> SELECT constraint_name , constraint_type FROM user_constraints WHERE lower(table_name) = 't_categories' ;
+
+CONSTRAINT_NAME                C                                                                                        
+------------------------------ -                                                                                        
+T_CATEGORIES_PID_FK            R                                                                                        
+T_CATEGORIES_ID_PK             P                                                                                        
+
+SQL> 
+SQL> 
+SQL> -- 像 t_categories 表中插入数据
+SQL> 
+SQL> INSERT ALL
+  2     INTO t_categories ( id , name ) VALUES ( 1 , '家用电器' )
+  3     INTO t_categories ( id , name , pid ) VALUES ( 2 , '手机/运营商/数码' ， null )
+  4     INTO t_categories ( id , name , pid ) VALUES ( 3 , '电视' , 1 )
+  5     INTO t_categories ( id , name , pid ) VALUES ( 4 , '空调' , 1 )
+  6  SELECT * FROM dual ;
+
+已创建4行。
+
+SQL> commit ;
+
+提交完成。
+
+SQL> SELECT * FROM t_categories ;
+
+ ID NAME                        PID                                                                                     
+--- -------------------- ----------                                                                                     
+ 01 家用电器                                                                                                            
+ 02 手机/运营商/数码                                                                                                    
+ 03 电视                          1                                                                                     
+ 04 空调                          1                                                                                     
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 查询 emp 表中 所有雇员的 工号、姓名 及其直接上司的 工号、姓名
+SQL> 
+SQL> SELECT e.empno , e.ename , m.empno , m.ename
+  2  FROM emp e
+  3  INNER JOIN emp m
+  4  ON e.mgr = m.empno ;
+
+     EMPNO ENAME           EMPNO ENAME                                                                                  
+---------- ---------- ---------- ----------                                                                             
+      7902 FORD             7566 JONES                                                                                  
+      7788 SCOTT            7566 JONES                                                                                  
+      7900 JAMES            7698 BLAKE                                                                                  
+      7844 TURNER           7698 BLAKE                                                                                  
+      7654 MARTIN           7698 BLAKE                                                                                  
+      7521 WARD             7698 BLAKE                                                                                  
+      7499 ALLEN            7698 BLAKE                                                                                  
+      7934 MILLER           7782 CLARK                                                                                  
+      7876 ADAMS            7788 SCOTT                                                                                  
+      8526 QIU'XIANG        7839 KING                                                                                   
+      9257 HUA'AN           7839 KING                                                                                   
+
+     EMPNO ENAME           EMPNO ENAME                                                                                  
+---------- ---------- ---------- ----------                                                                             
+      7782 CLARK            7839 KING                                                                                   
+      7698 BLAKE            7839 KING                                                                                   
+      7566 JONES            7839 KING                                                                                   
+      7369 SMITH            7902 FORD                                                                                   
+
+已选择15行。
+
+SQL> set pagesize 25
+SQL> SELECT e.empno 员工工号 , e.ename 员工姓名 , m.empno 上司工号, m.ename 上司姓名
+  2  FROM emp e
+  3  INNER JOIN emp m
+  4  ON e.mgr = m.empno ;
+
+  员工工号 员工姓名     上司工号 上司姓名                                                                               
+---------- ---------- ---------- ----------                                                                             
+      7902 FORD             7566 JONES                                                                                  
+      7788 SCOTT            7566 JONES                                                                                  
+      7900 JAMES            7698 BLAKE                                                                                  
+      7844 TURNER           7698 BLAKE                                                                                  
+      7654 MARTIN           7698 BLAKE                                                                                  
+      7521 WARD             7698 BLAKE                                                                                  
+      7499 ALLEN            7698 BLAKE                                                                                  
+      7934 MILLER           7782 CLARK                                                                                  
+      7876 ADAMS            7788 SCOTT                                                                                  
+      8526 QIU'XIANG        7839 KING                                                                                   
+      9257 HUA'AN           7839 KING                                                                                   
+      7782 CLARK            7839 KING                                                                                   
+      7698 BLAKE            7839 KING                                                                                   
+      7566 JONES            7839 KING                                                                                   
+      7369 SMITH            7902 FORD                                                                                   
+
+已选择15行。
+
+SQL> -- 以上查询结果中不包含 King ，因为它没有直接上司
+SQL> 
+SQL> 
+SQL> -- 查询 emp 表中 所有雇员的 工号、姓名 及其直接上司的 工号、姓名
+SQL> -- 如果某个雇员没有上司，也将其显示在查询结果中
+SQL> 
+SQL> -- 左外连接
+SQL> SELECT e.empno 员工工号 , e.ename 员工姓名 , m.empno 上司工号, m.ename 上司姓名
+  2  FROM emp e LEFT OUTER JOIN emp m ON e.mgr = m.empno ;
+
+  员工工号 员工姓名     上司工号 上司姓名                                                                               
+---------- ---------- ---------- ----------                                                                             
+      7902 FORD             7566 JONES                                                                                  
+      7788 SCOTT            7566 JONES                                                                                  
+      7900 JAMES            7698 BLAKE                                                                                  
+      7844 TURNER           7698 BLAKE                                                                                  
+      7654 MARTIN           7698 BLAKE                                                                                  
+      7521 WARD             7698 BLAKE                                                                                  
+      7499 ALLEN            7698 BLAKE                                                                                  
+      7934 MILLER           7782 CLARK                                                                                  
+      7876 ADAMS            7788 SCOTT                                                                                  
+      8526 QIU'XIANG        7839 KING                                                                                   
+      9257 HUA'AN           7839 KING                                                                                   
+      7782 CLARK            7839 KING                                                                                   
+      7698 BLAKE            7839 KING                                                                                   
+      7566 JONES            7839 KING                                                                                   
+      7369 SMITH            7902 FORD                                                                                   
+      7839 KING                                                                                                         
+
+已选择16行。
+
+SQL> -- 有外连接
+SQL> SELECT e.empno 员工工号 , e.ename 员工姓名 , m.empno 上司工号, m.ename 上司姓名
+  2  FROM emp m RIGHT OUTER JOIN emp e ON e.mgr = m.empno ;
+
+  员工工号 员工姓名     上司工号 上司姓名                                                                               
+---------- ---------- ---------- ----------                                                                             
+      7902 FORD             7566 JONES                                                                                  
+      7788 SCOTT            7566 JONES                                                                                  
+      7900 JAMES            7698 BLAKE                                                                                  
+      7844 TURNER           7698 BLAKE                                                                                  
+      7654 MARTIN           7698 BLAKE                                                                                  
+      7521 WARD             7698 BLAKE                                                                                  
+      7499 ALLEN            7698 BLAKE                                                                                  
+      7934 MILLER           7782 CLARK                                                                                  
+      7876 ADAMS            7788 SCOTT                                                                                  
+      8526 QIU'XIANG        7839 KING                                                                                   
+      9257 HUA'AN           7839 KING                                                                                   
+      7782 CLARK            7839 KING                                                                                   
+      7698 BLAKE            7839 KING                                                                                   
+      7566 JONES            7839 KING                                                                                   
+      7369 SMITH            7902 FORD                                                                                   
+      7839 KING                                                                                                         
+
+已选择16行。
+
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 有同学会尝试全外连接
+SQL> SELECT e.empno 员工工号 , e.ename 员工姓名 , m.empno 上司工号, m.ename 上司姓名
+  2  FROM emp e FULL  OUTER JOIN emp m ON e.mgr = m.empno ;
+
+  员工工号 员工姓名     上司工号 上司姓名                                                                               
+---------- ---------- ---------- ----------                                                                             
+                            7369 SMITH                                                                                  
+                            7499 ALLEN                                                                                  
+                            7521 WARD                                                                                   
+      7902 FORD             7566 JONES                                                                                  
+      7788 SCOTT            7566 JONES                                                                                  
+                            7654 MARTIN                                                                                 
+      7900 JAMES            7698 BLAKE                                                                                  
+      7844 TURNER           7698 BLAKE                                                                                  
+      7654 MARTIN           7698 BLAKE                                                                                  
+      7521 WARD             7698 BLAKE                                                                                  
+      7499 ALLEN            7698 BLAKE                                                                                  
+      7934 MILLER           7782 CLARK                                                                                  
+      7876 ADAMS            7788 SCOTT                                                                                  
+      8526 QIU'XIANG        7839 KING                                                                                   
+      9257 HUA'AN           7839 KING                                                                                   
+      7782 CLARK            7839 KING                                                                                   
+      7698 BLAKE            7839 KING                                                                                   
+      7566 JONES            7839 KING                                                                                   
+                            7844 TURNER                                                                                 
+                            7876 ADAMS                                                                                  
+                            7900 JAMES                                                                                  
+      7369 SMITH            7902 FORD                                                                                   
+
+  员工工号 员工姓名     上司工号 上司姓名                                                                               
+---------- ---------- ---------- ----------                                                                             
+                            7934 MILLER                                                                                 
+                            9257 HUA'AN                                                                                 
+                            8526 QIU'XIANG                                                                              
+      7839 KING                                                                                                         
+
+已选择26行。
+
+SQL> -- 以上查询的含义是:
+SQL> -- 查询 emp 表中 所有雇员的 工号、姓名 及其直接上司的 工号、姓名
+SQL> -- 如果 某个员工 没有上司也将其列到查询结果中
+SQL> -- 如果 某个员工 不是其他任何员工上司(也就是不是领导)也将其列到查询结果中
+SQL> 
+SQL> -- 以上就是 连接查询 的一个特殊应用: 自连接
+SQL> 
+SQL> spool off

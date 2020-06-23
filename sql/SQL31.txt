@@ -1,0 +1,439 @@
+
+SQL> -- 内连接
+SQL>
+SQL> -- 统计每位雇员的 工号、姓名、岗位、月薪、部门名称、部门所在地区
+SQL> -- 不统计部门号为空的雇员,也不统计没有员工的部门
+SQL>
+SQL> DESC emp ;
+ 名称                                      是否为空? 类型
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                     NOT NULL NUMBER(4)
+ ENAME                                              VARCHAR2(10)
+ JOB                                                VARCHAR2(9)
+ MGR                                                NUMBER(4)
+ HIREDATE                                           DATE
+ SAL                                                NUMBER(7,2)
+ COMM                                               NUMBER(7,2)
+ DEPTNO                                             NUMBER(2)
+
+SQL> DESC dept ;
+ 名称                                      是否为空? 类型
+ ----------------------------------------- -------- ----------------------------
+ DEPTNO                                             NUMBER(2)
+ DNAME                                              VARCHAR2(14)
+ LOC                                                VARCHAR2(13)
+
+SQL> SELECT e.empno , e.ename , e.job , e.sal , d.dname , d.loc
+  2  FROM emp e INNER JOIN dept d ON e.deptno = d.deptno ;
+
+     EMPNO ENAME      JOB              SAL DNAME          LOC
+---------- ---------- --------- ---------- -------------- -------------
+      7369 SMITH      CLERK            800 RESEARCH       DALLAS
+      7499 ALLEN      SALESMAN        1600 SALES          CHICAGO
+      7521 WARD       SALESMAN        1250 SALES          CHICAGO
+      7566 JONES      MANAGER         2975 RESEARCH       DALLAS
+      7654 MARTIN     SALESMAN        1250 SALES          CHICAGO
+      7698 BLAKE      MANAGER         2850 SALES          CHICAGO
+      7782 CLARK      MANAGER         2450 ACCOUNTING     NEW YORK
+      7788 SCOTT      ANALYST         3000 RESEARCH       DALLAS
+      7839 KING       PRESIDENT       5000 ACCOUNTING     NEW YORK
+      7844 TURNER     SALESMAN        1500 SALES          CHICAGO
+      7876 ADAMS      CLERK           1100 RESEARCH       DALLAS
+
+     EMPNO ENAME      JOB              SAL DNAME          LOC
+---------- ---------- --------- ---------- -------------- -------------
+      7900 JAMES      CLERK            950 SALES          CHICAGO
+      7902 FORD       ANALYST         3000 RESEARCH       DALLAS
+      7934 MILLER     CLERK           1300 ACCOUNTING     NEW YORK
+
+已选择14行。
+
+SQL>
+SQL> -- 统计薪水级别不低于3的雇员信息 ( 列出它们的 工号、姓名、岗位、月薪 、薪水级别 )
+SQL>
+SQL> DESC salgrade ;
+ 名称                                      是否为空? 类型
+ ----------------------------------------- -------- ----------------------------
+ GRADE                                              NUMBER
+ LOSAL                                              NUMBER
+ HISAL                                              NUMBER
+
+SQL> SELECT e.empno , e.ename , e.job , e.sal , g.grade
+  2  FROM emp e INNER JOIN salgrade g ON e.sal BETWEEN g.losal AND g.hisal
+  3  WHERE g.grade >= 3 ;
+
+     EMPNO ENAME      JOB              SAL      GRADE
+---------- ---------- --------- ---------- ----------
+      7844 TURNER     SALESMAN        1500          3
+      7499 ALLEN      SALESMAN        1600          3
+      7782 CLARK      MANAGER         2450          4
+      7698 BLAKE      MANAGER         2850          4
+      7566 JONES      MANAGER         2975          4
+      7788 SCOTT      ANALYST         3000          4
+      7902 FORD       ANALYST         3000          4
+      7839 KING       PRESIDENT       5000          5
+
+已选择8行。
+
+SQL> SELECT e.empno , e.ename , e.job , e.sal , g.grade
+  2  FROM emp e INNER JOIN salgrade g
+  3  ON e.sal BETWEEN g.losal AND g.hisal AND g.grade > 3 ;
+
+     EMPNO ENAME      JOB              SAL      GRADE
+---------- ---------- --------- ---------- ----------
+      7782 CLARK      MANAGER         2450          4
+      7698 BLAKE      MANAGER         2850          4
+      7566 JONES      MANAGER         2975          4
+      7788 SCOTT      ANALYST         3000          4
+      7902 FORD       ANALYST         3000          4
+      7839 KING       PRESIDENT       5000          5
+
+已选择6行。
+
+SQL>
+SQL> -- 外连接
+SQL>
+SQL> -- 统计每位雇员的 工号、姓名、岗位、月薪、部门名称、部门所在地区
+SQL> -- 如果某位雇员部门号为空，也将该雇员的信息显示在查询结果中
+SQL> SELECT e.empno , e.ename , e.job , e.sal , d.dname , d.loc
+  2  FROM emp e
+  3  LEFT OUTER JOIN dept d
+  4  ON e.deptno = d.deptno ;
+
+     EMPNO ENAME      JOB              SAL DNAME          LOC
+---------- ---------- --------- ---------- -------------- -------------
+      7934 MILLER     CLERK           1300 ACCOUNTING     NEW YORK
+      7839 KING       PRESIDENT       5000 ACCOUNTING     NEW YORK
+      7782 CLARK      MANAGER         2450 ACCOUNTING     NEW YORK
+      7902 FORD       ANALYST         3000 RESEARCH       DALLAS
+      7876 ADAMS      CLERK           1100 RESEARCH       DALLAS
+      7788 SCOTT      ANALYST         3000 RESEARCH       DALLAS
+      7566 JONES      MANAGER         2975 RESEARCH       DALLAS
+      7369 SMITH      CLERK            800 RESEARCH       DALLAS
+      7900 JAMES      CLERK            950 SALES          CHICAGO
+      7844 TURNER     SALESMAN        1500 SALES          CHICAGO
+      7698 BLAKE      MANAGER         2850 SALES          CHICAGO
+
+     EMPNO ENAME      JOB              SAL DNAME          LOC
+---------- ---------- --------- ---------- -------------- -------------
+      7654 MARTIN     SALESMAN        1250 SALES          CHICAGO
+      7521 WARD       SALESMAN        1250 SALES          CHICAGO
+      7499 ALLEN      SALESMAN        1600 SALES          CHICAGO
+      8526 QIU'XIANG  ANALYST         1400
+      9257 HUA'AN     CLERK           1300
+
+已选择16行。
+
+SQL>
+SQL> -- 统计每位雇员的 工号、姓名、岗位、月薪、部门名称、部门所在地区
+SQL> -- 如果某个部门没有员工，也将该部门的信息显示在查询结果中
+SQL> SELECT e.empno , e.ename , e.job , e.sal , d.dname , d.loc
+  2  FROM emp e
+  3  RIGHT OUTER JOIN dept d
+  4  ON e.deptno = d.deptno ;
+
+     EMPNO ENAME      JOB              SAL DNAME          LOC
+---------- ---------- --------- ---------- -------------- -------------
+      7369 SMITH      CLERK            800 RESEARCH       DALLAS
+      7499 ALLEN      SALESMAN        1600 SALES          CHICAGO
+      7521 WARD       SALESMAN        1250 SALES          CHICAGO
+      7566 JONES      MANAGER         2975 RESEARCH       DALLAS
+      7654 MARTIN     SALESMAN        1250 SALES          CHICAGO
+      7698 BLAKE      MANAGER         2850 SALES          CHICAGO
+      7782 CLARK      MANAGER         2450 ACCOUNTING     NEW YORK
+      7788 SCOTT      ANALYST         3000 RESEARCH       DALLAS
+      7839 KING       PRESIDENT       5000 ACCOUNTING     NEW YORK
+      7844 TURNER     SALESMAN        1500 SALES          CHICAGO
+      7876 ADAMS      CLERK           1100 RESEARCH       DALLAS
+
+     EMPNO ENAME      JOB              SAL DNAME          LOC
+---------- ---------- --------- ---------- -------------- -------------
+      7900 JAMES      CLERK            950 SALES          CHICAGO
+      7902 FORD       ANALYST         3000 RESEARCH       DALLAS
+      7934 MILLER     CLERK           1300 ACCOUNTING     NEW YORK
+                                           OPERATIONS     BOSTON
+
+已选择15行。
+
+SQL>
+SQL>
+SQL> -- 统计每位雇员的 工号、姓名、岗位、月薪、部门名称、部门所在地区
+SQL> -- 如果某位雇员部门号为空，也将该雇员的信息显示在查询结果中
+SQL> -- 如果某个部门没有员工，也将该部门的信息显示在查询结果中
+SQL>
+SQL> SELECT e.empno , e.ename , e.job , e.sal , d.dname , d.loc
+  2  FROM emp e
+  3  FULL OUTER JOIN dept d
+  4  ON e.deptno = d.deptno ;
+
+     EMPNO ENAME      JOB              SAL DNAME          LOC
+---------- ---------- --------- ---------- -------------- -------------
+      7369 SMITH      CLERK            800 RESEARCH       DALLAS
+      7499 ALLEN      SALESMAN        1600 SALES          CHICAGO
+      7521 WARD       SALESMAN        1250 SALES          CHICAGO
+      7566 JONES      MANAGER         2975 RESEARCH       DALLAS
+      7654 MARTIN     SALESMAN        1250 SALES          CHICAGO
+      7698 BLAKE      MANAGER         2850 SALES          CHICAGO
+      7782 CLARK      MANAGER         2450 ACCOUNTING     NEW YORK
+      7788 SCOTT      ANALYST         3000 RESEARCH       DALLAS
+      7839 KING       PRESIDENT       5000 ACCOUNTING     NEW YORK
+      7844 TURNER     SALESMAN        1500 SALES          CHICAGO
+      7876 ADAMS      CLERK           1100 RESEARCH       DALLAS
+
+     EMPNO ENAME      JOB              SAL DNAME          LOC
+---------- ---------- --------- ---------- -------------- -------------
+      7900 JAMES      CLERK            950 SALES          CHICAGO
+      7902 FORD       ANALYST         3000 RESEARCH       DALLAS
+      7934 MILLER     CLERK           1300 ACCOUNTING     NEW YORK
+      9257 HUA'AN     CLERK           1300
+      8526 QIU'XIANG  ANALYST         1400
+                                           OPERATIONS     BOSTON
+
+已选择17行。
+
+SQL>
+SQL>
+SQL> -- 以上SQL建议每天手敲/手抄三遍( 早、上午或下午、晚上 )
+SQL> -- 不要为了抄而抄，为了敲而敲，这样没有意义
+SQL> -- 要让自己觉得这是一个新的题目
+SQL> -- 要去想，去思考
+SQL>
+SQL>
+SQL>
+SQL> -- 统计每位雇员的 工号、姓名、岗位、月薪、部门名称、部门所在地区
+SQL> -- 如果某位雇员部门号为空，也将该雇员的信息显示在查询结果中
+SQL> -- 使用右外连接完成
+SQL>
+SQL> SELECT e.empno , e.ename , e.job , e.sal , d.dname , d.loc
+  2  FROM dept d RIGHT OUTER JOIN emp e ON e.deptno = d.deptno ;
+
+     EMPNO ENAME      JOB              SAL DNAME          LOC
+---------- ---------- --------- ---------- -------------- -------------
+      7934 MILLER     CLERK           1300 ACCOUNTING     NEW YORK
+      7839 KING       PRESIDENT       5000 ACCOUNTING     NEW YORK
+      7782 CLARK      MANAGER         2450 ACCOUNTING     NEW YORK
+      7902 FORD       ANALYST         3000 RESEARCH       DALLAS
+      7876 ADAMS      CLERK           1100 RESEARCH       DALLAS
+      7788 SCOTT      ANALYST         3000 RESEARCH       DALLAS
+      7566 JONES      MANAGER         2975 RESEARCH       DALLAS
+      7369 SMITH      CLERK            800 RESEARCH       DALLAS
+      7900 JAMES      CLERK            950 SALES          CHICAGO
+      7844 TURNER     SALESMAN        1500 SALES          CHICAGO
+      7698 BLAKE      MANAGER         2850 SALES          CHICAGO
+
+     EMPNO ENAME      JOB              SAL DNAME          LOC
+---------- ---------- --------- ---------- -------------- -------------
+      7654 MARTIN     SALESMAN        1250 SALES          CHICAGO
+      7521 WARD       SALESMAN        1250 SALES          CHICAGO
+      7499 ALLEN      SALESMAN        1600 SALES          CHICAGO
+      8526 QIU'XIANG  ANALYST         1400
+      9257 HUA'AN     CLERK           1300
+
+已选择16行。
+
+SQL>
+SQL>
+SQL>
+SQL>
+SQL> DESC s_emp ;
+ 名称                                      是否为空? 类型
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(7)
+ LAST_NAME                                 NOT NULL VARCHAR2(25)
+ FIRST_NAME                                         VARCHAR2(25)
+ USERID                                             VARCHAR2(8)
+ START_DATE                                         DATE
+ COMMENTS                                           VARCHAR2(255)
+ MANAGER_ID                                         NUMBER(7)
+ TITLE                                              VARCHAR2(25)
+ DEPT_ID                                            NUMBER(7)
+ SALARY                                             NUMBER(11,2)
+ COMMISSION_PCT                                     NUMBER(4,2)
+
+SQL> DESC s_dept ;
+ 名称                                      是否为空? 类型
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(7)
+ NAME                                      NOT NULL VARCHAR2(25)
+ REGION_ID                                          NUMBER(7)
+
+SQL> DESC s_region
+ 名称                                      是否为空? 类型
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(7)
+ NAME                                      NOT NULL VARCHAR2(50)
+
+SQL> -- 统计每个员工的姓( last_name ) 、名 ( first_name ) 、部门名称、地区名称
+SQL>
+SQL> SELECT e.last_name , e.first_name , d.name , r.name
+  2  FROM s_emp e JOIN s_dept d ON e.dept_id = d.id
+  3  JOIN s_region r ON d.region_id = r.id ;
+
+LAST_NAME                 FIRST_NAME                NAME
+------------------------- ------------------------- -------------------------
+NAME
+--------------------------------------------------
+Velasquez                 Carmen                    Administration
+North America
+
+Ngao                      LaDoris                   Operations
+North America
+
+Nagayama                  Midori                    Sales
+North America
+
+
+LAST_NAME                 FIRST_NAME                NAME
+------------------------- ------------------------- -------------------------
+NAME
+--------------------------------------------------
+Quick-To-See              Mark                      Finance
+North America
+
+Ropeburn                  Audry                     Administration
+North America
+
+Urguhart                  Molly                     Operations
+North America
+
+
+LAST_NAME                 FIRST_NAME                NAME
+------------------------- ------------------------- -------------------------
+NAME
+--------------------------------------------------
+Menchu                    Roberta                   Operations
+South America
+
+Biri                      Ben                       Operations
+Africa / Middle East
+
+Catchpole                 Antoinette                Operations
+Asia
+
+
+LAST_NAME                 FIRST_NAME                NAME
+------------------------- ------------------------- -------------------------
+NAME
+--------------------------------------------------
+Havel                     Marta                     Operations
+Europe
+
+Magee                     Colin                     Sales
+North America
+
+Giljum                    Henry                     Sales
+South America
+
+
+LAST_NAME                 FIRST_NAME                NAME
+------------------------- ------------------------- -------------------------
+NAME
+--------------------------------------------------
+Sedeghi                   Yasmin                    Sales
+Africa / Middle East
+
+Nguyen                    Mai                       Sales
+Asia
+
+Dumas                     Andre                     Sales
+Europe
+
+
+LAST_NAME                 FIRST_NAME                NAME
+------------------------- ------------------------- -------------------------
+NAME
+--------------------------------------------------
+Maduro                    Elena                     Operations
+North America
+
+Smith                     George                    Operations
+North America
+
+Nozaki                    Akira                     Operations
+South America
+
+
+LAST_NAME                 FIRST_NAME                NAME
+------------------------- ------------------------- -------------------------
+NAME
+--------------------------------------------------
+Patel                     Vikram                    Operations
+South America
+
+Newman                    Chad                      Operations
+Africa / Middle East
+
+3karian                   Alexander                 Operations
+Africa / Middle East
+
+
+LAST_NAME                 FIRST_NAME                NAME
+------------------------- ------------------------- -------------------------
+NAME
+--------------------------------------------------
+Chang                     Eddie                     Operations
+Asia
+
+Patel                     Radha                     Sales
+Asia
+
+Dancs                     Bela                      Operations
+Europe
+
+
+LAST_NAME                 FIRST_NAME                NAME
+------------------------- ------------------------- -------------------------
+NAME
+--------------------------------------------------
+Schwartz                  Sylvie                    Operations
+Europe
+
+
+已选择25行。
+
+SQL> column first_name format a20 ;
+SQL> column last_name format a20 ;
+SQL> column name format a20 ;
+SQL> set linesize 120 ;
+SQL> SELECT e.last_name , e.first_name , d.name , r.name
+  2  FROM s_emp e
+  3  JOIN s_dept d ON e.dept_id = d.id
+  4  JOIN s_region r ON d.region_id = r.id ;
+
+LAST_NAME            FIRST_NAME           NAME                 NAME
+-------------------- -------------------- -------------------- --------------------
+Velasquez            Carmen               Administration       North America
+Ngao                 LaDoris              Operations           North America
+Nagayama             Midori               Sales                North America
+Quick-To-See         Mark                 Finance              North America
+Ropeburn             Audry                Administration       North America
+Urguhart             Molly                Operations           North America
+Menchu               Roberta              Operations           South America
+Biri                 Ben                  Operations           Africa / Middle East
+Catchpole            Antoinette           Operations           Asia
+Havel                Marta                Operations           Europe
+Magee                Colin                Sales                North America
+
+LAST_NAME            FIRST_NAME           NAME                 NAME
+-------------------- -------------------- -------------------- --------------------
+Giljum               Henry                Sales                South America
+Sedeghi              Yasmin               Sales                Africa / Middle East
+Nguyen               Mai                  Sales                Asia
+Dumas                Andre                Sales                Europe
+Maduro               Elena                Operations           North America
+Smith                George               Operations           North America
+Nozaki               Akira                Operations           South America
+Patel                Vikram               Operations           South America
+Newman               Chad                 Operations           Africa / Middle East
+3karian              Alexander            Operations           Africa / Middle East
+Chang                Eddie                Operations           Asia
+
+LAST_NAME            FIRST_NAME           NAME                 NAME
+-------------------- -------------------- -------------------- --------------------
+Patel                Radha                Sales                Asia
+Dancs                Bela                 Operations           Europe
+Schwartz             Sylvie               Operations           Europe
+
+已选择25行。
+
+SQL>

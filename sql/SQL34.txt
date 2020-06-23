@@ -1,0 +1,88 @@
+SQL> 
+SQL> -- 子查询
+SQL> 
+SQL> -- 当一个SELECT语句被嵌套在另外一个SELECT/UPDATE/DELETE语句中时，被嵌套的SELECT语句就是子查询
+SQL> -- 一个非常重要的表现形式是，子查询一定是通过 ( ) 括起来的
+SQL> -- 子查询中尽量不要使用 ORDER BY 语句(可能导致SQL无法执行)
+SQL> 
+SQL> 
+SQL> -- 单行子查询、多行子查询、多列子查询、关联子查询、嵌套子查询
+SQL> -- 使用子查询时，通常重点关注的是 子查询返回 多少行、多少列
+SQL> 
+SQL> 
+SQL> -- 查询与 Simth 从事同一个岗位工作的雇员信息
+SQL> SELECT ename , job FROM emp WHERE lower(ename) = 'smith' ;
+
+ENAME      JOB                                                                                                                                        
+---------- ---------                                                                                                                                  
+SMITH      CLERK                                                                                                                                      
+
+SQL> SELECT job  FROM emp WHERE lower(ename) = 'smith' ;
+
+JOB                                                                                                                                                   
+---------                                                                                                                                             
+CLERK                                                                                                                                                 
+
+SQL> 
+SQL> SELECT empno , ename , job FROM emp WHERE job = 'CLERK' ;
+
+     EMPNO ENAME      JOB                                                                                                                             
+---------- ---------- ---------                                                                                                                       
+      7369 SMITH      CLERK                                                                                                                           
+      7876 ADAMS      CLERK                                                                                                                           
+      7900 JAMES      CLERK                                                                                                                           
+      7934 MILLER     CLERK                                                                                                                           
+      9257 HUA'AN     CLERK                                                                                                                           
+
+SQL> 
+SQL> 
+SQL> SELECT empno , ename , job FROM emp WHERE job = ( SELECT job  FROM emp WHERE lower(ename) = 'smith' );
+
+     EMPNO ENAME      JOB                                                                                                                             
+---------- ---------- ---------                                                                                                                       
+      7369 SMITH      CLERK                                                                                                                           
+      7876 ADAMS      CLERK                                                                                                                           
+      7900 JAMES      CLERK                                                                                                                           
+      7934 MILLER     CLERK                                                                                                                           
+      9257 HUA'AN     CLERK                                                                                                                           
+
+SQL> -- WHERE 子句中 等号 之后的 ( ) 中就是一个 返回 单行单列 数据的 子查询 ( 通常称作 单行子查询)
+SQL> 
+SQL> 
+SQL> -- 查询 emp 表中 哪些雇员的月薪比整个公司的平均月薪高
+SQL> 
+SQL> 
+SQL> SELECT e.empno , e.ename , e.sal
+  2  FROM emp e
+  3  WHERE e.sal > ( SELECT avg(sal) FROM emp );
+
+     EMPNO ENAME             SAL                                                                                                                      
+---------- ---------- ----------                                                                                                                      
+      7566 JONES            2975                                                                                                                      
+      7698 BLAKE            2850                                                                                                                      
+      7782 CLARK            2450                                                                                                                      
+      7788 SCOTT            3000                                                                                                                      
+      7839 KING             5000                                                                                                                      
+      7902 FORD             3000                                                                                                                      
+
+已选择6行。
+
+SQL> 
+SQL> -- 查询 emp 表中所有雇员的平均月薪，并列出月薪比整个公司的平均月薪高的雇员信息
+SQL> SELECT a.avgsal , e.empno , e.ename , e.sal , e.job
+  2  FROM ( SELECT avg(sal) avgsal FROM emp ) a
+  3  INNER JOIN emp e
+  4  ON e.sal > a.avgsal ;
+
+    AVGSAL      EMPNO ENAME             SAL JOB                                                                                                       
+---------- ---------- ---------- ---------- ---------                                                                                                 
+ 1982.8125       7566 JONES            2975 MANAGER                                                                                                   
+ 1982.8125       7698 BLAKE            2850 MANAGER                                                                                                   
+ 1982.8125       7782 CLARK            2450 MANAGER                                                                                                   
+ 1982.8125       7788 SCOTT            3000 ANALYST                                                                                                   
+ 1982.8125       7839 KING             5000 PRESIDENT                                                                                                 
+ 1982.8125       7902 FORD             3000 ANALYST                                                                                                   
+
+已选择6行。
+
+SQL> spool off

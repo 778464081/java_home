@@ -1,0 +1,208 @@
+SQL> 
+SQL> -- 关于连接查询的非标准写法
+SQL> 
+SQL> -- 查询 emp 表中 所有雇员的工号、姓名、部门号、部门名称
+SQL> 
+SQL> -- 内连接( SQL标准写法 )
+SQL> 
+SQL> SELECT e.empno , e.ename , d.deptno , d.dname
+  2  FROM emp e JOIN dept d ON e.deptno = d.deptno ;
+
+     EMPNO ENAME          DEPTNO DNAME                                                                                                                
+---------- ---------- ---------- --------------                                                                                                       
+      7369 SMITH              20 RESEARCH                                                                                                             
+      7499 ALLEN              30 SALES                                                                                                                
+      7521 WARD               30 SALES                                                                                                                
+      7566 JONES              20 RESEARCH                                                                                                             
+      7654 MARTIN             30 SALES                                                                                                                
+      7698 BLAKE              30 SALES                                                                                                                
+      7782 CLARK              10 ACCOUNTING                                                                                                           
+      7788 SCOTT              20 RESEARCH                                                                                                             
+      7839 KING               10 ACCOUNTING                                                                                                           
+      7844 TURNER             30 SALES                                                                                                                
+      7876 ADAMS              20 RESEARCH                                                                                                             
+      7900 JAMES              30 SALES                                                                                                                
+      7902 FORD               20 RESEARCH                                                                                                             
+      7934 MILLER             10 ACCOUNTING                                                                                                           
+
+已选择14行。
+
+SQL> 
+SQL> -- 内连接( 非SQL标准写法)
+SQL> SELECT e.empno , e.ename , d.deptno , d.dname
+  2  FROM emp e , dept d
+  3  WHERE e.deptno = d.deptno ;
+
+     EMPNO ENAME          DEPTNO DNAME                                                                                                                
+---------- ---------- ---------- --------------                                                                                                       
+      7369 SMITH              20 RESEARCH                                                                                                             
+      7499 ALLEN              30 SALES                                                                                                                
+      7521 WARD               30 SALES                                                                                                                
+      7566 JONES              20 RESEARCH                                                                                                             
+      7654 MARTIN             30 SALES                                                                                                                
+      7698 BLAKE              30 SALES                                                                                                                
+      7782 CLARK              10 ACCOUNTING                                                                                                           
+      7788 SCOTT              20 RESEARCH                                                                                                             
+      7839 KING               10 ACCOUNTING                                                                                                           
+      7844 TURNER             30 SALES                                                                                                                
+      7876 ADAMS              20 RESEARCH                                                                                                             
+      7900 JAMES              30 SALES                                                                                                                
+      7902 FORD               20 RESEARCH                                                                                                             
+      7934 MILLER             10 ACCOUNTING                                                                                                           
+
+已选择14行。
+
+SQL> 
+SQL> -- 建议通过 执行计划 来对比以上两个SQL的执行过程
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 查询 emp 表中 所有雇员的工号、姓名、部门号、部门名称，将没有部门的雇员信息也统计在查询结果中
+SQL> 
+SQL> -- 左外连接( SQL标准写法 )
+SQL> SELECT e.empno , e.ename , d.deptno , d.dname
+  2  FROM emp e LEFT JOIN dept d ON e.deptno = d.deptno ;
+
+     EMPNO ENAME          DEPTNO DNAME                                                                                                                
+---------- ---------- ---------- --------------                                                                                                       
+      7934 MILLER             10 ACCOUNTING                                                                                                           
+      7839 KING               10 ACCOUNTING                                                                                                           
+      7782 CLARK              10 ACCOUNTING                                                                                                           
+      7902 FORD               20 RESEARCH                                                                                                             
+      7876 ADAMS              20 RESEARCH                                                                                                             
+      7788 SCOTT              20 RESEARCH                                                                                                             
+      7566 JONES              20 RESEARCH                                                                                                             
+      7369 SMITH              20 RESEARCH                                                                                                             
+      7900 JAMES              30 SALES                                                                                                                
+      7844 TURNER             30 SALES                                                                                                                
+      7698 BLAKE              30 SALES                                                                                                                
+      7654 MARTIN             30 SALES                                                                                                                
+      7521 WARD               30 SALES                                                                                                                
+      7499 ALLEN              30 SALES                                                                                                                
+      8526 QIU'XIANG                                                                                                                                  
+      9257 HUA'AN                                                                                                                                     
+
+已选择16行。
+
+SQL> -- 左外连接( 非SQL标准写法 )
+SQL> SELECT e.empno , e.ename , d.deptno , d.dname
+  2  FROM emp e , dept d
+  3  WHERE e.deptno = d.deptno(+) ;
+
+     EMPNO ENAME          DEPTNO DNAME                                                                                                                
+---------- ---------- ---------- --------------                                                                                                       
+      7934 MILLER             10 ACCOUNTING                                                                                                           
+      7839 KING               10 ACCOUNTING                                                                                                           
+      7782 CLARK              10 ACCOUNTING                                                                                                           
+      7902 FORD               20 RESEARCH                                                                                                             
+      7876 ADAMS              20 RESEARCH                                                                                                             
+      7788 SCOTT              20 RESEARCH                                                                                                             
+      7566 JONES              20 RESEARCH                                                                                                             
+      7369 SMITH              20 RESEARCH                                                                                                             
+      7900 JAMES              30 SALES                                                                                                                
+      7844 TURNER             30 SALES                                                                                                                
+      7698 BLAKE              30 SALES                                                                                                                
+      7654 MARTIN             30 SALES                                                                                                                
+      7521 WARD               30 SALES                                                                                                                
+      7499 ALLEN              30 SALES                                                                                                                
+      8526 QIU'XIANG                                                                                                                                  
+      9257 HUA'AN                                                                                                                                     
+
+已选择16行。
+
+SQL> -- 有外连接
+SQL> -- 右外连接( SQL标准写法 )
+SQL> SELECT e.empno , e.ename , d.deptno , d.dname
+  2  FROM dept d RIGHT JOIN emp e ON e.deptno = d.deptno ;
+
+     EMPNO ENAME          DEPTNO DNAME                                                                                                                
+---------- ---------- ---------- --------------                                                                                                       
+      7934 MILLER             10 ACCOUNTING                                                                                                           
+      7839 KING               10 ACCOUNTING                                                                                                           
+      7782 CLARK              10 ACCOUNTING                                                                                                           
+      7902 FORD               20 RESEARCH                                                                                                             
+      7876 ADAMS              20 RESEARCH                                                                                                             
+      7788 SCOTT              20 RESEARCH                                                                                                             
+      7566 JONES              20 RESEARCH                                                                                                             
+      7369 SMITH              20 RESEARCH                                                                                                             
+      7900 JAMES              30 SALES                                                                                                                
+      7844 TURNER             30 SALES                                                                                                                
+      7698 BLAKE              30 SALES                                                                                                                
+      7654 MARTIN             30 SALES                                                                                                                
+      7521 WARD               30 SALES                                                                                                                
+      7499 ALLEN              30 SALES                                                                                                                
+      8526 QIU'XIANG                                                                                                                                  
+      9257 HUA'AN                                                                                                                                     
+
+已选择16行。
+
+SQL>  -- 右外连接( 非SQL标准写法 )
+SQL> SELECT e.empno , e.ename , d.deptno , d.dname
+  2  FROM dept d , emp e
+  3  WHERE e.deptno = d.deptno(+);
+
+     EMPNO ENAME          DEPTNO DNAME                                                                                                                
+---------- ---------- ---------- --------------                                                                                                       
+      7934 MILLER             10 ACCOUNTING                                                                                                           
+      7839 KING               10 ACCOUNTING                                                                                                           
+      7782 CLARK              10 ACCOUNTING                                                                                                           
+      7902 FORD               20 RESEARCH                                                                                                             
+      7876 ADAMS              20 RESEARCH                                                                                                             
+      7788 SCOTT              20 RESEARCH                                                                                                             
+      7566 JONES              20 RESEARCH                                                                                                             
+      7369 SMITH              20 RESEARCH                                                                                                             
+      7900 JAMES              30 SALES                                                                                                                
+      7844 TURNER             30 SALES                                                                                                                
+      7698 BLAKE              30 SALES                                                                                                                
+      7654 MARTIN             30 SALES                                                                                                                
+      7521 WARD               30 SALES                                                                                                                
+      7499 ALLEN              30 SALES                                                                                                                
+      8526 QIU'XIANG                                                                                                                                  
+      9257 HUA'AN                                                                                                                                     
+
+已选择16行。
+
+SQL> SELECT e.empno , e.ename , d.deptno , d.dname
+  2  FROM dept d , emp e
+  3  WHERE d.deptno(+) = e.deptno ;
+
+     EMPNO ENAME          DEPTNO DNAME                                                                                                                
+---------- ---------- ---------- --------------                                                                                                       
+      7934 MILLER             10 ACCOUNTING                                                                                                           
+      7839 KING               10 ACCOUNTING                                                                                                           
+      7782 CLARK              10 ACCOUNTING                                                                                                           
+      7902 FORD               20 RESEARCH                                                                                                             
+      7876 ADAMS              20 RESEARCH                                                                                                             
+      7788 SCOTT              20 RESEARCH                                                                                                             
+      7566 JONES              20 RESEARCH                                                                                                             
+      7369 SMITH              20 RESEARCH                                                                                                             
+      7900 JAMES              30 SALES                                                                                                                
+      7844 TURNER             30 SALES                                                                                                                
+      7698 BLAKE              30 SALES                                                                                                                
+      7654 MARTIN             30 SALES                                                                                                                
+      7521 WARD               30 SALES                                                                                                                
+      7499 ALLEN              30 SALES                                                                                                                
+      8526 QIU'XIANG                                                                                                                                  
+      9257 HUA'AN                                                                                                                                     
+
+已选择16行。
+
+SQL> 
+SQL> 
+SQL> -- 所以就有了以下写法(可能、也许、大概)
+SQL> SELECT e.empno , e.ename , d.deptno , d.dname
+  2  FROM dept d , emp e
+  3  WHERE d.deptno(+) = e.deptno(+) ;
+WHERE d.deptno(+) = e.deptno(+) 
+                  *
+第 3 行出现错误: 
+ORA-01468: 一个谓词只能引用一个外部联接的表 
+
+
+SQL> -- 记住，不能在 WHERE 子句的 = 前后同时使用 (+)
+SQL> -- 为啥子不可以嘞:
+SQL> -- 一个谓词只能引用一个外部联接的表
+SQL> 
+SQL> -- 有一个任务等着你: 什么是 "谓词" ? ? ?
+SQL> 
+SQL> spool off
