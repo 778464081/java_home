@@ -1,0 +1,139 @@
+SQL> 
+SQL> -- 子查询
+SQL> 
+SQL> -- 单行子查询
+SQL> 
+SQL> 
+SQL> -- 在 WHERE 子句中使用子查询，以 子查询返回的 结果为查询条件
+SQL> 
+SQL> -- 查询与 SMITH 在同一个岗位工作的雇员信息 ( emp )
+SQL> 
+SQL> SELECT empno , ename , job , deptno FROM  emp
+  2  WHERE job = ( SELECT job FROM emp WHERE lower(ename) = 'smith' );
+
+     EMPNO ENAME      JOB           DEPTNO                                      
+---------- ---------- --------- ----------                                      
+      7369 SMITH      CLERK             20                                      
+      7876 ADAMS      CLERK             20                                      
+      7900 JAMES      CLERK             30                                      
+      7934 MILLER     CLERK             10                                      
+      9257 HUA'AN     CLERK                                                     
+
+SQL> 
+SQL> -- 此时需要注意，在 单行子查询 前使用了 单行比较运算符 =
+SQL> 
+SQL> 
+SQL> -- 在 FROM 子句中使用子查询，将 子查询 返回的结果 当做一张表来使用
+SQL> 
+SQL> -- 查询 emp 表中所有雇员的平均月薪，并列出月薪比整个公司的平均月薪高的雇员信息
+SQL> 
+SQL> SELECT a.avgsal e.empno , e.ename , e.sal
+  2  FROM ( SELECT avg(sal) avgsal FROM emp ) a
+  3  JOIN emp e
+  4  ON e.sal > a.avgsal ;
+SELECT a.avgsal e.empno , e.ename , e.sal
+                 *
+第 1 行出现错误: 
+ORA-00923: 未找到要求的 FROM 关键字 
+
+
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT a.avgsal , e.empno , e.ename , e.sal
+  2  FROM ( SELECT avg(sal) avgsal FROM emp ) a
+  3  JOIN emp e
+  4* ON e.sal > a.avgsal 
+SQL> /
+
+    AVGSAL      EMPNO ENAME             SAL                                     
+---------- ---------- ---------- ----------                                     
+ 1982.8125       7566 JONES            2975                                     
+ 1982.8125       7698 BLAKE            2850                                     
+ 1982.8125       7782 CLARK            2450                                     
+ 1982.8125       7788 SCOTT            3000                                     
+ 1982.8125       7839 KING             5000                                     
+ 1982.8125       7902 FORD             3000                                     
+
+已选择6行。
+
+SQL> -- 将子查询返回的结果当做一张表来使用，该表中只有 单行单列数据
+SQL> SELECT avg(sal) avgsal FROM emp
+  2  ;
+
+    AVGSAL                                                                      
+----------                                                                      
+ 1982.8125                                                                      
+
+SQL> 
+SQL> -- 以下仅验证是否可以在 子查询中使用 ORDER BY 语句
+SQL> 
+SQL> SELECT a.avgsal , e.empno , e.ename , e.sal
+  2  FROM ( SELECT avg(sal) avgsal FROM emp ORDER BY 1 ) a
+  3  JOIN emp e ON e.sal > a.avgsal ;
+
+    AVGSAL      EMPNO ENAME             SAL                                     
+---------- ---------- ---------- ----------                                     
+ 1982.8125       7566 JONES            2975                                     
+ 1982.8125       7698 BLAKE            2850                                     
+ 1982.8125       7782 CLARK            2450                                     
+ 1982.8125       7788 SCOTT            3000                                     
+ 1982.8125       7839 KING             5000                                     
+ 1982.8125       7902 FORD             3000                                     
+
+已选择6行。
+
+SQL> 
+SQL> SELECT empno , ename , job , deptno FROM  emp
+  2  WHERE job = ( SELECT job FROM emp WHERE lower(ename) = 'smith' ORDER BY 1 ) ;
+WHERE job = ( SELECT job FROM emp WHERE lower(ename) = 'smith' ORDER BY 1 ) 
+                                                               *
+第 2 行出现错误: 
+ORA-00907: 缺失右括号 
+
+
+SQL> SELECT job FROM emp WHERE lower(ename) = 'smith' ORDER BY 1 ;
+
+JOB                                                                             
+---------                                                                       
+CLERK                                                                           
+
+SQL> -- 验证结束
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 在 HAVING 子句中使用子查询
+SQL> 
+SQL> 
+SQL> -- 哪些部门的平均月薪高于整个公司的平均月薪
+SQL> 
+SQL> 
+SQL> -- 找出整个公司的平均月薪
+SQL> SELECT avg(sal) FROM emp ;
+
+  AVG(SAL)                                                                      
+----------                                                                      
+ 1982.8125                                                                      
+
+SQL> -- 根据部门分组，找出月薪高于 1982.8125 的部门的部门编号和该部门的平均月薪
+SQL> 
+SQL> SELECT deptno , avg(sal) FROM emp GROUP BY deptno HAVING avg(sal) > 1982.8125 ;
+
+    DEPTNO   AVG(SAL)                                                           
+---------- ----------                                                           
+        20       2175                                                           
+        10 2916.66667                                                           
+
+SQL>  SELECT deptno , avg(sal)
+  2   FROM emp
+  3   GROUP BY deptno
+  4   HAVING avg(sal) > ( SELECT avg(sal) FROM emp );
+
+    DEPTNO   AVG(SAL)                                                           
+---------- ----------                                                           
+        20       2175                                                           
+        10 2916.66667                                                           
+
+SQL> 
+SQL> 
+SQL> spool off

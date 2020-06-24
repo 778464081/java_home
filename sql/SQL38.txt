@@ -1,0 +1,497 @@
+SQL> 
+SQL> -- 用户所有的数据库对象都可以通过查询 user_objects 来查看
+SQL> 
+SQL> -- 单独查询用户的标可以查看 user_tables
+SQL> 
+SQL> -- 单独查询用户的索引可以查看 user_indexes
+SQL> 
+SQL> -- 单独查询用户的约束可以查看 user_constraints 、user_cons_columns
+SQL> 
+SQL> -- 单独查询用户的视图可以查看 user_views
+SQL> 
+SQL> 
+SQL> -- 创建视图
+SQL> 
+SQL> set linesize 150 ;
+SQL> SELECT * FROM emp ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                                                            
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                                                            
+      7369 SMITH      CLERK           7902 17-12月-80            800                    20                                                            
+      7499 ALLEN      SALESMAN        7698 20-2月 -81           1600        300         30                                                            
+      7521 WARD       SALESMAN        7698 22-2月 -81           1250        500         30                                                            
+      7566 JONES      MANAGER         7839 02-4月 -81           2975                    20                                                            
+      7654 MARTIN     SALESMAN        7698 28-9月 -81           1250       1400         30                                                            
+      7698 BLAKE      MANAGER         7839 01-5月 -81           2850                    30                                                            
+      7782 CLARK      MANAGER         7839 09-6月 -81           2450                    10                                                            
+      7788 SCOTT      ANALYST         7566 09-12月-82           3000                    20                                                            
+      7839 KING       PRESIDENT            17-11月-81           5000                    10                                                            
+      7844 TURNER     SALESMAN        7698 08-9月 -81           1500          0         30                                                            
+      7876 ADAMS      CLERK           7788 12-1月 -83           1100                    20                                                            
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                                                            
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                                                            
+      7900 JAMES      CLERK           7698 03-12月-81            950                    30                                                            
+      7902 FORD       ANALYST         7566 03-12月-81           3000                    20                                                            
+      7934 MILLER     CLERK           7782 23-1月 -82           1300                    10                                                            
+      9257 HUA'AN     CLERK           7839 23-1月 -85           1300                                                                                  
+      8526 QIU'XIANG  ANALYST         7839 23-1月 -85           1400                                                                                  
+
+已选择16行。
+
+SQL> SELECT * FROM dept ;
+
+    DEPTNO DNAME          LOC                                                                                                                         
+---------- -------------- -------------                                                                                                               
+        10 ACCOUNTING     NEW YORK                                                                                                                    
+        20 RESEARCH       DALLAS                                                                                                                      
+        30 SALES          CHICAGO                                                                                                                     
+        40 OPERATIONS     BOSTON                                                                                                                      
+
+SQL> 
+SQL> SELECT empno , ename , job , sal FROM emp ;
+
+     EMPNO ENAME      JOB              SAL                                                                                                            
+---------- ---------- --------- ----------                                                                                                            
+      7369 SMITH      CLERK            800                                                                                                            
+      7499 ALLEN      SALESMAN        1600                                                                                                            
+      7521 WARD       SALESMAN        1250                                                                                                            
+      7566 JONES      MANAGER         2975                                                                                                            
+      7654 MARTIN     SALESMAN        1250                                                                                                            
+      7698 BLAKE      MANAGER         2850                                                                                                            
+      7782 CLARK      MANAGER         2450                                                                                                            
+      7788 SCOTT      ANALYST         3000                                                                                                            
+      7839 KING       PRESIDENT       5000                                                                                                            
+      7844 TURNER     SALESMAN        1500                                                                                                            
+      7876 ADAMS      CLERK           1100                                                                                                            
+
+     EMPNO ENAME      JOB              SAL                                                                                                            
+---------- ---------- --------- ----------                                                                                                            
+      7900 JAMES      CLERK            950                                                                                                            
+      7902 FORD       ANALYST         3000                                                                                                            
+      7934 MILLER     CLERK           1300                                                                                                            
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+
+已选择16行。
+
+SQL> CREATE VIEW view_emp ( id , name , job , salary ) AS SELECT empno , ename , job , sal FROM emp ;
+CREATE VIEW view_emp ( id , name , job , salary ) AS SELECT empno , ename , job , sal FROM emp 
+            *
+第 1 行出现错误: 
+ORA-01031: 权限不足 
+
+
+SQL> connect sys / as sysdba
+已连接。
+SQL> show user ;
+USER 为 "SYS"
+SQL> GRANT create view TO ecuter ;
+
+授权成功。
+
+SQL> connect ecuter/ecuter
+已连接。
+SQL> show user ;
+USER 为 "ECUTER"
+SQL> CREATE VIEW view_emp ( id , name , job , salary ) AS SELECT empno , ename , job , sal FROM emp ;
+
+视图已创建。
+
+SQL> 
+SQL> DESC view_emp ;
+ 名称                                                                                是否为空? 类型
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ ID                                                                                  NOT NULL NUMBER(4)
+ NAME                                                                                         VARCHAR2(10)
+ JOB                                                                                          VARCHAR2(9)
+ SALARY                                                                                       NUMBER(7,2)
+
+SQL> 
+SQL> SELECT * FROM view_emp ;
+
+        ID NAME       JOB           SALARY                                                                                                            
+---------- ---------- --------- ----------                                                                                                            
+      7369 SMITH      CLERK            800                                                                                                            
+      7499 ALLEN      SALESMAN        1600                                                                                                            
+      7521 WARD       SALESMAN        1250                                                                                                            
+      7566 JONES      MANAGER         2975                                                                                                            
+      7654 MARTIN     SALESMAN        1250                                                                                                            
+      7698 BLAKE      MANAGER         2850                                                                                                            
+      7782 CLARK      MANAGER         2450                                                                                                            
+      7788 SCOTT      ANALYST         3000                                                                                                            
+      7839 KING       PRESIDENT       5000                                                                                                            
+      7844 TURNER     SALESMAN        1500                                                                                                            
+      7876 ADAMS      CLERK           1100                                                                                                            
+
+        ID NAME       JOB           SALARY                                                                                                            
+---------- ---------- --------- ----------                                                                                                            
+      7900 JAMES      CLERK            950                                                                                                            
+      7902 FORD       ANALYST         3000                                                                                                            
+      7934 MILLER     CLERK           1300                                                                                                            
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+
+已选择16行。
+
+SQL> 
+SQL> 
+SQL> -- 尝试 向 view_emp 中插入数据
+SQL> 
+SQL> INSERT INTO view_emp ( id , name , job , sal ) VALUES ( 1 , 'tom' , 'clerk' , 1000 ) ;
+INSERT INTO view_emp ( id , name , job , sal ) VALUES ( 1 , 'tom' , 'clerk' , 1000 ) 
+                                         *
+第 1 行出现错误: 
+ORA-00904: "SAL": 标识符无效 
+
+
+SQL> INSERT INTO view_emp ( id , name , job , salary ) VALUES ( 1 , 'tom' , 'clerk' , 1000 ) ;
+
+已创建 1 行。
+
+SQL> 
+SQL> SELECT * FROM view_emp ;
+
+        ID NAME       JOB           SALARY                                                                                                            
+---------- ---------- --------- ----------                                                                                                            
+      7369 SMITH      CLERK            800                                                                                                            
+      7499 ALLEN      SALESMAN        1600                                                                                                            
+      7521 WARD       SALESMAN        1250                                                                                                            
+      7566 JONES      MANAGER         2975                                                                                                            
+      7654 MARTIN     SALESMAN        1250                                                                                                            
+      7698 BLAKE      MANAGER         2850                                                                                                            
+      7782 CLARK      MANAGER         2450                                                                                                            
+      7788 SCOTT      ANALYST         3000                                                                                                            
+      7839 KING       PRESIDENT       5000                                                                                                            
+      7844 TURNER     SALESMAN        1500                                                                                                            
+      7876 ADAMS      CLERK           1100                                                                                                            
+
+        ID NAME       JOB           SALARY                                                                                                            
+---------- ---------- --------- ----------                                                                                                            
+      7900 JAMES      CLERK            950                                                                                                            
+      7902 FORD       ANALYST         3000                                                                                                            
+      7934 MILLER     CLERK           1300                                                                                                            
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+         1 tom        clerk           1000                                                                                                            
+
+已选择17行。
+
+SQL> -- 查看创建视图时使用的表 ( 也就是视图对应的基础表 )
+SQL> 
+SQL> 
+SQL> SELECT * FROM emp ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                                                            
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                                                            
+      7369 SMITH      CLERK           7902 17-12月-80            800                    20                                                            
+      7499 ALLEN      SALESMAN        7698 20-2月 -81           1600        300         30                                                            
+      7521 WARD       SALESMAN        7698 22-2月 -81           1250        500         30                                                            
+      7566 JONES      MANAGER         7839 02-4月 -81           2975                    20                                                            
+      7654 MARTIN     SALESMAN        7698 28-9月 -81           1250       1400         30                                                            
+      7698 BLAKE      MANAGER         7839 01-5月 -81           2850                    30                                                            
+      7782 CLARK      MANAGER         7839 09-6月 -81           2450                    10                                                            
+      7788 SCOTT      ANALYST         7566 09-12月-82           3000                    20                                                            
+      7839 KING       PRESIDENT            17-11月-81           5000                    10                                                            
+      7844 TURNER     SALESMAN        7698 08-9月 -81           1500          0         30                                                            
+      7876 ADAMS      CLERK           7788 12-1月 -83           1100                    20                                                            
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                                                            
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                                                            
+      7900 JAMES      CLERK           7698 03-12月-81            950                    30                                                            
+      7902 FORD       ANALYST         7566 03-12月-81           3000                    20                                                            
+      7934 MILLER     CLERK           7782 23-1月 -82           1300                    10                                                            
+      9257 HUA'AN     CLERK           7839 23-1月 -85           1300                                                                                  
+      8526 QIU'XIANG  ANALYST         7839 23-1月 -85           1400                                                                                  
+         1 tom        clerk                                     1000                                                                                  
+
+已选择17行。
+
+SQL> 
+SQL> 
+SQL> UPDATE view_emp SET salary = 1500 WHERE id = 1 ;
+
+已更新 1 行。
+
+SQL> SELECT * FROM view_emp ;
+
+        ID NAME       JOB           SALARY                                                                                                            
+---------- ---------- --------- ----------                                                                                                            
+      7369 SMITH      CLERK            800                                                                                                            
+      7499 ALLEN      SALESMAN        1600                                                                                                            
+      7521 WARD       SALESMAN        1250                                                                                                            
+      7566 JONES      MANAGER         2975                                                                                                            
+      7654 MARTIN     SALESMAN        1250                                                                                                            
+      7698 BLAKE      MANAGER         2850                                                                                                            
+      7782 CLARK      MANAGER         2450                                                                                                            
+      7788 SCOTT      ANALYST         3000                                                                                                            
+      7839 KING       PRESIDENT       5000                                                                                                            
+      7844 TURNER     SALESMAN        1500                                                                                                            
+      7876 ADAMS      CLERK           1100                                                                                                            
+
+        ID NAME       JOB           SALARY                                                                                                            
+---------- ---------- --------- ----------                                                                                                            
+      7900 JAMES      CLERK            950                                                                                                            
+      7902 FORD       ANALYST         3000                                                                                                            
+      7934 MILLER     CLERK           1300                                                                                                            
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+         1 tom        clerk           1500                                                                                                            
+
+已选择17行。
+
+SQL> SELECT * FROM emp ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                                                            
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                                                            
+      7369 SMITH      CLERK           7902 17-12月-80            800                    20                                                            
+      7499 ALLEN      SALESMAN        7698 20-2月 -81           1600        300         30                                                            
+      7521 WARD       SALESMAN        7698 22-2月 -81           1250        500         30                                                            
+      7566 JONES      MANAGER         7839 02-4月 -81           2975                    20                                                            
+      7654 MARTIN     SALESMAN        7698 28-9月 -81           1250       1400         30                                                            
+      7698 BLAKE      MANAGER         7839 01-5月 -81           2850                    30                                                            
+      7782 CLARK      MANAGER         7839 09-6月 -81           2450                    10                                                            
+      7788 SCOTT      ANALYST         7566 09-12月-82           3000                    20                                                            
+      7839 KING       PRESIDENT            17-11月-81           5000                    10                                                            
+      7844 TURNER     SALESMAN        7698 08-9月 -81           1500          0         30                                                            
+      7876 ADAMS      CLERK           7788 12-1月 -83           1100                    20                                                            
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                                                            
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                                                            
+      7900 JAMES      CLERK           7698 03-12月-81            950                    30                                                            
+      7902 FORD       ANALYST         7566 03-12月-81           3000                    20                                                            
+      7934 MILLER     CLERK           7782 23-1月 -82           1300                    10                                                            
+      9257 HUA'AN     CLERK           7839 23-1月 -85           1300                                                                                  
+      8526 QIU'XIANG  ANALYST         7839 23-1月 -85           1400                                                                                  
+         1 tom        clerk                                     1500                                                                                  
+
+已选择17行。
+
+SQL> DELETE FROM view_emp WHERE id = 1 ;
+
+已删除 1 行。
+
+SQL> SELECT * FROM view_emp ;
+
+        ID NAME       JOB           SALARY                                                                                                            
+---------- ---------- --------- ----------                                                                                                            
+      7369 SMITH      CLERK            800                                                                                                            
+      7499 ALLEN      SALESMAN        1600                                                                                                            
+      7521 WARD       SALESMAN        1250                                                                                                            
+      7566 JONES      MANAGER         2975                                                                                                            
+      7654 MARTIN     SALESMAN        1250                                                                                                            
+      7698 BLAKE      MANAGER         2850                                                                                                            
+      7782 CLARK      MANAGER         2450                                                                                                            
+      7788 SCOTT      ANALYST         3000                                                                                                            
+      7839 KING       PRESIDENT       5000                                                                                                            
+      7844 TURNER     SALESMAN        1500                                                                                                            
+      7876 ADAMS      CLERK           1100                                                                                                            
+
+        ID NAME       JOB           SALARY                                                                                                            
+---------- ---------- --------- ----------                                                                                                            
+      7900 JAMES      CLERK            950                                                                                                            
+      7902 FORD       ANALYST         3000                                                                                                            
+      7934 MILLER     CLERK           1300                                                                                                            
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+
+已选择16行。
+
+SQL> SELECT * FROM emp ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                                                            
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                                                            
+      7369 SMITH      CLERK           7902 17-12月-80            800                    20                                                            
+      7499 ALLEN      SALESMAN        7698 20-2月 -81           1600        300         30                                                            
+      7521 WARD       SALESMAN        7698 22-2月 -81           1250        500         30                                                            
+      7566 JONES      MANAGER         7839 02-4月 -81           2975                    20                                                            
+      7654 MARTIN     SALESMAN        7698 28-9月 -81           1250       1400         30                                                            
+      7698 BLAKE      MANAGER         7839 01-5月 -81           2850                    30                                                            
+      7782 CLARK      MANAGER         7839 09-6月 -81           2450                    10                                                            
+      7788 SCOTT      ANALYST         7566 09-12月-82           3000                    20                                                            
+      7839 KING       PRESIDENT            17-11月-81           5000                    10                                                            
+      7844 TURNER     SALESMAN        7698 08-9月 -81           1500          0         30                                                            
+      7876 ADAMS      CLERK           7788 12-1月 -83           1100                    20                                                            
+
+     EMPNO ENAME      JOB              MGR HIREDATE              SAL       COMM     DEPTNO                                                            
+---------- ---------- --------- ---------- -------------- ---------- ---------- ----------                                                            
+      7900 JAMES      CLERK           7698 03-12月-81            950                    30                                                            
+      7902 FORD       ANALYST         7566 03-12月-81           3000                    20                                                            
+      7934 MILLER     CLERK           7782 23-1月 -82           1300                    10                                                            
+      9257 HUA'AN     CLERK           7839 23-1月 -85           1300                                                                                  
+      8526 QIU'XIANG  ANALYST         7839 23-1月 -85           1400                                                                                  
+
+已选择16行。
+
+SQL> DROP VIEW view_emp ;
+
+视图已删除。
+
+SQL> 
+SQL> 
+SQL> DESC view_emp ;
+ERROR:
+ORA-04043: 对象 view_emp  不存在 
+
+
+SQL> DESC emp ;
+ 名称                                                                                是否为空? 类型
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ EMPNO                                                                               NOT NULL NUMBER(4)
+ ENAME                                                                                        VARCHAR2(10)
+ JOB                                                                                          VARCHAR2(9)
+ MGR                                                                                          NUMBER(4)
+ HIREDATE                                                                                     DATE
+ SAL                                                                                          NUMBER(7,2)
+ COMM                                                                                         NUMBER(7,2)
+ DEPTNO                                                                                       NUMBER(2)
+
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 查询每个雇员的工号、姓名、岗位、部门名称、上司的工号、姓名、岗位、部门名称
+SQL> -- 不统计没有部门的雇员、也不同没有员工的部门
+SQL> 
+SQL> SELECT e.empno , e.ename , e.job , de.dname , m.empno , m.ename , m.job , dm.dname
+  2  FROM emp e
+  3  JOIN emp m ON e.mgr = m.empno
+  4  JOIN dept de ON e.deptno = de.deptno
+  5  JOIN dept dm ON m.deptno = dm.deptno ;
+
+     EMPNO ENAME      JOB       DNAME               EMPNO ENAME      JOB       DNAME                                                                  
+---------- ---------- --------- -------------- ---------- ---------- --------- --------------                                                         
+      7566 JONES      MANAGER   RESEARCH             7839 KING       PRESIDENT ACCOUNTING                                                             
+      7698 BLAKE      MANAGER   SALES                7839 KING       PRESIDENT ACCOUNTING                                                             
+      7782 CLARK      MANAGER   ACCOUNTING           7839 KING       PRESIDENT ACCOUNTING                                                             
+      7934 MILLER     CLERK     ACCOUNTING           7782 CLARK      MANAGER   ACCOUNTING                                                             
+      7369 SMITH      CLERK     RESEARCH             7902 FORD       ANALYST   RESEARCH                                                               
+      7876 ADAMS      CLERK     RESEARCH             7788 SCOTT      ANALYST   RESEARCH                                                               
+      7788 SCOTT      ANALYST   RESEARCH             7566 JONES      MANAGER   RESEARCH                                                               
+      7902 FORD       ANALYST   RESEARCH             7566 JONES      MANAGER   RESEARCH                                                               
+      7499 ALLEN      SALESMAN  SALES                7698 BLAKE      MANAGER   SALES                                                                  
+      7521 WARD       SALESMAN  SALES                7698 BLAKE      MANAGER   SALES                                                                  
+      7654 MARTIN     SALESMAN  SALES                7698 BLAKE      MANAGER   SALES                                                                  
+
+     EMPNO ENAME      JOB       DNAME               EMPNO ENAME      JOB       DNAME                                                                  
+---------- ---------- --------- -------------- ---------- ---------- --------- --------------                                                         
+      7844 TURNER     SALESMAN  SALES                7698 BLAKE      MANAGER   SALES                                                                  
+      7900 JAMES      CLERK     SALES                7698 BLAKE      MANAGER   SALES                                                                  
+
+已选择13行。
+
+SQL> 
+SQL> 
+SQL> -- 可以通过视图简化以上查询
+SQL> 
+SQL> CREATE VIEW view_emp_dept AS
+  2  SELECT e.empno , e.ename , e.job , de.dname , m.empno , m.ename , m.job , dm.dname
+  3  FROM emp e JOIN emp m ON e.mgr = m.empno
+  4  JOIN dept de ON e.deptno = de.deptno
+  5  JOIN dept dm ON m.deptno = dm.deptno ;
+SELECT e.empno , e.ename , e.job , de.dname , m.empno , m.ename , m.job , dm.dname
+                                                *
+第 2 行出现错误: 
+ORA-00957: 重复的列名 
+
+
+SQL> CREATE VIEW view_emp_dept
+  2  ( emp_id , emp_name , emp_job , emp_dname , mgr_id , mgr_name , mgr_job , mgr_dname )
+  3  AS
+  4  SELECT e.empno , e.ename , e.job , de.dname , m.empno , m.ename , m.job , dm.dname
+  5  FROM emp e JOIN emp m ON e.mgr = m.empno JOIN dept de ON e.deptno = de.deptno JOIN dept dm ON m.deptno = dm.deptno ;
+
+视图已创建。
+
+SQL> 
+SQL> 
+SQL> -- 以后要是再需要完成这么高难度的查询，就可以查询 view_emp_dept 视图了
+SQL> 
+SQL> SELECT * FROM view_emp_dept ;
+
+    EMP_ID EMP_NAME   EMP_JOB   EMP_DNAME          MGR_ID MGR_NAME   MGR_JOB   MGR_DNAME                                                              
+---------- ---------- --------- -------------- ---------- ---------- --------- --------------                                                         
+      7566 JONES      MANAGER   RESEARCH             7839 KING       PRESIDENT ACCOUNTING                                                             
+      7698 BLAKE      MANAGER   SALES                7839 KING       PRESIDENT ACCOUNTING                                                             
+      7782 CLARK      MANAGER   ACCOUNTING           7839 KING       PRESIDENT ACCOUNTING                                                             
+      7934 MILLER     CLERK     ACCOUNTING           7782 CLARK      MANAGER   ACCOUNTING                                                             
+      7369 SMITH      CLERK     RESEARCH             7902 FORD       ANALYST   RESEARCH                                                               
+      7876 ADAMS      CLERK     RESEARCH             7788 SCOTT      ANALYST   RESEARCH                                                               
+      7788 SCOTT      ANALYST   RESEARCH             7566 JONES      MANAGER   RESEARCH                                                               
+      7902 FORD       ANALYST   RESEARCH             7566 JONES      MANAGER   RESEARCH                                                               
+      7499 ALLEN      SALESMAN  SALES                7698 BLAKE      MANAGER   SALES                                                                  
+      7521 WARD       SALESMAN  SALES                7698 BLAKE      MANAGER   SALES                                                                  
+      7654 MARTIN     SALESMAN  SALES                7698 BLAKE      MANAGER   SALES                                                                  
+
+    EMP_ID EMP_NAME   EMP_JOB   EMP_DNAME          MGR_ID MGR_NAME   MGR_JOB   MGR_DNAME                                                              
+---------- ---------- --------- -------------- ---------- ---------- --------- --------------                                                         
+      7844 TURNER     SALESMAN  SALES                7698 BLAKE      MANAGER   SALES                                                                  
+      7900 JAMES      CLERK     SALES                7698 BLAKE      MANAGER   SALES                                                                  
+
+已选择13行。
+
+SQL> DESC view_emp_dept ;
+ 名称                                                                                是否为空? 类型
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ EMP_ID                                                                              NOT NULL NUMBER(4)
+ EMP_NAME                                                                                     VARCHAR2(10)
+ EMP_JOB                                                                                      VARCHAR2(9)
+ EMP_DNAME                                                                                    VARCHAR2(14)
+ MGR_ID                                                                              NOT NULL NUMBER(4)
+ MGR_NAME                                                                                     VARCHAR2(10)
+ MGR_JOB                                                                                      VARCHAR2(9)
+ MGR_DNAME                                                                                    VARCHAR2(14)
+
+SQL> 
+SQL> DELETE FROM view_emp_dept WHERE emp_id = 7900 ;
+DELETE FROM view_emp_dept WHERE emp_id = 7900 
+            *
+第 1 行出现错误: 
+ORA-01752: 不能从没有一个键值保存表的视图中删除 
+
+
+SQL> 
+SQL> 
+SQL> -- 查看视图定义
+SQL> 
+SQL> DESC user_views ;
+ 名称                                                                                是否为空? 类型
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ VIEW_NAME                                                                           NOT NULL VARCHAR2(30)
+ TEXT_LENGTH                                                                                  NUMBER
+ TEXT                                                                                         LONG
+ TYPE_TEXT_LENGTH                                                                             NUMBER
+ TYPE_TEXT                                                                                    VARCHAR2(4000)
+ OID_TEXT_LENGTH                                                                              NUMBER
+ OID_TEXT                                                                                     VARCHAR2(4000)
+ VIEW_TYPE_OWNER                                                                              VARCHAR2(30)
+ VIEW_TYPE                                                                                    VARCHAR2(30)
+ SUPERVIEW_NAME                                                                               VARCHAR2(30)
+ EDITIONING_VIEW                                                                              VARCHAR2(1)
+ READ_ONLY                                                                                    VARCHAR2(1)
+
+SQL> SELECT view_name , TEXT FROM user_views ;
+
+VIEW_NAME                      TEXT                                                                                                                   
+------------------------------ --------------------------------------------------------------------------------                                       
+VIEW_EMP_DEPT                  SELECT e.empno , e.ename , e.job , de.dname , m.empno , m.ename , m.job , dm.dna                                       
+
+SQL> SELECT view_name , TEXT_LENGTH FROM user_views ;
+
+VIEW_NAME                      TEXT_LENGTH                                                                                                            
+------------------------------ -----------                                                                                                            
+VIEW_EMP_DEPT                          198                                                                                                            
+
+SQL> column type_text format a50 ;
+SQL> SELECT view_name , type_text FROM user_views ;
+
+VIEW_NAME                      TYPE_TEXT                                                                                                              
+------------------------------ --------------------------------------------------                                                                     
+VIEW_EMP_DEPT                                                                                                                                         
+
+SQL> SELECT view_name , view_type , read_only FROM user_views ;
+
+VIEW_NAME                      VIEW_TYPE                      R                                                                                       
+------------------------------ ------------------------------ -                                                                                       
+VIEW_EMP_DEPT                                                 N                                                                                       
+
+SQL> spool off

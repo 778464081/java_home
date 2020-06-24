@@ -1,0 +1,231 @@
+SQL> 
+SQL> -- 子查询 - 关联子查询
+SQL> 
+SQL> -- 子查询引用了外部语句中的某些表或某些列
+SQL> 
+SQL> -- 子查询与外部语句是相互关联的
+SQL> 
+SQL> -- 统计每个部门中月薪最高的雇员信息
+SQL> 
+SQL> -- 分析
+SQL> 
+SQL> -- 分组统计每个部门的最高月薪
+SQL> SELECT deptno , max(sal) FROM emp GROUP BY deptno ;
+
+    DEPTNO   MAX(SAL)                                                           
+---------- ----------                                                           
+        30       2850                                                           
+                 1400                                                           
+        20       3000                                                           
+        10       5000                                                           
+
+SQL> SELECT empno , ename , sal , deptno
+  2  FROM emp
+  3  WHERE sal IN ( 2850 , 1400 , 3000 , 5000 ) AND deptno IN ( 10 , 20 , 30 );
+
+     EMPNO ENAME             SAL     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      7698 BLAKE            2850         30                                     
+      7788 SCOTT            3000         20                                     
+      7839 KING             5000         10                                     
+      7902 FORD             3000         20                                     
+
+SQL> SELECT empno , ename , sal , deptno FROM emp ORDER BY deptno ASC , sal DESC ;
+
+     EMPNO ENAME             SAL     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      7839 KING             5000         10                                     
+      7782 CLARK            2450         10                                     
+      7934 MILLER           1300         10                                     
+      7788 SCOTT            3000         20                                     
+      7902 FORD             3000         20                                     
+      7566 JONES            2975         20                                     
+      7876 ADAMS            1100         20                                     
+      7369 SMITH             800         20                                     
+      7698 BLAKE            2850         30                                     
+      7499 ALLEN            1600         30                                     
+      7844 TURNER           1500         30                                     
+
+     EMPNO ENAME             SAL     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      7654 MARTIN           1250         30                                     
+      7521 WARD             1250         30                                     
+      7900 JAMES             950         30                                     
+      8526 QIU'XIANG        1400                                                
+      9257 HUA'AN           1300                                                
+
+已选择16行。
+
+SQL> -- 问题: 假设 10 部门中存在一个 薪水是 2850 的雇员，它是否会列出在 统计结果中
+SQL> SELECT empno , ename , sal , deptno
+  2  FROM emp
+  3  WHERE ( sal , deptno ) IN ( ( 5000 , 10 ) , (3000 , 20 ) ( 2850 , 30 ) );
+WHERE ( sal , deptno ) IN ( ( 5000 , 10 ) , (3000 , 20 ) ( 2850 , 30 ) )
+                          *
+第 3 行出现错误: 
+ORA-00920: 无效的关系运算符 
+
+
+SQL> SELECT empno , ename , sal , deptno
+  2  FROM emp
+  3  WHERE sal = ( SELECT );
+WHERE sal = ( SELECT )
+                     *
+第 3 行出现错误: 
+ORA-00936: 缺失表达式 
+
+
+SQL> SELECT this.empno , this.ename , this.sal , this.deptno
+  2  FROM emp this
+  3  WHERE this.sal = ( SELECT max(x.sal) AS my_dept_max_sal FROM emp x WHERE x.deptno = this.deptno );
+
+     EMPNO ENAME             SAL     DEPTNO                                     
+---------- ---------- ---------- ----------                                     
+      7698 BLAKE            2850         30                                     
+      7788 SCOTT            3000         20                                     
+      7839 KING             5000         10                                     
+      7902 FORD             3000         20                                     
+
+SQL> 
+SQL> 
+SQL> -- 统计每个部门的最高月薪
+SQL> 
+SQL> SELECT deptno , max(sal) FROM emp WHERE deptno IS NOT NULL GROUP BY deptno ;
+
+    DEPTNO   MAX(SAL)                                                           
+---------- ----------                                                           
+        30       2850                                                           
+        20       3000                                                           
+        10       5000                                                           
+
+SQL> 
+SQL> 
+SQL> -- 使用 关联子查询实现
+SQL> 
+SQL> SELECT my.deptno , ( SELECT max(sal) FROM emp x WHERE x.deptno = my.deptno ) maxsal FROM emp my ;
+
+    DEPTNO     MAXSAL                                                           
+---------- ----------                                                           
+        20       3000                                                           
+        30       2850                                                           
+        30       2850                                                           
+        20       3000                                                           
+        30       2850                                                           
+        30       2850                                                           
+        10       5000                                                           
+        20       3000                                                           
+        10       5000                                                           
+        30       2850                                                           
+        20       3000                                                           
+
+    DEPTNO     MAXSAL                                                           
+---------- ----------                                                           
+        30       2850                                                           
+        20       3000                                                           
+        10       5000                                                           
+                                                                                
+                                                                                
+
+已选择16行。
+
+SQL> SELECT DISTINCT my.deptno , ( SELECT max(sal) FROM emp x WHERE x.deptno = my.deptno ) maxsal FROM emp my ;
+
+    DEPTNO     MAXSAL                                                           
+---------- ----------                                                           
+                                                                                
+        10       5000                                                           
+        20       3000                                                           
+        30       2850                                                           
+
+SQL> SELECT DISTINCT my.deptno , ( SELECT max(sal) FROM emp x WHERE x.deptno = my.deptno ) maxsal FROM emp my WHERE my.deptno IS NOT NULL ;
+
+    DEPTNO     MAXSAL                                                           
+---------- ----------                                                           
+        10       5000                                                           
+        20       3000                                                           
+        30       2850                                                           
+
+SQL> 
+SQL> 
+SQL> -- 在 exists 或 not exists 中使用关联查询
+SQL> 
+SQL> 
+SQL> -- 统计 emp 表中在 'NEW YORK' 工作的雇员
+SQL> 
+SQL> SELECT e.empno , e.ename , e.job , e.deptno , d.loc
+  2  FROM emp e JOIN dept d ON e.deptno = d.deptno
+  3  WHERE d.loc = 'NEW YORK' ;
+
+     EMPNO ENAME      JOB           DEPTNO LOC                                  
+---------- ---------- --------- ---------- -------------                        
+      7782 CLARK      MANAGER           10 NEW YORK                             
+      7839 KING       PRESIDENT         10 NEW YORK                             
+      7934 MILLER     CLERK             10 NEW YORK                             
+
+SQL> 
+SQL> 
+SQL> -- 使用关联子查询实现，主查询中不使用 dept 表
+SQL> SELECT e.empno , e.ename , e.job , e.deptno
+  2  FROM emp e
+  3  WHERE EXISTS ( SELECT * FROM dept d WHERE d.deptno = e.deptno AND d.loc = 'NEW YORK' ) ;
+
+     EMPNO ENAME      JOB           DEPTNO                                      
+---------- ---------- --------- ----------                                      
+      7934 MILLER     CLERK             10                                      
+      7839 KING       PRESIDENT         10                                      
+      7782 CLARK      MANAGER           10                                      
+
+SQL> ed
+已写入 file afiedt.buf
+
+  1  SELECT e.empno , e.ename , e.job , e.deptno
+  2  FROM emp e
+  3* WHERE NOT EXISTS ( SELECT * FROM dept d WHERE d.deptno = e.deptno AND d.loc = 'NEW YORK' ) 
+SQL> /
+
+     EMPNO ENAME      JOB           DEPTNO                                      
+---------- ---------- --------- ----------                                      
+      8526 QIU'XIANG  ANALYST                                                   
+      9257 HUA'AN     CLERK                                                     
+      7900 JAMES      CLERK             30                                      
+      7844 TURNER     SALESMAN          30                                      
+      7698 BLAKE      MANAGER           30                                      
+      7654 MARTIN     SALESMAN          30                                      
+      7521 WARD       SALESMAN          30                                      
+      7499 ALLEN      SALESMAN          30                                      
+      7902 FORD       ANALYST           20                                      
+      7876 ADAMS      CLERK             20                                      
+      7788 SCOTT      ANALYST           20                                      
+
+     EMPNO ENAME      JOB           DEPTNO                                      
+---------- ---------- --------- ----------                                      
+      7566 JONES      MANAGER           20                                      
+      7369 SMITH      CLERK             20                                      
+
+已选择13行。
+
+SQL> -- 实际上 EXISTS 关注的是 子查询是否有数据返回，如果子查询有数据返回 exists 就返回 true ，否则就返回 false
+SQL> -- 外部语句(这里是主查询)中的 WHERE 根据 exists 的返回值来确定当前行数据是否保留在查询结果中
+SQL> -- 如果 exists 返回 true 则 当前行数据 就会保留在 查询结果中
+SQL> 
+SQL> SELECT e.empno , e.ename , e.job , e.deptno
+  2  FROM emp e
+  3  WHERE EXISTS ( SELECT 250 FROM dept d WHERE d.deptno = e.deptno AND d.loc = 'NEW YORK' ) ;
+
+     EMPNO ENAME      JOB           DEPTNO                                      
+---------- ---------- --------- ----------                                      
+      7934 MILLER     CLERK             10                                      
+      7839 KING       PRESIDENT         10                                      
+      7782 CLARK      MANAGER           10                                      
+
+SQL> SELECT e.empno , e.ename , e.job , e.deptno
+  2  FROM emp e
+  3  WHERE EXISTS ( SELECT '250' FROM dept d WHERE d.deptno = e.deptno AND d.loc = 'NEW YORK' ) ;
+
+     EMPNO ENAME      JOB           DEPTNO                                      
+---------- ---------- --------- ----------                                      
+      7934 MILLER     CLERK             10                                      
+      7839 KING       PRESIDENT         10                                      
+      7782 CLARK      MANAGER           10                                      
+
+SQL> spool off

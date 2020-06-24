@@ -1,0 +1,165 @@
+SQL> 
+SQL> -- 子查询 - 多行子查询
+SQL> 
+SQL> -- 显示与20部门中雇员的岗位相同的所有雇员的信息
+SQL> 
+SQL> -- 找出 20 部门 中所有雇员的岗位
+SQL> SELECT job FROM emp WHERE deptno = 20 ;
+
+JOB                                                                             
+---------                                                                       
+CLERK                                                                           
+MANAGER                                                                         
+ANALYST                                                                         
+CLERK                                                                           
+ANALYST                                                                         
+
+SQL> -- 注意返回数据是 多行、单列
+SQL> 
+SQL> -- 找出 emp 表中从事 CLERK 、MANAGER 、ANALYST 工作的雇员信息
+SQL> 
+SQL> SELECT empno , ename , job , sal FROM emp WHERE job IN ( 'CLERK' , 'MANAGER' , 'ANALYST' ) ;
+
+     EMPNO ENAME      JOB              SAL                                      
+---------- ---------- --------- ----------                                      
+      7369 SMITH      CLERK            800                                      
+      7566 JONES      MANAGER         2975                                      
+      7698 BLAKE      MANAGER         2850                                      
+      7782 CLARK      MANAGER         2450                                      
+      7788 SCOTT      ANALYST         3000                                      
+      7876 ADAMS      CLERK           1100                                      
+      7900 JAMES      CLERK            950                                      
+      7902 FORD       ANALYST         3000                                      
+      7934 MILLER     CLERK           1300                                      
+      9257 HUA'AN     CLERK           1300                                      
+      8526 QIU'XIANG  ANALYST         1400                                      
+
+已选择11行。
+
+SQL> 
+SQL> -- 使用子查询实现
+SQL> 
+SQL> SELECT empno , ename , job , sal
+  2  FROM emp
+  3  WHERE job IN ( SELECT DISTINCT job FROM emp WHERE deptno = 20 ) ;
+
+     EMPNO ENAME      JOB              SAL                                      
+---------- ---------- --------- ----------                                      
+      9257 HUA'AN     CLERK           1300                                      
+      7934 MILLER     CLERK           1300                                      
+      7900 JAMES      CLERK            950                                      
+      7876 ADAMS      CLERK           1100                                      
+      7369 SMITH      CLERK            800                                      
+      7782 CLARK      MANAGER         2450                                      
+      7698 BLAKE      MANAGER         2850                                      
+      7566 JONES      MANAGER         2975                                      
+      8526 QIU'XIANG  ANALYST         1400                                      
+      7902 FORD       ANALYST         3000                                      
+      7788 SCOTT      ANALYST         3000                                      
+
+已选择11行。
+
+SQL> 
+SQL> 
+SQL> -- 统计emp表中月薪高于20部门中任意一个员工月薪的雇员信息(统计信息中不要包含20部门的雇员)
+SQL> SELECT empno , ename , job , sal , deptno
+  2  FROM emp
+  3  WHERE sal >ANY ( SELECT DISTINCT sal FROM emp WHERE deptno = 20 ) AND deptno != 20 ;
+
+     EMPNO ENAME      JOB              SAL     DEPTNO                           
+---------- ---------- --------- ---------- ----------                           
+      7839 KING       PRESIDENT       5000         10                           
+      7698 BLAKE      MANAGER         2850         30                           
+      7782 CLARK      MANAGER         2450         10                           
+      7499 ALLEN      SALESMAN        1600         30                           
+      7844 TURNER     SALESMAN        1500         30                           
+      7934 MILLER     CLERK           1300         10                           
+      7521 WARD       SALESMAN        1250         30                           
+      7654 MARTIN     SALESMAN        1250         30                           
+      7900 JAMES      CLERK            950         30                           
+
+已选择9行。
+
+SQL>  -- 统计emp表中月薪高于20部门中任意一个员工月薪的雇员信息
+SQL> SELECT empno , ename , job , sal , deptno
+  2  FROM emp
+  3  WHERE sal >ANY ( SELECT DISTINCT sal FROM emp WHERE deptno = 20 ) ;
+
+     EMPNO ENAME      JOB              SAL     DEPTNO                           
+---------- ---------- --------- ---------- ----------                           
+      7839 KING       PRESIDENT       5000         10                           
+      7902 FORD       ANALYST         3000         20                           
+      7788 SCOTT      ANALYST         3000         20                           
+      7566 JONES      MANAGER         2975         20                           
+      7698 BLAKE      MANAGER         2850         30                           
+      7782 CLARK      MANAGER         2450         10                           
+      7499 ALLEN      SALESMAN        1600         30                           
+      7844 TURNER     SALESMAN        1500         30                           
+      8526 QIU'XIANG  ANALYST         1400                                      
+      9257 HUA'AN     CLERK           1300                                      
+      7934 MILLER     CLERK           1300         10                           
+
+     EMPNO ENAME      JOB              SAL     DEPTNO                           
+---------- ---------- --------- ---------- ----------                           
+      7521 WARD       SALESMAN        1250         30                           
+      7654 MARTIN     SALESMAN        1250         30                           
+      7876 ADAMS      CLERK           1100         20                           
+      7900 JAMES      CLERK            950         30                           
+
+已选择15行。
+
+SQL> 
+SQL> 
+SQL> -- 子查询 - 多列子查询
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 显示与 SMITH 在同一个部门从事同一个工作的雇员信息
+SQL> 
+SQL> -- 分步实现
+SQL> -- 第一步: 找出 SMITH 所在的部门和从事的工作
+SQL> SELECT deptno , job FROM emp WHERE ename = 'SMITH';
+
+    DEPTNO JOB                                                                  
+---------- ---------                                                            
+        20 CLERK                                                                
+
+SQL> 
+SQL> -- 第二步: 找出 emp 表中 在 20 部门 从事 CLERK 工作的所有雇员
+SQL> 
+SQL> SELECT empno , ename ,sal , job , deptno
+  2  FROM emp WHERE deptno = 20 AND job = 'CLERK' ;
+
+     EMPNO ENAME             SAL JOB           DEPTNO                           
+---------- ---------- ---------- --------- ----------                           
+      7369 SMITH             800 CLERK             20                           
+      7876 ADAMS            1100 CLERK             20                           
+
+SQL> 
+SQL> 
+SQL> -- 使用单个子查询作为查询条件来查询
+SQL> 
+SQL> SELECT empno , ename ,sal , job , deptno
+  2  FROM emp
+  3  WHERE ( deptno , job ) = ( SELECT deptno , job FROM emp WHERE ename = 'SMITH' );
+
+     EMPNO ENAME             SAL JOB           DEPTNO                           
+---------- ---------- ---------- --------- ----------                           
+      7369 SMITH             800 CLERK             20                           
+      7876 ADAMS            1100 CLERK             20                           
+
+SQL> 
+SQL> -- 统计emp表中与SMITH在同一个部门、同一个岗位、且月薪相同的雇员信息
+SQL> 
+SQL> SELECT empno , ename ,sal , job , deptno
+  2  FROM emp
+  3  WHERE ( deptno , job , sal ) = ( SELECT deptno , job , sal FROM emp WHERE ename = 'SMITH' ) ;
+
+     EMPNO ENAME             SAL JOB           DEPTNO                           
+---------- ---------- ---------- --------- ----------                           
+      7369 SMITH             800 CLERK             20                           
+
+SQL> -- 注意 等号 前 ( deptno , job , sal ) 与等号后 SELECT 语句中 诸列的顺序要一致
+SQL> -- 前后是 成对比较
+SQL> 
+SQL> spool off

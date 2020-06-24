@@ -1,0 +1,393 @@
+SQL> -- 尝试删除 t_employees 表
+SQL> DROP TABLE t_employees PURGE ;
+DROP TABLE t_employees PURGE 
+           *
+第 1 行出现错误: 
+ORA-00942: 表或视图不存在 
+
+
+SQL> -- 使用 CTAS 方式创建表
+SQL> CREATE TABLE t_employees
+  2  AS
+  3  SELECT empno AS id , ename AS name , job , sal AS salary , deptno FROM emp ;
+
+表已创建。
+
+SQL> DESC t_employees ;
+ 名称                                                                                是否为空? 类型
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ ID                                                                                  NOT NULL NUMBER(4)
+ NAME                                                                                         VARCHAR2(10)
+ JOB                                                                                          VARCHAR2(9)
+ SALARY                                                                                       NUMBER(7,2)
+ DEPTNO                                                                                       NUMBER(2)
+
+SQL> SELECT * FROM t_employees ;
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7369 SMITH      CLERK            800         20                                                                                                 
+      7499 ALLEN      SALESMAN        1600         30                                                                                                 
+      7521 WARD       SALESMAN        1250         30                                                                                                 
+      7566 JONES      MANAGER         2975         20                                                                                                 
+      7654 MARTIN     SALESMAN        1250         30                                                                                                 
+      7698 BLAKE      MANAGER         2850         30                                                                                                 
+      7782 CLARK      MANAGER         2450         10                                                                                                 
+      7788 SCOTT      ANALYST         3000         20                                                                                                 
+      7839 KING       PRESIDENT       5000         10                                                                                                 
+      7844 TURNER     SALESMAN        1500         30                                                                                                 
+      7876 ADAMS      CLERK           1100         20                                                                                                 
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7900 JAMES      CLERK            950         30                                                                                                 
+      7902 FORD       ANALYST         3000         20                                                                                                 
+      7934 MILLER     CLERK           1300         10                                                                                                 
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+
+已选择16行。
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE t_departments AS SELECT deptno , dname , loc AS location FROM dept ;
+
+表已创建。
+
+SQL> SELECT * FROM t_departments ;
+
+    DEPTNO DNAME          LOCATION                                                                                                                    
+---------- -------------- -------------                                                                                                               
+        10 ACCOUNTING     NEW YORK                                                                                                                    
+        20 RESEARCH       DALLAS                                                                                                                      
+        30 SALES          CHICAGO                                                                                                                     
+        40 OPERATIONS     BOSTON                                                                                                                      
+
+SQL> 
+SQL> -- 为 t_departments 指定主键约束
+SQL> 
+SQL> ALTER TABLE t_departments ADD CONSTRAINT t_departments_deptno_pk PRIMARY KEY( deptno ) ;
+
+表已更改。
+
+SQL> -- 为 t_employees 指定主键约束
+SQL> ALTER TABLE t_employees ADD CONSTRAINT t_employees_id_pk PRIMARY KEY( id ) ;
+
+表已更改。
+
+SQL> -- 为 t_employees 指定外键约束
+SQL> ALTER TABLE t_employees ADD CONSTRAINT t_employees_deptno_fk FOREIGN KEY ( deptno ) REFERENCES t_departments( deptno );
+
+表已更改。
+
+SQL> 
+SQL> 
+SQL> 
+SQL> -- 删除 t_employees 表中不在 'NEW YORK' 工作的雇员信息
+SQL>
+SQL> DELETE FROM t_employees e WHERE e.deptno IN ( SELECT deptno FROM t_departments WHERE location != 'NEW YORK' );
+
+已删除11行。
+
+SQL> SELECT * FROM t_employees ;
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7782 CLARK      MANAGER         2450         10                                                                                                 
+      7839 KING       PRESIDENT       5000         10                                                                                                 
+      7934 MILLER     CLERK           1300         10                                                                                                 
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+
+SQL> rollback ;
+
+回退已完成。
+
+SQL> SELECT * FROM t_employees ;
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7369 SMITH      CLERK            800         20                                                                                                 
+      7499 ALLEN      SALESMAN        1600         30                                                                                                 
+      7521 WARD       SALESMAN        1250         30                                                                                                 
+      7566 JONES      MANAGER         2975         20                                                                                                 
+      7654 MARTIN     SALESMAN        1250         30                                                                                                 
+      7698 BLAKE      MANAGER         2850         30                                                                                                 
+      7782 CLARK      MANAGER         2450         10                                                                                                 
+      7788 SCOTT      ANALYST         3000         20                                                                                                 
+      7839 KING       PRESIDENT       5000         10                                                                                                 
+      7844 TURNER     SALESMAN        1500         30                                                                                                 
+      7876 ADAMS      CLERK           1100         20                                                                                                 
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7900 JAMES      CLERK            950         30                                                                                                 
+      7902 FORD       ANALYST         3000         20                                                                                                 
+      7934 MILLER     CLERK           1300         10                                                                                                 
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+
+已选择16行。
+
+SQL> 
+SQL> DESC t_departments ;
+ 名称                                                                                是否为空? 类型
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ DEPTNO                                                                              NOT NULL NUMBER(2)
+ DNAME                                                                                        VARCHAR2(14)
+ LOCATION                                                                                     VARCHAR2(13)
+
+SQL> SELECT * FROM t_employees ;
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7369 SMITH      CLERK            800         20                                                                                                 
+      7499 ALLEN      SALESMAN        1600         30                                                                                                 
+      7521 WARD       SALESMAN        1250         30                                                                                                 
+      7566 JONES      MANAGER         2975         20                                                                                                 
+      7654 MARTIN     SALESMAN        1250         30                                                                                                 
+      7698 BLAKE      MANAGER         2850         30                                                                                                 
+      7782 CLARK      MANAGER         2450         10                                                                                                 
+      7788 SCOTT      ANALYST         3000         20                                                                                                 
+      7839 KING       PRESIDENT       5000         10                                                                                                 
+      7844 TURNER     SALESMAN        1500         30                                                                                                 
+      7876 ADAMS      CLERK           1100         20                                                                                                 
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7900 JAMES      CLERK            950         30                                                                                                 
+      7902 FORD       ANALYST         3000         20                                                                                                 
+      7934 MILLER     CLERK           1300         10                                                                                                 
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+
+已选择16行。
+
+SQL> -- 使用关联子查询实现
+SQL> 
+SQL> DELETE FROM t_employees e WHERE EXISTS ( SELECT 'x' FROM t_departments d WHERE d.deptno = e.deptno AND d.location != 'NEW YORK' );
+
+已删除11行。
+
+SQL> SELECT * FROM t_employees ;
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7782 CLARK      MANAGER         2450         10                                                                                                 
+      7839 KING       PRESIDENT       5000         10                                                                                                 
+      7934 MILLER     CLERK           1300         10                                                                                                 
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+
+SQL> rollback ;
+
+回退已完成。
+
+SQL> SELECT * FROM t_employees ;
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7369 SMITH      CLERK            800         20                                                                                                 
+      7499 ALLEN      SALESMAN        1600         30                                                                                                 
+      7521 WARD       SALESMAN        1250         30                                                                                                 
+      7566 JONES      MANAGER         2975         20                                                                                                 
+      7654 MARTIN     SALESMAN        1250         30                                                                                                 
+      7698 BLAKE      MANAGER         2850         30                                                                                                 
+      7782 CLARK      MANAGER         2450         10                                                                                                 
+      7788 SCOTT      ANALYST         3000         20                                                                                                 
+      7839 KING       PRESIDENT       5000         10                                                                                                 
+      7844 TURNER     SALESMAN        1500         30                                                                                                 
+      7876 ADAMS      CLERK           1100         20                                                                                                 
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7900 JAMES      CLERK            950         30                                                                                                 
+      7902 FORD       ANALYST         3000         20                                                                                                 
+      7934 MILLER     CLERK           1300         10                                                                                                 
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+
+已选择16行。
+
+SQL> -- 修改 20 和 30 部门的雇员的薪水 ( 每个雇员月薪增加 10000 )
+SQL> 
+SQL> UPDATE t_employees SET salary = salary + 10000 WHERE deptno IN ( 20 , 30 ) ;
+
+已更新11行。
+
+SQL> SELECT * FROM t_employees ;
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7369 SMITH      CLERK          10800         20                                                                                                 
+      7499 ALLEN      SALESMAN       11600         30                                                                                                 
+      7521 WARD       SALESMAN       11250         30                                                                                                 
+      7566 JONES      MANAGER        12975         20                                                                                                 
+      7654 MARTIN     SALESMAN       11250         30                                                                                                 
+      7698 BLAKE      MANAGER        12850         30                                                                                                 
+      7782 CLARK      MANAGER         2450         10                                                                                                 
+      7788 SCOTT      ANALYST        13000         20                                                                                                 
+      7839 KING       PRESIDENT       5000         10                                                                                                 
+      7844 TURNER     SALESMAN       11500         30                                                                                                 
+      7876 ADAMS      CLERK          11100         20                                                                                                 
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7900 JAMES      CLERK          10950         30                                                                                                 
+      7902 FORD       ANALYST        13000         20                                                                                                 
+      7934 MILLER     CLERK           1300         10                                                                                                 
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+
+已选择16行。
+
+SQL> rollback ;
+
+回退已完成。
+
+SQL> SELECT * FROM t_employees ;
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7369 SMITH      CLERK            800         20                                                                                                 
+      7499 ALLEN      SALESMAN        1600         30                                                                                                 
+      7521 WARD       SALESMAN        1250         30                                                                                                 
+      7566 JONES      MANAGER         2975         20                                                                                                 
+      7654 MARTIN     SALESMAN        1250         30                                                                                                 
+      7698 BLAKE      MANAGER         2850         30                                                                                                 
+      7782 CLARK      MANAGER         2450         10                                                                                                 
+      7788 SCOTT      ANALYST         3000         20                                                                                                 
+      7839 KING       PRESIDENT       5000         10                                                                                                 
+      7844 TURNER     SALESMAN        1500         30                                                                                                 
+      7876 ADAMS      CLERK           1100         20                                                                                                 
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7900 JAMES      CLERK            950         30                                                                                                 
+      7902 FORD       ANALYST         3000         20                                                                                                 
+      7934 MILLER     CLERK           1300         10                                                                                                 
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+
+已选择16行。
+
+SQL> SELECT * FROM t_departments ;
+
+    DEPTNO DNAME          LOCATION                                                                                                                    
+---------- -------------- -------------                                                                                                               
+        10 ACCOUNTING     NEW YORK                                                                                                                    
+        20 RESEARCH       DALLAS                                                                                                                      
+        30 SALES          CHICAGO                                                                                                                     
+        40 OPERATIONS     BOSTON                                                                                                                      
+
+SQL> 
+SQL> -- 为在 DALLAS 和 CHICAGO 两个地区工作的雇员月薪增加10000
+SQL> 
+SQL> UPDATE t_employees e , t_departments d SET e.salary = e.salary + 10000 WHERE e.deptno = d.deptno AND d.location IN ( 'DALLAS' , 'CHICAGO' );
+UPDATE t_employees e ,t_departments d SET e.salary = e.salary + 10000 WHERE e.deptno = d.deptno AND d.location IN ( 'DALLAS' , 'CHICAGO' )
+                     *
+第 1 行出现错误: 
+ORA-00971: 缺失 SET 关键字 
+
+
+SQL> UPDATE t_employees e
+  2  SET e.salary = e.salary + 10000
+  3  WHERE e.deptno IN ( SELECT deptno FROM t_departments WHERE location = 'DALLAS' OR location = 'CHICAGO' ) ;
+
+已更新11行。                                                                                                                   
+
+SQL> SELECT * FROM t_employees ;
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7369 SMITH      CLERK          10800         20                                                                                                 
+      7499 ALLEN      SALESMAN       11600         30                                                                                                 
+      7521 WARD       SALESMAN       11250         30                                                                                                 
+      7566 JONES      MANAGER        12975         20                                                                                                 
+      7654 MARTIN     SALESMAN       11250         30                                                                                                 
+      7698 BLAKE      MANAGER        12850         30                                                                                                 
+      7782 CLARK      MANAGER         2450         10                                                                                                 
+      7788 SCOTT      ANALYST        13000         20                                                                                                 
+      7839 KING       PRESIDENT       5000         10                                                                                                 
+      7844 TURNER     SALESMAN       11500         30                                                                                                 
+      7876 ADAMS      CLERK          11100         20                                                                                                 
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7900 JAMES      CLERK          10950         30                                                                                                 
+      7902 FORD       ANALYST        13000         20                                                                                                 
+      7934 MILLER     CLERK           1300         10                                                                                                 
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+
+已选择16行。
+
+SQL> rollback ;
+
+回退已完成。
+
+SQL> -- 使用关联子查询实现
+SQL>
+SQL> UPDATE t_employees e
+  2  SET e.salary = e.salary + 10000
+  3  WHERE EXISTS ( SELECT 250 FROM t_departments d WHERE d.location IN ( 'DALLAS', 'CHICAGO' ) AND d.deptno = e.deptno ) ;
+
+已更新11行。
+
+SQL> SELECT * FROM t_employees ;
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7369 SMITH      CLERK          10800         20                                                                                                 
+      7499 ALLEN      SALESMAN       11600         30                                                                                                 
+      7521 WARD       SALESMAN       11250         30                                                                                                 
+      7566 JONES      MANAGER        12975         20                                                                                                 
+      7654 MARTIN     SALESMAN       11250         30                                                                                                 
+      7698 BLAKE      MANAGER        12850         30                                                                                                 
+      7782 CLARK      MANAGER         2450         10                                                                                                 
+      7788 SCOTT      ANALYST        13000         20                                                                                                 
+      7839 KING       PRESIDENT       5000         10                                                                                                 
+      7844 TURNER     SALESMAN       11500         30                                                                                                 
+      7876 ADAMS      CLERK          11100         20                                                                                                 
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7900 JAMES      CLERK          10950         30                                                                                                 
+      7902 FORD       ANALYST        13000         20                                                                                                 
+      7934 MILLER     CLERK           1300         10                                                                                                 
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+
+已选择16行。
+
+SQL> rollback ;
+
+回退已完成。
+
+SQL> SELECT * FROM t_employees ;
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7369 SMITH      CLERK            800         20                                                                                                 
+      7499 ALLEN      SALESMAN        1600         30                                                                                                 
+      7521 WARD       SALESMAN        1250         30                                                                                                 
+      7566 JONES      MANAGER         2975         20                                                                                                 
+      7654 MARTIN     SALESMAN        1250         30                                                                                                 
+      7698 BLAKE      MANAGER         2850         30                                                                                                 
+      7782 CLARK      MANAGER         2450         10                                                                                                 
+      7788 SCOTT      ANALYST         3000         20                                                                                                 
+      7839 KING       PRESIDENT       5000         10                                                                                                 
+      7844 TURNER     SALESMAN        1500         30                                                                                                 
+      7876 ADAMS      CLERK           1100         20                                                                                                 
+
+        ID NAME       JOB           SALARY     DEPTNO                                                                                                 
+---------- ---------- --------- ---------- ----------                                                                                                 
+      7900 JAMES      CLERK            950         30                                                                                                 
+      7902 FORD       ANALYST         3000         20                                                                                                 
+      7934 MILLER     CLERK           1300         10                                                                                                 
+      9257 HUA'AN     CLERK           1300                                                                                                            
+      8526 QIU'XIANG  ANALYST         1400                                                                                                            
+
+已选择16行。
+
+SQL> spool off
