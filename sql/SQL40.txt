@@ -1,0 +1,251 @@
+SQL> 
+SQL> SELECT sysdte FROM dual ;
+SELECT sysdte FROM dual 
+       *
+第 1 行出现错误: 
+ORA-00904: "SYSDTE": 标识符无效 
+
+
+SQL> SELECT sysdate FROM dual ;
+
+SYSDATE                                                                                                                                               
+--------------                                                                                                                                        
+24-6月 -20                                                                                                                                            
+
+SQL> ALTER SESSION SET nls_date_format = 'ddd yyyy-mm-dd day hh24:mi:ss'
+  2  ;
+
+会话已更改。
+
+SQL> SELECT sysdate FROM dual ;
+
+SYSDATE                                                                                                                                               
+---------------------------------                                                                                                                     
+176 2020-06-24 星期三 16:30:04                                                                                                                        
+
+SQL> ALTER SESSION SET nls_date_format = 'ddd yyyy-mm-dd dy hh24:mi:ss'
+  2  ;
+
+会话已更改。
+
+SQL> SELECT sysdate FROM dual ;
+
+SYSDATE                                                                                                                                               
+------------------------------------                                                                                                                  
+176 2020-06-24 星期三 16:30:30                                                                                                                        
+
+SQL> 
+SQL> 
+SQL> SELECT to_char( sysdate , 'yyyy-mm-dd hh:mi:ss' ) from dual ;
+
+TO_CHAR(SYSDATE,'YY                                                                                                                                   
+-------------------                                                                                                                                   
+2020-06-24 04:31:16                                                                                                                                   
+
+SQL> SELECT to_char( sysdate , 'yyyy-mm-dd am hh:mi:ss' ) from dual ;
+
+TO_CHAR(SYSDATE,'YYYY-MM                                                                                                                              
+------------------------                                                                                                                              
+2020-06-24 下午 04:31:39                                                                                                                              
+
+SQL> SELECT to_char( sysdate , 'yyyy-mm-dd pm hh:mi:ss' ) from dual ;
+
+TO_CHAR(SYSDATE,'YYYY-MM                                                                                                                              
+------------------------                                                                                                                              
+2020-06-24 下午 04:31:46                                                                                                                              
+
+SQL> SELECT to_char( sysdate , 'ad yyyy-mm-dd pm hh:mi:ss' ) from dual ;
+
+TO_CHAR(SYSDATE,'ADYYYY-MM-DDPM                                                                                                                       
+-------------------------------                                                                                                                       
+公元 2020-06-24 下午 04:32:00                                                                                                                         
+
+SQL> SELECT to_char( sysdate , 'bc yyyy-mm-dd pm hh:mi:ss' ) from dual ;
+
+TO_CHAR(SYSDATE,'BCYYYY-MM-DDPM                                                                                                                       
+-------------------------------                                                                                                                       
+公元 2020-06-24 下午 04:32:07                                                                                                                         
+
+SQL> 
+SQL> 
+SQL> 
+SQL> select dump( hireadate ) from emp where empno = 9257 ;
+select dump( hireadate ) from emp where empno = 9257 
+             *
+第 1 行出现错误: 
+ORA-00904: "HIREADATE": 标识符无效 
+
+
+SQL> select dump( hiredate ) from emp where empno = 9257 ;
+
+DUMP(HIREDATE)                                                                                                                                        
+------------------------------------------------------------------------------------------------------------------------------------------------------
+Typ=12 Len=7: 119,185,1,23,1,1,1                                                                                                                      
+
+SQL> select hiredate , dump( hiredate ) from emp where empno = 9257 ;
+
+HIREDATE                                                                                                                                              
+------------------------------------                                                                                                                  
+DUMP(HIREDATE)                                                                                                                                        
+------------------------------------------------------------------------------------------------------------------------------------------------------
+023 1985-01-23 星期三 00:00:00                                                                                                                        
+Typ=12 Len=7: 119,185,1,23,1,1,1                                                                                                                      
+                                                                                                                                                      
+
+SQL> 
+SQL> SELECT sysdate , dump( sysdate ) FROM dual ;
+
+SYSDATE                                                                                                                                               
+------------------------------------                                                                                                                  
+DUMP(SYSDATE)                                                                                                                                         
+------------------------------------------------------------------------------------------------------------------------------------------------------
+176 2020-06-24 星期三 16:39:24                                                                                                                        
+Typ=13 Len=8: 228,7,6,24,16,39,24,0                                                                                                                   
+                                                                                                                                                      
+
+SQL> 
+SQL> 
+SQL> 
+SQL> CREATE TABLE t_customers_logs (
+  2     id NUMBER(10) ,
+  3     operation VARCHAR2(10) ,
+  4     operation_time TIMESTAMP(9)
+  5  );
+
+表已创建。
+
+SQL> 
+SQL> 
+SQL> INSERT INTO t_customers_logs VALUES ( 1 , '用户登录' , systimestamp ) ;
+
+已创建 1 行。
+
+SQL> commit ;
+
+提交完成。
+
+SQL> SELECT * FROM t_cutsomers_logs ;
+SELECT * FROM t_cutsomers_logs 
+              *
+第 1 行出现错误: 
+ORA-00942: 表或视图不存在 
+
+
+SQL> SELECT * FROM t_custsomers_logs ;
+SELECT * FROM t_custsomers_logs 
+              *
+第 1 行出现错误: 
+ORA-00942: 表或视图不存在 
+
+
+SQL> SELECT * FROM t_customers_logs ;
+
+        ID OPERATION  OPERATION_TIME                                                                                                                  
+---------- ---------- ---------------------------------------------------------------------------                                                     
+         1 用户登录   24-6月 -20 04.45.52.027000000 下午                                                                                              
+
+SQL> SELECT dump( operation_time ) FROM t_customers_logs ;
+
+DUMP(OPERATION_TIME)                                                                                                                                  
+------------------------------------------------------------------------------------------------------------------------------------------------------
+Typ=180 Len=11: 120,120,6,24,17,46,53,1,155,252,192                                                                                                   
+
+SQL> INSERT INTO t_customers_logs VALUES ( 2 , '用户退出' , sysdate ) ;
+
+已创建 1 行。
+
+SQL> SELECT dump( operation_time ) FROM t_customers_logs ;
+
+DUMP(OPERATION_TIME)                                                                                                                                  
+------------------------------------------------------------------------------------------------------------------------------------------------------
+Typ=180 Len=11: 120,120,6,24,17,46,53,1,155,252,192                                                                                                   
+Typ=180 Len=7: 120,120,6,24,17,49,19                                                                                                                  
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> -- Oracle 数据库管理系统中 ，对于日期来说一个单位表示一天
+SQL> 
+SQL> SELECT sysdate FROM dual ;
+
+SYSDATE                                                                                                                                               
+------------------------------------                                                                                                                  
+176 2020-06-24 星期三 16:50:08                                                                                                                        
+
+SQL> SELECT sysdate + 1 FROM dual ;
+
+SYSDATE+1                                                                                                                                             
+------------------------------------                                                                                                                  
+177 2020-06-25 星期四 16:50:14                                                                                                                        
+
+SQL> SELECT sysdate + 6 FROM dual ;
+
+SYSDATE+6                                                                                                                                             
+------------------------------------                                                                                                                  
+182 2020-06-30 星期二 16:50:23                                                                                                                        
+
+SQL> SELECT sysdate + 7 FROM dual ;
+
+SYSDATE+7                                                                                                                                             
+------------------------------------                                                                                                                  
+183 2020-07-01 星期三 16:50:27                                                                                                                        
+
+SQL> SELECT sysdate + 1/24 FROM dual ;
+
+SYSDATE+1/24                                                                                                                                          
+------------------------------------                                                                                                                  
+176 2020-06-24 星期三 17:50:43                                                                                                                        
+
+SQL> SELECT sysdate , sysdate + 1/24/60 FROM dual ;
+
+SYSDATE                              SYSDATE+1/24/60                                                                                                  
+------------------------------------ ------------------------------------                                                                             
+176 2020-06-24 星期三 16:51:12       176 2020-06-24 星期三 16:52:12                                                                                   
+
+SQL> SELECT sysdate , sysdate + 1/24/60/60 FROM dual ;
+
+SYSDATE                              SYSDATE+1/24/60/60                                                                                               
+------------------------------------ ------------------------------------                                                                             
+176 2020-06-24 星期三 16:51:22       176 2020-06-24 星期三 16:51:23                                                                                   
+
+SQL> SELECT sysdate , sysdate + 1/24/60/60/1000 FROM dual ;
+
+SYSDATE                              SYSDATE+1/24/60/60/1000                                                                                          
+------------------------------------ ------------------------------------                                                                             
+176 2020-06-24 星期三 16:51:35       176 2020-06-24 星期三 16:51:35                                                                                   
+
+SQL> SELECT dbtimezone , sessiontimezone FROM dual ;
+
+DBTIME SESSIONTIMEZONE                                                                                                                                
+------ ---------------------------------------------------------------------------                                                                    
++00:00 +08:00                                                                                                                                         
+
+SQL> 
+SQL> SELECT to_char( sysdate , 'B.C. yy-mm-dd day ' ) FROM dual ;
+
+TO_CHAR(SYSDATE,'B.C.YY-MM                                                                                                                            
+--------------------------                                                                                                                            
+公元 20-06-24 星期三                                                                                                                                  
+
+SQL> SELECT to_char( sysdate , 'B.C. yyyy-mm-dd day ' ) FROM dual ;
+
+TO_CHAR(SYSDATE,'B.C.YYYY-MM                                                                                                                          
+----------------------------                                                                                                                          
+公元 2020-06-24 星期三                                                                                                                                
+
+SQL> 
+SQL> SELECT to_date( '98-10-20' , 'yy-mm-dd' ) FROM dual ;
+
+TO_DATE('98-10-20','YY-MM-DD')                                                                                                                        
+------------------------------------                                                                                                                  
+293 2098-10-20 星期一 00:00:00                                                                                                                        
+
+SQL> -- 当前会话的 nls_date_format 已经被设置过
+SQL> SELECT to_date( '98-10-20' , 'rr-mm-dd' ) FROM dual ;
+
+TO_DATE('98-10-20','RR-MM-DD')                                                                                                                        
+------------------------------------                                                                                                                  
+293 1998-10-20 星期二 00:00:00                                                                                                                        
+
+SQL> spool off
