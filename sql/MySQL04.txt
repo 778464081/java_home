@@ -1,0 +1,346 @@
+PS D:\> mysql -u ecuter -p
+Enter password: ******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 21
+Server version: 8.0.20 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> select user() form dual ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dual' at line 1
+mysql> select user() from dual ;
++------------------+
+| user()           |
++------------------+
+| ecuter@localhost |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> show databases ;
++--------------------+
+| Database           |
++--------------------+
+| ecut               |
+| information_schema |
++--------------------+
+2 rows in set (0.00 sec)
+
+mysql> use ecut ;
+Database changed
+mysql> show tables ;
++----------------+
+| Tables_in_ecut |
++----------------+
+| t_students     |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> create table t_classes (
+    ->    id int(5) ,
+    ->    name varchar(20) ,
+    ->    primary key( id )
+    -> );
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> desc t_classes ;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| name  | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc tables ;
++-----------------+--------------------------------------------------------------------+------+-----+---------+-------+
+| Field           | Type                                                               | Null | Key | Default | Extra |
++-----------------+--------------------------------------------------------------------+------+-----+---------+-------+
+| TABLE_CATALOG   | varchar(64)                                                        | YES  |     | NULL    |       |
+| TABLE_SCHEMA    | varchar(64)                                                        | YES  |     | NULL    |       |
+| TABLE_NAME      | varchar(64)                                                        | YES  |     | NULL    |       |
+| TABLE_TYPE      | enum('BASE TABLE','VIEW','SYSTEM VIEW')                            | NO   |     | NULL    |       |
+| ENGINE          | varchar(64)                                                        | YES  |     | NULL    |       |
+| VERSION         | int                                                                | YES  |     | NULL    |       |
+| ROW_FORMAT      | enum('Fixed','Dynamic','Compressed','Redundant','Compact','Paged') | YES  |     | NULL    |       |
+| TABLE_ROWS      | bigint unsigned                                                    | YES  |     | NULL    |       |
+| AVG_ROW_LENGTH  | bigint unsigned                                                    | YES  |     | NULL    |       |
+| DATA_LENGTH     | bigint unsigned                                                    | YES  |     | NULL    |       |
+| MAX_DATA_LENGTH | bigint unsigned                                                    | YES  |     | NULL    |       |
+| INDEX_LENGTH    | bigint unsigned                                                    | YES  |     | NULL    |       |
+| DATA_FREE       | bigint unsigned                                                    | YES  |     | NULL    |       |
+| AUTO_INCREMENT  | bigint unsigned                                                    | YES  |     | NULL    |       |
+| CREATE_TIME     | timestamp                                                          | NO   |     | NULL    |       |
+| UPDATE_TIME     | datetime                                                           | YES  |     | NULL    |       |
+| CHECK_TIME      | datetime                                                           | YES  |     | NULL    |       |
+| TABLE_COLLATION | varchar(64)                                                        | YES  |     | NULL    |       |
+| CHECKSUM        | bigint                                                             | YES  |     | NULL    |       |
+| CREATE_OPTIONS  | varchar(256)                                                       | YES  |     | NULL    |       |
+| TABLE_COMMENT   | text                                                               | YES  |     | NULL    |       |
++-----------------+--------------------------------------------------------------------+------+-----+---------+-------+
+21 rows in set (0.00 sec)
+
+mysql> use ecut ;
+Database changed
+mysql> show tables ;
++----------------+
+| Tables_in_ecut |
++----------------+
+| t_classes      |
+| t_students     |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> -- 通过查询 information_schema 数据库中的 tables 来查看当前数据库中所有的表
+mysql> select table_name from information_schema.tables where table_schema = 'ecut';
++------------+
+| TABLE_NAME |
++------------+
+| t_classes  |
+| t_students |
++------------+
+2 rows in set (0.00 sec)
+
+mysql> select user() from dual ;
++------------------+
+| user()           |
++------------------+
+| ecuter@localhost |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> select database() from dual ;
++------------+
+| database() |
++------------+
+| ecut       |
++------------+
+1 row in set (0.00 sec)
+
+mysql> show tables ;
++----------------+
+| Tables_in_ecut |
++----------------+
+| t_classes      |
+| t_students     |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> select table_name from information_schema.tables where table_schema = 'ecut';
++------------+
+| TABLE_NAME |
++------------+
+| t_classes  |
+| t_students |
++------------+
+2 rows in set (0.00 sec)
+
+mysql> desc t_classes ;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| name  | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> -- 为 t_classes 表增加列
+mysql>
+mysql> alter table t_classes add column ( description varchar(50) ) ;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC t_classes ;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| id          | int         | NO   | PRI | NULL    |       |
+| name        | varchar(20) | YES  |     | NULL    |       |
+| description | varchar(50) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql>
+mysql> -- 修改 t_classes 表中 name 列的列名
+mysql>
+mysql> ALTER TABLE t_classes CHANGE COLUMN name class_name VARCHAR(50) ;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC t_classes ;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| id          | int         | NO   | PRI | NULL    |       |
+| class_name  | varchar(50) | YES  |     | NULL    |       |
+| description | varchar(50) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> -- 删除 t_classes 表中的 description 列
+mysql>
+mysql> ALTER TABLE t_classes DROP COLUMN description ;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table t_classes add column ( description varchar(50) ) ;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC t_classes ;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| id          | int         | NO   | PRI | NULL    |       |
+| class_name  | varchar(50) | YES  |     | NULL    |       |
+| description | varchar(50) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE t_classes DROP COLUMN ( description );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '( description )' at line 1
+mysql> -- 注意 ，drop column 之后的列名 不要使用 小括号
+mysql>
+mysql>
+mysql>
+mysql> DESC t_classes ;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| id          | int         | NO   | PRI | NULL    |       |
+| class_name  | varchar(50) | YES  |     | NULL    |       |
+| description | varchar(50) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table t_classes modify ( description char(20) );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '( description char(20) )' at line 1
+mysql> alter table t_classes modify description char(20) ;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC t_classes ;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| id          | int         | NO   | PRI | NULL    |       |
+| class_name  | varchar(50) | YES  |     | NULL    |       |
+| description | char(20)    | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> rename table t_classes to classes ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables ;
++----------------+
+| Tables_in_ecut |
++----------------+
+| classes        |
+| t_students     |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> rename table classes to t_classes ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables ;
++----------------+
+| Tables_in_ecut |
++----------------+
+| t_classes      |
+| t_students     |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> desc t_classes ;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| id          | int         | NO   | PRI | NULL    |       |
+| class_name  | varchar(50) | YES  |     | NULL    |       |
+| description | char(20)    | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into t_classes ( id , class_name ) values ( 1 , '软件' );
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into t_classes ( id , class_name ) values ( 2 , '嵌入式' );
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into t_classes ( id , class_name ) values ( 3 , '信工' );
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM t_classes ;
++----+------------+-------------+
+| id | class_name | description |
++----+------------+-------------+
+|  1 | 软件       | NULL        |
+|  2 | 嵌入式     | NULL        |
+|  3 | 信工       | NULL        |
++----+------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> truncate t_classes ;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SELECT * FROM t_classes ;
+Empty set (0.00 sec)
+
+mysql> drop table t_classes ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select table_name from information_schema.tables where table_schema = 'ecut';
++------------+
+| TABLE_NAME |
++------------+
+| t_students |
++------------+
+1 row in set (0.00 sec)
+
+mysql> show tables ;
++----------------+
+| Tables_in_ecut |
++----------------+
+| t_students     |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> -- 测试批量插入数据
+mysql>
+mysql> DESC t_students ;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| id        | int         | YES  |     | NULL    |       |
+| name      | varchar(30) | YES  |     | NULL    |       |
+| gender    | char(6)     | YES  |     | NULL    |       |
+| birthdate | date        | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO t_students
+    -> ( id , name , gender , birthdate )
+    -> VALUES
+    -> ( 1 , '张三丰' , '男' , '1998-10-20' ) ,
+    -> ( 2 , '张君宝' , '男' , '1998-10-20'  )
+    -> ;
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM t_students ;
++------+--------+--------+------------+
+| id   | name   | gender | birthdate  |
++------+--------+--------+------------+
+|    1 | 张三丰 | 男     | 1998-10-20 |
+|    2 | 张君宝 | 男     | 1998-10-20 |
++------+--------+--------+------------+
+2 rows in set (0.00 sec)
+
+mysql>

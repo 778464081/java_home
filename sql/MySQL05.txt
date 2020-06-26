@@ -1,0 +1,7 @@
+PS D:\> mysqldump -u ecuter -p --default-character-set=utf8mb4 ecut > D:/mysql/ecut.sql
+Enter password: ******
+PS D:\> mysqldump -u ecuter -p --default-character-set=gbk ecut > D:/mysql/ecut.sql
+Enter password: ******
+PS D:\> mysqldump -u ecuter -p --default-character-set=gbk ecut t_students > D:/mysql/student.sql
+Enter password: ******
+PS D:\>

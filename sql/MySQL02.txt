@@ -1,0 +1,124 @@
+
+D:\>mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.20 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> -- 首先创建一个数据库
+mysql>
+mysql> CREATE DATABASE ecut ;
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> -- 选择数据库
+mysql>
+mysql> USE ecut ;
+Database changed
+mysql>
+mysql> -- 查看当前数据库下所有的表
+mysql>
+mysql> show tables ;
+Empty set (0.00 sec)
+
+mysql>
+mysql> -- 创建表
+mysql>
+mysql> CREATE TABLE
+    -> (
+    ->    id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(
+   id' at line 2
+mysql> CREATE TABLE t_students ( id INT(5) , name VARCHAR(30) , gender CHAR(6) , birthdate DATE ) ;
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> -- 查看表结构
+mysql>
+mysql> DESC t_students ;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| id        | int         | YES  |     | NULL    |       |
+| name      | varchar(30) | YES  |     | NULL    |       |
+| gender    | char(6)     | YES  |     | NULL    |       |
+| birthdate | date        | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> -- 创建新用户
+mysql>
+mysql> SELECT user() FROM dual ;
++----------------+
+| user()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> -- CREATE USER 用户名 IDENTIFIED BY '密码' ;
+mysql>
+mysql> CREATE USER ecuter IDENTIFIED BY 'ecuter' ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show databases ;
++--------------------+
+| Database           |
++--------------------+
+| ecut               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> -- 通过 root 用户 将 ecut 数据库的所有权限统统授予给 ecuter 用户
+mysql>
+mysql> -- GRANT 权限名称 ON 数据库对象 TO 用户名@域 ;
+mysql>
+mysql> GRANT all ON ecut.* TO ecuter@localhost ;
+ERROR 1410 (42000): You are not allowed to create a user with GRANT
+mysql> select user() from dual ;
++----------------+
+| user()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> GRANT all ON ecut.* TO ecuter@'%' ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> rename user ecuter to yelaoshi ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> rename user yelaoshi to ecuter ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> -- show grants for '用户名'@'域' ;
+mysql>
+mysql> show grants for 'ecuter'@'localhost' ;
+ERROR 1141 (42000): There is no such grant defined for user 'ecuter' on host 'localhost'
+mysql> show grants for 'ecuter'@'localhost'
+    -> ;
+ERROR 1141 (42000): There is no such grant defined for user 'ecuter' on host 'localhost'
+mysql> show grants for 'ecuter'@'%'
+    -> ;
++--------------------------------------------------+
+| Grants for ecuter@%                              |
++--------------------------------------------------+
+| GRANT USAGE ON *.* TO `ecuter`@`%`               |
+| GRANT ALL PRIVILEGES ON `ecut`.* TO `ecuter`@`%` |
++--------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql>

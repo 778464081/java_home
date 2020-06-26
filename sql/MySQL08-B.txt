@@ -1,0 +1,103 @@
+
+D:\>mysql -u ecuter -p
+Enter password: *******
+ERROR 1045 (28000): Access denied for user 'ecuter'@'localhost' (using password: YES)
+
+D:\>mysql -u ecuter -p
+Enter password: ******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 36
+Server version: 8.0.20 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> -- 使用两个不同的 命令提示符/PowerShell 窗口 连接到 MySQL 数据库
+mysql> -- 每个窗口都是一个独立的数据库连接( connection )
+mysql>
+mysql> -- 每个连接中至少可以有一个会话 ( session )
+mysql>
+mysql> -- 一个会话当中可以包含多个事务 ( transaction )
+mysql>
+mysql> -- 在同一个会话中，一个事务终结，意味着另外一个事务开启
+mysql>
+mysql> -- 选择数据库
+mysql>
+mysql>  use ecut ;
+Database changed
+mysql>
+mysql> SELECT user() , database() FROM dual ;
++------------------+------------+
+| user()           | database() |
++------------------+------------+
+| ecuter@localhost | ecut       |
++------------------+------------+
+1 row in set (0.00 sec)
+
+mysql> -- 关闭自动提交 ( 设置事务提交方式 )
+mysql> SET autocommit = false ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>
+mysql> -- 设置事务隔离级别为 read uncommitted ;
+mysql>
+mysql> SET session transaction_isolation = 'read-uncommitted' ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>
+mysql> -- 查询 提交方式 和 隔离级别
+mysql> SELECT @@autocommit , @@transaction_isolation FROM dual ;
++--------------+-------------------------+
+| @@autocommit | @@transaction_isolation |
++--------------+-------------------------+
+|            0 | READ-UNCOMMITTED        |
++--------------+-------------------------+
+1 row in set (0.00 sec)
+
+mysql> -- 终结一个事务，开启另一个新的事务
+mysql> commit ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM t_students ;
++------+--------+--------+------------+
+| id   | name   | gender | birthdate  |
++------+--------+--------+------------+
+|    1 | 张三丰 | 男     | 1998-10-20 |
+|    2 | 张君宝 | 男     | 1998-10-20 |
+|    3 | 张翠山 | male   | 2010-02-22 |
++------+--------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM t_students ;
++------+--------+--------+------------+
+| id   | name   | gender | birthdate  |
++------+--------+--------+------------+
+|    1 | 张三丰 | 男     | 1998-10-20 |
+|    2 | 张君宝 | 男     | 1998-10-20 |
+|    3 | 张翠山 | 男     | 2010-02-22 |
++------+--------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM t_students ;
++------+--------+--------+------------+
+| id   | name   | gender | birthdate  |
++------+--------+--------+------------+
+|    1 | 张三丰 | 男     | 1998-10-20 |
+|    2 | 张君宝 | 男     | 1998-10-20 |
+|    3 | 张翠山 | male   | 2010-02-22 |
++------+--------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> commit ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update t_students set gender = '男' where id = 3 ;
+Query OK, 1 row affected (8.19 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql>

@@ -1,0 +1,131 @@
+
+D:\>mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.20 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> -- 登录成功后，提示符是 mysql>
+mysql>
+mysql> -- 查看当前用户
+mysql> SELECT user() ;
++----------------+                                                                           | user()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT user() FROM dual ;
++----------------+
+| user()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> -- 列出当前用户拥有操作权限的所有的数据库
+mysql> show databases ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> -- 查看当前正在使用的数据库
+mysql>
+mysql> SELECT database() ;
++------------+
+| database() |
++------------+
+| NULL       |
++------------+
+1 row in set (0.00 sec)
+mysql> SELECT database() FROM dual ;
++------------+
+| database() |                                                                               +------------+
+| NULL       |
++------------+
+1 row in set (0.00 sec)
+
+mysql> -- 创建数据库
+mysql>
+mysql> CREATE DATABASE ecut ;
+Query OK, 1 row affected (0.01 sec)
+
+mysql>
+mysql> -- 列出数据库
+mysql>
+mysql> show databases ;
++--------------------+
+| Database           |
++--------------------+
+| ecut               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> -- 选择数据库 ( 也有人称作 打开数据库 、连接数据库 等 )
+mysql>
+mysql> USE ecut ;
+Database changed
+mysql>
+mysql>
+mysql>
+mysql> -- 查看当前数据库
+mysql>
+mysql> SELECT database() FROM dual ;
++------------+
+| database() |
++------------+
+| ecut       |
++------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> -- 查看建库信息
+mysql>
+mysql> show create database ecut ;
++----------+--------------------------------------------------------------------------------------------------------------------------------+
+| Database | Create Database                                                                                                                |
++----------+--------------------------------------------------------------------------------------------------------------------------------+
+| ecut     | CREATE DATABASE `ecut` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */ |
++----------+--------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> -- 列出当前已选的数据库中所有的表
+mysql>
+mysql> show tables ;
+Empty set (0.01 sec)
+
+mysql> drop database ecut ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show databases ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql>
