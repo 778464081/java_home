@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <style>
+            .box{
+                height: 300px;
+                width: 300px;
+                background-color: burlywood;
+                margin:100px  auto;
+            }
+            .ll{
+                margin: 100px 80px 0;
+                width: 100px;
+                height: 100px;
+                float: left;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="box">
+            <form action="/files" method="post" enctype="multipart/form-data">
+                <div class="ll">
+                    <input type="file" name="upload">
+                    <input type="submit" value="提交">
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

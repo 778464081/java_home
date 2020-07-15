@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>第一个maven webapp</title>
+    </head>
+    <body>
+
+        <h1>第一个maven webapp</h1>
+
+        <form action="/user/sign/up" method="post">
+            <div>
+                <input type="text" name="name" placeholder="用户名">
+            </div>
+            <div>
+                性别:
+                <input type="radio" name="gender" value="F" > 女
+                <input type="radio" name="gender" value="M" > 男
+            </div>
+            <div>
+                出生日期: <input type="date" name="birthdate" >
+            </div>
+            <div>
+                <button type="submit">提交</button>
+            </div>
+        </form>
+
+    </body>
+</html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+							 http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         id="WebApp_ID"
+         version="4.0" metadata-complete="false" >
+    <!-- context-param 是为 ServletContext 配置的初始化参数 -->
+    <context-param>
+        <param-name>store</param-name>
+        <param-value>D:/Tomcat</param-value>
+    </context-param>
+  <servlet>
+      <servlet-name>upfiles</servlet-name>
+      <servlet-class>cn.edu.ecut.request.Upfiles</servlet-class>
+  </servlet>
+    <servlet-mapping>
+        <servlet-name>upfiles</servlet-name>
+        <url-pattern>/files</url-pattern>
+    </servlet-mapping>
+</web-app>

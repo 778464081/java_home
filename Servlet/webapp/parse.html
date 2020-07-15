@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>测试请求</title>
+        <style type="text/css">
+            .wrapper {
+                border: 1px solid blue ;
+                margin: 25px ;
+                padding: 25px ;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="wrapper">
+            <a href="/request/data/servlet?username=ecuter&password=hello">点击连接访问(URI)</a>
+            |
+            <a href="http://localhost:8080/request/data/servlet?username=ecuter&password=hello">点击连接访问(URL)</a>
+        </div>
+
+        <div class="wrapper">
+
+            <form action="/request/data/servlet?name=ecuter&pass=hello" method="get" enctype="application/x-www-form-urlencoded">
+                <input type="text" name="username" placeholder="用户名">
+                <input type="text" name="password" placeholder="密码">
+                <input type="submit" value="提交">
+            </form>
+
+            <hr>
+
+            <form action="/request/data/servlet?name=ecuter&pass=hello" method="get" enctype="text/plain">
+                <input type="text" name="username" placeholder="用户名">
+                <input type="text" name="password" placeholder="密码">
+                <input type="submit" value="提交">
+            </form>
+
+            <hr>
+
+            <form action="/request/data/servlet?name=ecuter&pass=hello" method="get" enctype="application/x-www-form-urlencoded">
+                <input type="submit" value="提交">
+            </form>
+
+        </div>
+
+        <div class="wrapper">
+
+            <form action="/request/data/servlet?name=ecuter&pass=hell" method="post" enctype="application/x-www-form-urlencoded">
+                <input type="text" name="username" placeholder="用户名">
+                <input type="text" name="password" placeholder="密码">
+                <input type="submit" value="提交">
+            </form>
+
+            <hr>
+
+            <form action="/request/data/servlet?name=ecuter&pass=hell" method="post" enctype="text/plain">
+                <input type="text" name="username" placeholder="用户名">
+                <input type="text" name="password" placeholder="密码">
+                <input type="submit" value="提交">
+            </form>
+
+            <hr>
+
+            <form action="/request/data/servlet?name=ecuter&pass=hell" method="post" enctype="multipart/form-data">
+                <input type="text" name="username" placeholder="用户名">
+                <input type="text" name="password" placeholder="密码">
+                <input type="file" name="upload" >
+                <input type="file" name="upload" >
+                <input type="file" name="upload" >
+                <input type="file" name="upload" >
+                <input type="submit" value="提交">
+            </form>
+
+        </div>
+
+        <div class="wrapper">
+            <input type="text" name="empname" placeholder="点击即可输入，失去焦点即可提交">
+            <script type="text/javascript" >
+                ( function(){
+                    let input = document.querySelector( "[name=empname]" );
+
+                    let listener = function(){
+                        console.log( input.value );
+
+                        let $http = new XMLHttpRequest();
+
+                        $http.open( "POST" , "/request/data/servlet?name=ecuter&pass=hello" );
+
+                        $http.setRequestHeader( "content-type" , "application/x-www-form-urlencoded" )
+
+                        let body = "username=" + input.value + "&password=xiaomao" ;
+
+                        $http.send( body );
+
+                    }
+
+                    input.addEventListener( "blur" , listener , false );
+                })();
+            </script>
+        </div>
+
+    </body>
+</html>
