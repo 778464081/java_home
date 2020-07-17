@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.edu.ecut</groupId>
+    <artifactId>login_demo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <name>login_demo</name>
+    <url>http://www.ecut.edu.cn/login_demo</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 根据自己的 Project SDK 来确定版本 -->
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.compilerVersion>11</maven.compiler.compilerVersion>
+    </properties>
+
+    <dependencies>
+
+        <!-- MySQL Driver -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.20</version>
+        </dependency>
+
+        <!-- Java Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Oracle Driver ( scope : system ) -->
+
+
+        <!-- 依赖自己的模块 ( 需要先安装到本地仓库中 )-->
+        <dependency>
+            <groupId>cn.edu.ecut</groupId>
+            <artifactId>jdbc-helper</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+
+        <finalName>${project.artifactId}</finalName>
+
+        <plugins>
+
+            <!-- Maven Resource Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- Maven Jetty Plugin -->
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.30.v20200611</version>
+                <configuration>
+                    <httpConnector>
+                        <port>8080</port>
+                    </httpConnector>
+                    <useTestClasspath>true</useTestClasspath>
+                    <webAppConfig>
+                        <!-- 这里指定在浏览器访问时，当前Web应用的根路径 -->
+                        <contextPath>/</contextPath>
+                        <!-- 默认描述符文件 jetty.xml 需要放在 工程 根目录下( 也就是跟pom.xml在同一层次） -->
+                        <defaultsDescriptor>jetty.xml</defaultsDescriptor>
+                    </webAppConfig>
+                </configuration>
+            </plugin>
+
+            <!-- Maven Tomcat Plugin -->
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <port>8080</port>
+                    <!-- 这里指定在浏览器访问时，当前Web应用的根路径 -->
+                    <path>/</path>
+                    <uriEncoding>UTF-8</uriEncoding>
+                    <useBodyEncodingForURI>true</useBodyEncodingForURI>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+</project>
