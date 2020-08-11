@@ -1,0 +1,4 @@
+kuang\pojo\Books.class
+kuang\service\BookServiceImpl.class
+kuang\service\BookService.class
+kuang\dao\BookMapper.class
